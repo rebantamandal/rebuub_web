@@ -16,9 +16,13 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>rebuub</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307141f'/%3E%3Ctext x='17' y='47' font-family='Arial' font-weight='700' font-size='48' fill='%2392efe0'%3Er%3C/text%3E%3C/svg%3E">
+  <base href="/">
+  <script>window.REBUUB_INITIAL_ROUTE="home";</script>
   <script>
     window.REBUUB_LOCAL=window.REBUUB_PREVIEW||location.protocol==='file:';
-    if(!window.REBUUB_LOCAL){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}
+    // A static base lets the browser fetch styles and scripts from the right place on nested
+    // routes straight away. Opened from disk or as the preview, paths stay relative instead.
+    if(window.REBUUB_LOCAL){document.querySelector('base').remove();}
   </script>
   <link rel="preconnect" href="https://rsms.me">
   <link rel="preconnect" href="https://rsms.me" crossorigin>
@@ -101,7 +105,7 @@
       <div class="page-heading"><div class="heading-copy"><p class="page-index">04 <span>/</span> Behind the screen</p><h1 id="about-title">About</h1></div><span class="about-handle">@rebuub</span></div>
       <div class="about-layout">
         <div class="about-left"><div class="identity-stage"><i class="identity-orbit" aria-hidden="true"></i><div class="identity-backing" aria-hidden="true"></div><div class="identity-print glass-surface" aria-hidden="true"><div class="identity-top"><span>PERSONAL SPACE</span><i></i></div><span>r.</span><div class="identity-bottom"><span>rebuub</span><span>01 / 01</span></div></div><img class="identity-sphere" src="assets/sphere-reference.png" alt="" aria-hidden="true" width="130" height="130"><i class="identity-drop" aria-hidden="true"></i></div></div>
-        <div class="about-right"><p class="about-pretitle">Hello, I'm</p><h2 class="about-name" data-field="name">Rebanta Mandal</h2><div id="about-copy" class="about-copy"><p>I am interested in how digital spaces feel, as much as how they work.</p></div><section id="about-quotes-section" class="about-quotes" aria-labelledby="quotes-title"><h2 class="eyebrow" id="quotes-title">Words I return to</h2><div id="about-quotes" class="quote-list"><figure class="quote"><blockquote><p>The unexamined life is not worth living.</p></blockquote><figcaption>Socrates, <cite>Plato, Apology</cite></figcaption></figure><figure class="quote"><blockquote><p>We shape our buildings; thereafter they shape us.</p></blockquote><figcaption>Winston Churchill, <cite>House of Commons, 1943</cite></figcaption></figure><figure class="quote"><blockquote><p>The medium is the message.</p></blockquote><figcaption>Marshall McLuhan, <cite>Understanding Media, 1964</cite></figcaption></figure><figure class="quote"><blockquote><p>One must imagine Sisyphus happy.</p></blockquote><figcaption>Albert Camus, <cite>The Myth of Sisyphus, 1942</cite></figcaption></figure></div></section></div>
+        <div class="about-right"><p class="about-pretitle">Hello, I'm</p><h2 class="about-name" data-field="name">Rebanta Mandal</h2><div id="about-copy" class="about-copy"><p>I am interested in how digital spaces feel, as much as how they work.</p></div><section id="about-quotes-section" class="about-quotes" aria-labelledby="quotes-title"><h2 class="eyebrow" id="quotes-title">Words I return to</h2><div id="about-quotes" class="quote-list"><figure class="quote"><blockquote><p>The unexamined life is not worth living.</p></blockquote><figcaption><span class="quote-author">Socrates</span><cite>Plato, Apology</cite></figcaption></figure><figure class="quote"><blockquote><p>We shape our buildings; thereafter they shape us.</p></blockquote><figcaption><span class="quote-author">Winston Churchill</span><cite>House of Commons, 1943</cite></figcaption></figure><figure class="quote"><blockquote><p>The medium is the message.</p></blockquote><figcaption><span class="quote-author">Marshall McLuhan</span><cite>Understanding Media, 1964</cite></figcaption></figure><figure class="quote"><blockquote><p>One must imagine Sisyphus happy.</p></blockquote><figcaption><span class="quote-author">Albert Camus</span><cite>The Myth of Sisyphus, 1942</cite></figcaption></figure></div></section></div>
       </div>
 
     </section>

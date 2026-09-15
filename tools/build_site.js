@@ -71,7 +71,10 @@ for (const route of [...allRoutes, 'not-found']) {
   const destination = route === 'home' ? 'index.html' : route === 'not-found' ? '404.html' : 'pages/' + route + '.html';
   const depth = destination.split('/').length - 1;
   const initial = '<script>window.REBUUB_INITIAL_ROUTE=' + JSON.stringify(route) + ';' + (depth ? `if(location.protocol==='file:'&&!window.REBUUB_PREVIEW){var lb=document.createElement('base');lb.href='${'../'.repeat(depth)}';document.head.appendChild(lb);}` : '') + '</script>';
-  text = text.replace('  <script>\n    window.REBUUB_LOCAL', '  ' + initial + '\n  <script>\n    window.REBUUB_LOCAL');
+  // Match either line ending: Git on Windows may check the template out with CRLF.
+  const withRoute = text.replace(/^([ \t]*)<base href="\/">(\r?\n)/m, (line, indent, eol) => line + indent + initial + eol);
+  if (withRoute === text) throw new Error('tools/template.html must contain <base href="/"> on its own line.');
+  text = withRoute;
   text = text.replace(/[ \t]*<!-- SCENE_SCRIPTS -->\r?\n/, route === 'home' ? '  ' + sceneScripts + '\n' : '');
   if (siteUrl) {
     text = text.replace('<meta property="og:image" content="assets/og-image.png">', `<meta property="og:image" content="${C.esc(absolute('/assets/og-image.png'))}">`);

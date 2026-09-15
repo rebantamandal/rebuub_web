@@ -256,16 +256,20 @@ html .footer::before { opacity: 1; }
 .glass-button .icon, .quiet-link .icon { width: 16px; height: 16px; }
 .quiet-link { display: inline-flex; align-items: center; gap: 12px; font-size: var(--type-control); color: #a3bac8; min-height: var(--control-min); }
 .quiet-link:hover { color: #edf9ff; }
-.about-quotes { margin-top: 40px; padding-top: 26px; border-top: 1px solid #b9d5e71f; }
-.quote-list { display: grid; gap: 14px; margin-top: 18px; }
-.quote { position: relative; margin: 0; padding: 18px 22px 18px 26px; border: 1px solid #b9d5e71c; border-radius: var(--radius-card); background: linear-gradient(140deg, #c4e7ff09, transparent 72%); }
-.quote::before { content: ""; position: absolute; left: 0; top: 20px; bottom: 20px; width: 2px; border-radius: 2px; background: linear-gradient(#92efe0, #aebcff); opacity: .7; }
+.about-quotes { margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--ui-line); }
+.inner .about-quotes .eyebrow { font: 400 var(--type-label)/1.6 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--text-meta); }
+.quote-list { display: grid; gap: 30px; margin-top: 26px; }
+.quote { position: relative; margin: 0; padding-left: 24px; }
+.quote::before { content: ""; position: absolute; left: 0; top: .45em; bottom: .3em; width: 1px; background: linear-gradient(#92efe0cc, #aebcff33); }
 .quote blockquote { margin: 0; }
-.inner .quote p { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.6; letter-spacing: -.02em; color: #d9e8ef; }
-.quote p::before { content: "\201C"; }
+.inner .quote p { font-size: clamp(18px, 1.55vw, 22px); line-height: 1.45; letter-spacing: -.024em; color: #deebf1; text-wrap: balance; }
+.quote p::before { content: "\201C"; margin-left: -.4em; }
 .quote p::after { content: "\201D"; }
-.quote figcaption { margin-top: 10px; font-size: var(--type-meta); letter-spacing: .02em; color: #93aab6; }
-.quote cite { font-style: italic; }
+.inner .quote figcaption { margin-top: 10px; font: 400 13px/1.6 var(--sans); letter-spacing: 0; color: #93aab6; }
+/* The separator stays at the end of the author's line; a long source wraps as one unit. */
+.quote-author { color: #b9ced8; white-space: nowrap; }
+.quote-author:not(:last-child)::after { content: "/"; margin: 0 10px; color: #56707c; }
+.quote cite { display: inline-block; font-style: normal; color: #7f98a5; }
 
 /* Quiet wayfinding between the main sections. */
 .page-end { min-height: 120px; display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: var(--section-gap); border-top: 1px solid var(--ui-line); }
@@ -927,3 +931,32 @@ html[data-motion="off"] .inner .project-link:hover, html[data-motion="off"] .inn
   .quote::before { background: CanvasText; }
 }
 @media print { .hero-socials { display: none; } }
+
+/* Refinements: readable small type, calmer display tracking, tidier rhythm. */
+:root { --type-label: 11px; --type-meta: 12px; }
+html { scrollbar-color: #2a3d47 #05080b; }
+/* Display tracking was tight enough for letter pairs (ts, lf, ut) to touch. */
+.inner .page-heading h1, .inner .journal-intro .page-heading h1 { letter-spacing: -.05em; }
+.inner #entry-title, .inner :is(.project-detail-heading, .shelf-reading, .reading-header) #entry-title,
+.inner.lost-page .page-heading h1 { letter-spacing: -.045em; }
+.inner .about-name { letter-spacing: -.045em; }
+/* The only visible name on Home deserves more than caption size. */
+.home .hero-owner { font-size: 13px; letter-spacing: .005em; color: #c3d7df; }
+.social-link .icon { stroke-width: 1.45; }
+/* Category already appears on each cover; keep the caption copy for screen readers only. */
+.inner .shelf-card-label { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* The three diagonal strokes read as a rendering glitch rather than ornament. */
+.inner .journal-rule { display: none; }
+.inner .shelf-figure figcaption { font-size: 10px; letter-spacing: .04em; }
+@media (min-width: 521px) {
+  /* Top-align About so the portrait sits beside the introduction and stays in view beside the quotes. */
+  .inner .about-layout { align-items: start; }
+  .inner .about-left { position: sticky; top: 96px; }
+}
+@media (max-width: 760px) {
+  .home .hero-owner { font-size: 12px; }
+}
+@media (max-width: 520px) {
+  .about-quotes { margin-top: 40px; }
+  .quote-list { gap: 26px; }
+}

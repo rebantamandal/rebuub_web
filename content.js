@@ -41,7 +41,7 @@
     }).join('');
   }
   function quotes(items) {
-    return (items || []).filter(q => q.text && q.author).map(q => `<figure class="quote"><blockquote><p>${esc(q.text)}</p></blockquote><figcaption>${esc(q.author)}${q.source ? `, <cite>${esc(q.source)}</cite>` : ''}</figcaption></figure>`).join('');
+    return (items || []).filter(q => q.text && q.author).map(q => `<figure class="quote"><blockquote><p>${esc(q.text)}</p></blockquote><figcaption><span class="quote-author">${esc(q.author)}</span>${q.source ? `<cite>${esc(q.source)}</cite>` : ''}</figcaption></figure>`).join('');
   }
   function artHtml(art) {
     if (art === 'city') return '<div class="cover-art city"><i class="mist"></i><div class="skyline">' + [53,77,46,93,69,100,54,75,37,89,67,82].map(h => `<i style="height:${h}%"></i>`).join('') + '</div><i class="foreground"></i></div>';

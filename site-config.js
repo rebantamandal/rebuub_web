@@ -8,12 +8,13 @@ window.SITE = {
     'I am interested in how digital spaces feel, as much as how they work.'
   ],
   /* Shown as icons on the homepage. `icon` names a symbol in tools/template.html
-     (linkedin, instagram, github, steam, mail). Leave a URL empty ('') to hide it. */
+     (linkedin, instagram, github, steam, music, mail). Leave a URL empty ('') to hide it. */
   socials: [
     { label: 'LinkedIn', icon: 'linkedin', url: 'https://in.linkedin.com/in/rebantamandal' },
     { label: 'Instagram', icon: 'instagram', url: 'https://www.instagram.com/rebuub' },
     { label: 'GitHub', icon: 'github', url: 'https://github.com/rebantamandal' },
     { label: 'Steam', icon: 'steam', url: 'https://steamcommunity.com/id/rebuub/' },
+    { label: 'Apple Music', icon: 'music', url: 'https://music.apple.com/profile/rebuub' },
     { label: 'Email', icon: 'mail', url: 'mailto:mandalrebanta@gmail.com' }
   ],
   /* Quotes shown on the About page. */

@@ -1258,11 +1258,11 @@ html[data-motion="off"] .is-playing .np-eq i { animation: none; height: 70%; }
 @media print { .inner h1 { filter: none; } }
 
 /* The now-playing card floats on every page, bottom right (bottom centre on phones). */
-.now-playing-slot { position: fixed; top: auto; left: auto; right: max(var(--pad), 16px); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 40; display: block; }
+.now-playing-slot { position: fixed; top: auto; left: auto; right: max(var(--pad), 16px); bottom: calc(18px + var(--np-lift, 0px) + env(safe-area-inset-bottom, 0px)); z-index: 40; display: block; }
 .now-playing-slot:empty { display: none; }
 .np-panel { top: auto; bottom: calc(100% + 10px); transform-origin: bottom right; }
 @keyframes np-panel { from { opacity: 0; transform: translateY(6px) scale(.97); } }
-html.has-now-playing .footer { margin-bottom: 96px; }
+/* (footer clearance handled by --np-lift in app.js) */
 @media (max-width: 760px) {
   .now-playing-slot { left: 16px; right: 16px; top: auto; display: flex; justify-content: center; }
   .now-playing { width: min(100%, 360px); }
@@ -1270,3 +1270,13 @@ html.has-now-playing .footer { margin-bottom: 96px; }
   .np-art { max-height: 46svh; object-fit: cover; }
 }
 @media print { .now-playing-slot { display: none; } }
+/* Home: the bottom of the hero holds the name, social icons and footer, so the card sits
+   in the empty top corner instead and its album panel opens downward. */
+html[data-current-view="home"] .now-playing-slot { top: calc(92px + 22px); bottom: auto; }
+html[data-current-view="home"] .np-panel { top: calc(100% + 10px); bottom: auto; transform-origin: top right; }
+html[data-current-view="home"] .np-panel { animation-name: np-panel-down; }
+@keyframes np-panel-down { from { opacity: 0; transform: translateY(-6px) scale(.97); } }
+@media (max-width: 760px) {
+  html[data-current-view="home"] .now-playing-slot { top: calc(144px + 14px); }
+  html[data-current-view="home"] .np-panel { transform-origin: top center; }
+}

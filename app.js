@@ -121,6 +121,7 @@
       (target || $('#main')).focus({ preventScroll: true });
     }
     navigating = false;
+    if (typeof queueLift === 'function') queueLift();
   }
   // Start fetching the scene as soon as a visitor reaches for a Home link.
   const prefetchScene = e => { if (!scene && e.target.closest?.('a[data-route="home"]')) loadSceneScripts().catch(() => {}); };
@@ -236,6 +237,17 @@
   }
   showCard(storage.get('rebuub-now-playing') || config.nowPlaying);
   if (!cardId) showCard(config.nowPlaying);
+  // Below Home the card floats at the bottom; it rises whenever the footer scrolls into view.
+  let liftFrame = 0;
+  function liftPlayer() {
+    liftFrame = 0;
+    const footer = $('.footer'), slot = $('#now-playing-slot');
+    if (!footer || !slot) return;
+    slot.style.setProperty('--np-lift', Math.max(0, Math.round(innerHeight - footer.getBoundingClientRect().top)) + 'px');
+  }
+  const queueLift = () => { if (!liftFrame) liftFrame = requestAnimationFrame(liftPlayer); };
+  window.addEventListener('scroll', queueLift, { passive: true });
+  window.addEventListener('resize', queueLift, { passive: true });
   function syncTracks() {
     const playing = !!(audio && !audio.paused);
     const share = audio && audio.duration ? audio.currentTime / audio.duration : 0;

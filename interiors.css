@@ -1317,3 +1317,63 @@ html[data-current-view="home"] .np-panel { animation-name: np-panel-down; }
 }
 @media (forced-colors: active) { .inner h1, .inner #entry-title { -webkit-text-fill-color: CanvasText; color: CanvasText; } }
 @media print { .inner h1, .inner #entry-title { -webkit-text-fill-color: black; color: black; } }
+/* Real equaliser levels replace the looping bars while the song is being analysed. */
+.now-playing.has-levels .np-eq i { animation: none; transition: height .08s linear; }
+
+/* ===================================================================
+   Music player in the site's liquid glass: frosted blur, bevelled light rim,
+   a pointer-following sheen and a faint tint from the song's cover colour.
+   =================================================================== */
+.np-bar, .np-panel, .track-player {
+  position: relative; isolation: isolate;
+  border: 1px solid var(--glass-edge);
+  background:
+    radial-gradient(420px circle at var(--light-x, 18%) var(--light-y, 0%), #d2f6ff17, transparent 60%),
+    linear-gradient(145deg, #92efe016, transparent 62%),
+    var(--glass-fill), #07121ac7;
+  background:
+    radial-gradient(420px circle at var(--light-x, 18%) var(--light-y, 0%), #d2f6ff17, transparent 60%),
+    linear-gradient(145deg, color-mix(in srgb, var(--accent) 12%, transparent), transparent 62%),
+    var(--glass-fill), #07121ac7;
+  box-shadow: var(--glass-shadow), 0 18px 50px #0007;
+  -webkit-backdrop-filter: blur(28px) saturate(1.5); backdrop-filter: blur(28px) saturate(1.5);
+}
+.np-bar::after, .np-panel::after, .track-player::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; padding: 1px; pointer-events: none; z-index: 3;
+  background: var(--glass-rim);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask-composite: exclude;
+}
+.np-bar > *, .np-panel > *, .track-player > * { position: relative; z-index: 1; }
+.np-bar > .np-progress { position: absolute; z-index: 2; }
+.np-bar { border-radius: 20px; }
+/* The play control is a clear glass lens, like the navigation's active lens. */
+.np-toggle, .track-toggle {
+  color: #f6fcff; border: 1px solid #ffffff4a;
+  background: linear-gradient(145deg, #ffffff3a, #ffffff0c 55%, #cfe3ff1c);
+  box-shadow: inset 0 1px 0 #ffffff70, inset 0 -1px 3px #cfdcff24, 0 6px 18px #0006;
+  -webkit-backdrop-filter: blur(12px) saturate(1.4); backdrop-filter: blur(12px) saturate(1.4);
+  transition: transform .2s var(--ease-ui), box-shadow .3s, background .3s;
+}
+.np-toggle:hover, .track-toggle:hover { background: linear-gradient(145deg, #ffffff4d, #ffffff14 55%, #cfe3ff26); }
+.np-toggle[aria-pressed="true"], .track-toggle[aria-pressed="true"] {
+  box-shadow: inset 0 1px 0 #ffffff70, inset 0 -1px 3px #cfdcff24, 0 6px 18px #0006, 0 0 26px #92efe055;
+  box-shadow: inset 0 1px 0 #ffffff70, inset 0 -1px 3px #cfdcff24, 0 6px 18px #0006, 0 0 26px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.np-toggle .icon, .track-toggle .icon { filter: drop-shadow(0 1px 2px #0006); }
+/* Cover and artwork sit under a thin glass bevel. */
+.np-cover { border: 1px solid #ffffff2e; }
+.np-cover::after, .np-art-wrap::after { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(160deg, #ffffff30, transparent 38%); box-shadow: inset 0 1px 0 #ffffff40; }
+.np-art { border: 1px solid #ffffff24; }
+.np-eq i { box-shadow: 0 0 8px #92efe066; box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 60%, transparent); }
+.np-progress i, .track-bar i { box-shadow: 0 0 10px #92efe080; box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 70%, transparent); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .np-bar, .np-panel, .track-player, .np-toggle, .track-toggle { background: var(--glass-solid); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .np-bar, .np-panel, .track-player { background: var(--glass-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media (forced-colors: active) {
+  .np-bar::after, .np-panel::after, .track-player::after, .np-cover::after { display: none; }
+  .np-bar, .np-panel, .track-player { border-color: CanvasText; background: Canvas; }
+}

@@ -255,6 +255,16 @@
     slot.style.setProperty('--np-lift', Math.max(0, Math.round(innerHeight - footer.getBoundingClientRect().top)) + 'px');
   }
   const queueLift = () => { if (!liftFrame) liftFrame = requestAnimationFrame(liftPlayer); };
+  // Liquid glass sheen on the player follows the pointer, like the site's other glass.
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
+  document.addEventListener('pointermove', e => {
+    if (!moving || !fine.matches) return;
+    const glass = e.target.closest?.('.np-bar, .np-panel, .track-player');
+    if (!glass) return;
+    const r = glass.getBoundingClientRect();
+    glass.style.setProperty('--light-x', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
+    glass.style.setProperty('--light-y', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
+  }, { passive: true });
   window.addEventListener('scroll', queueLift, { passive: true });
   window.addEventListener('resize', queueLift, { passive: true });
   function syncTracks() {
@@ -275,16 +285,76 @@
       if (time) time.textContent = mine && audio?.duration ? clock(Math.max(0, audio.duration - audio.currentTime)) : '0:30';
     });
   }
-  function tick() { syncTracks(); progressFrame = audio && !audio.paused ? requestAnimationFrame(tick) : 0; }
+  /* Beat: while a preview plays, the Home lettering jumps on each kick drum and breathes
+     with the bass, and the player's equaliser bars follow the real frequencies. The clip is
+     requested with CORS so the browser may analyse it; if that fails it still plays, just
+     without the pulse. Nothing pulses when motion is reduced. */
+  let audioCtx = null, analyser = null, bins = null, corsFailed = false;
+  const beat = { avg: 0, pulse: 0, last: 0, t: 0, prev: null, flux: [] };
+  function connectAnalyser() {
+    if (analyser || corsFailed || !audio || audio.crossOrigin !== 'anonymous') return;
+    const Context = window.AudioContext || window.webkitAudioContext;
+    if (!Context) return;
+    try {
+      audioCtx = new Context();
+      const source = audioCtx.createMediaElementSource(audio);
+      analyser = audioCtx.createAnalyser(); analyser.fftSize = 1024; analyser.smoothingTimeConstant = .15;
+      source.connect(analyser); analyser.connect(audioCtx.destination);
+      bins = new Uint8Array(analyser.frequencyBinCount);
+    } catch { analyser = null; }
+  }
+  function updateBeat(now) {
+    const playing = !!(analyser && audio && !audio.paused), bars = $$('.np-eq i');
+    $('.now-playing')?.classList.toggle('has-levels', playing);
+    if (!playing) {
+      beat.pulse = 0; beat.t = 0; beat.prev = null; beat.flux.length = 0; scene?.setPulse(0);
+      bars.forEach(i => i.style.removeProperty('height'));
+      return;
+    }
+    analyser.getByteFrequencyData(bins);
+    const hz = audioCtx.sampleRate / analyser.fftSize;
+    const band = (lo, hi) => { let sum = 0, n = 0; for (let i = Math.max(1, Math.floor(lo / hz)); i <= Math.ceil(hi / hz) && i < bins.length; i++) { sum += bins[i]; n++; } return n ? sum / n / 255 : 0; };
+    const bass = band(40, 160), dt = beat.t ? Math.min(.1, (now - beat.t) / 1000) : 1 / 60;
+    beat.t = now;
+    beat.avg += (bass - beat.avg) * Math.min(1, dt * 2);
+    // Onset detection: a kick is a sudden jump in low-frequency energy (spectral flux),
+    // measured against the song's own recent flux rather than its overall loudness, so
+    // heavy sustained bass does not hold the lettering enlarged. Repeats within 230 ms are ignored.
+    const lo = Math.max(1, Math.floor(40 / hz)), hi = Math.min(bins.length - 1, Math.ceil(160 / hz));
+    let flux = 0;
+    if (beat.prev) for (let i = lo; i <= hi; i++) flux += Math.max(0, bins[i] - beat.prev[i]);
+    flux /= (hi - lo + 1) * 255;
+    beat.prev = (beat.prev && beat.prev.length === bins.length) ? beat.prev : new Uint8Array(bins.length);
+    beat.prev.set(bins);
+    const recent = beat.flux, mean = recent.reduce((a, b) => a + b, 0) / (recent.length || 1);
+    const spread = Math.sqrt(recent.reduce((a, b) => a + (b - mean) ** 2, 0) / (recent.length || 1));
+    if (recent.length > 20 && flux > mean + spread * 1.4 && flux > .015 && now - beat.last > 230) { beat.pulse = 1; beat.last = now; }
+    recent.push(flux); if (recent.length > 45) recent.shift();
+    beat.pulse *= Math.exp(-dt * 8);
+    // Between kicks the lettering only breathes with bass that rises above its recent level.
+    const breath = Math.min(.35, Math.max(0, bass - beat.avg) * 1.2);
+    scene?.setPulse(moving && current?.view === 'home' ? Math.max(beat.pulse, breath) : 0);
+    [band(40, 160), band(160, 600), band(600, 2400), band(2400, 8000)].forEach((v, i) => { if (bars[i]) bars[i].style.height = Math.round(18 + v * 82) + '%'; });
+  }
+  function tick(now) { syncTracks(); updateBeat(now || performance.now()); progressFrame = audio && !audio.paused ? requestAnimationFrame(tick) : 0; }
   function toggleTrack(id) {
     const item = trackItem(id);
     if (!item) return;
     if (!audio) {
-      audio = new Audio(); audio.preload = 'none';
-      audio.addEventListener('play', () => { cancelAnimationFrame(progressFrame); tick(); });
-      audio.addEventListener('pause', syncTracks);
-      audio.addEventListener('ended', () => { audio.currentTime = 0; syncTracks(); });
-      audio.addEventListener('error', () => { trackId = ''; syncTracks(); });
+      audio = new Audio(); audio.preload = 'none'; audio.crossOrigin = 'anonymous';
+      audio.addEventListener('play', () => { audioCtx?.resume(); cancelAnimationFrame(progressFrame); tick(); });
+      audio.addEventListener('playing', connectAnalyser);
+      audio.addEventListener('pause', () => { syncTracks(); updateBeat(performance.now()); });
+      audio.addEventListener('ended', () => { audio.currentTime = 0; syncTracks(); updateBeat(performance.now()); });
+      audio.addEventListener('error', () => {
+        // Retry once without CORS (no beat analysis) before giving up on the clip.
+        if (audio.crossOrigin && !analyser && !corsFailed) {
+          corsFailed = true; audio.removeAttribute('crossorigin');
+          const src = audio.src; audio.src = src; audio.play().catch(() => syncTracks());
+          return;
+        }
+        trackId = ''; syncTracks(); updateBeat(performance.now());
+      });
     }
     showCard(id); cardMode = 'preview';
     if (trackId !== id) {

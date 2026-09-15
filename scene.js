@@ -339,9 +339,11 @@
       this.sculpture.prepareFrame(light*.9,[this.lightX,-this.lightY,this.lightZ],this.scroll);
       this.sculpture.drawLayer(c,false,.76+light*.16);
       if(this.wordReady){
-        this.prepareWord(light);c.drawImage(this.wordLayer,0,0,w,h);
-        const B=this.wordBox,v=window.RebuubWordmark.viewBox,s=B.w/v[2];
-        c.save();c.translate(B.x-v[0]*s,B.y-v[1]*s);c.scale(s,s);c.clip(this.glyphPath);
+        // Music pulse: the lettering (and its shadows) scale around their centre by up to 5%.
+        const B=this.wordBox,v=window.RebuubWordmark.viewBox,s=B.w/v[2],k=1+(this.pulse||0)*.05,cx=B.x+B.w*.5,cy=B.y+B.h*.5;
+        const beat=()=>{c.translate(cx,cy);c.scale(k,k);c.translate(-cx,-cy);};
+        this.prepareWord(light);c.save();beat();c.drawImage(this.wordLayer,0,0,w,h);c.restore();
+        c.save();beat();c.translate(B.x-v[0]*s,B.y-v[1]*s);c.scale(s,s);c.clip(this.glyphPath);
         c.setTransform(d,0,0,d,0,0);this.sculpture.drawLetterShadows(c);c.restore();
       }
       this.sculpture.drawLayer(c,true,1);
@@ -439,6 +441,7 @@
     popSphere(x,y,padding=0){const item=this.pickSphere(x,y,padding);if(!item)return false;this.sculpture.pop(item,!this.moving);this.updateObject();return true;}
     updateObject(){if(!this.moving)this.render(performance.now());else this.kick();}
     setScroll(value){this.scroll=value;}
+    setPulse(value){this.pulse=Math.max(0,Math.min(1,+value||0));}
     clearExposure(){this.flashStart=-1e9;this.exposure=0;}
     setMoving(value){
       this.moving=!!value;this.last=0;this.clearExposure();this.sculpture.velocity=[0,0];

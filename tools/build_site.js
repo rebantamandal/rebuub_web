@@ -44,6 +44,7 @@ for (const item of config.shelf) {
   if (item.rating !== undefined && !(Number(item.rating) >= 1 && Number(item.rating) <= 5)) problems.push(`${where}: rating must be between 1 and 5.`);
   if (item.listen && !C.safeUrl(item.listen, ['https:'])) problems.push(`${where}: listen must be an https link.`);
   if (item.preview && !C.safeUrl(item.preview, ['https:'])) problems.push(`${where}: preview must be an https audio link.`);
+  if (item.spotify && !C.spotifyEmbed(item.spotify)) problems.push(`${where}: spotify must be an open.spotify.com track, album or playlist link.`);
 }
 for (const p of config.projects) {
   const where = 'projects/' + p.id;

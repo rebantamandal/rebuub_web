@@ -1259,3 +1259,4 @@ html[data-motion="off"] .is-playing .np-eq i { animation: none; height: 70%; }
 .inner :is(.shelf-facts, .shelf-lead, .shelf-entry .reading-copy) { text-shadow: 0 1px 12px #0009; }
 @media (forced-colors: active) { .inner h1 { filter: none; } }
 @media print { .inner h1 { filter: none; } }
+.embed-service { margin-left: -6px; padding-left: 12px; border-left: 1px solid var(--ui-line); font: 400 var(--type-label)/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #1ed760; }

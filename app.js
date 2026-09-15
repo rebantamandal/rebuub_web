@@ -222,6 +222,7 @@
     const play = e.target.closest('[data-embed]');
     if (play && play.dataset.embed.startsWith('https://open.spotify.com/embed/')) {
       const slot = play.closest('[data-embed-slot]');
+      if (audio && !audio.paused) audio.pause();
       play.replaceWith(spotifyFrame(play.dataset.embed));
       $('.privacy-note', slot)?.remove();
       return;

@@ -177,7 +177,8 @@ window.SITE = {
         'It is not the loudest song on LONG.LIVE.A$AP, and it does not need to be. Late at night with headphones on, it is the one I keep putting back on.'
       ],
       preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/e1/ef/2e/e1ef2e02-5fd4-1fcc-f38b-2c318d48c63c/mzaf_14041393516190738279.plus.aac.p.m4a',
-      listen: 'https://music.apple.com/us/album/lvl/581997129?i=581997274' },
+      listen: 'https://music.apple.com/us/album/lvl/581997129?i=581997274',
+      spotify: 'https://open.spotify.com/track/787rCZF9i4L1cXGMkdyIk4' },
     { id: 'waves', type: 'music', kind: 'Song', title: 'Waves',
       image: 'assets/shelf/waves.webp',
       imageAlt: 'The Life of Pablo album cover: rows of the album title in black type on an orange background, with a small vintage wedding photograph in the corner.',
@@ -187,8 +188,9 @@ window.SITE = {
         'Waves is the brightest moment on The Life of Pablo. It builds like a swell, stacking voices and warm synths until the whole thing feels weightless, and Kid Cudi’s hook is the kind that stays in your head for days.',
         'It is short and almost too simple on paper, but that is its magic. Every time it comes on, the mood of the room changes.'
       ],
-      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/be/d2/cc/bed2cc94-a5f1-63f1-7b3a-e513dd22e9e9/mzaf_11675430544024663738.plus.aac.p.m4a',
-      listen: 'https://music.apple.com/us/album/waves/1442966257?i=1442966493' }
+      preview: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/64/54/72/6454723d-407d-f2e4-7db7-e24b8f40e7d2/mzaf_3826964363389813889.plus.aac.p.m4a',
+      listen: 'https://music.apple.com/us/album/waves/1443063578?i=1443063983',
+      spotify: 'https://open.spotify.com/track/3nAq2hCr1oWsIU54tS98pL' }
   ],
   /* The shelf song shown in the "now playing" card on Home (its id). Leave empty to hide it.
      `preview` on a music item is a short https audio clip, played only when pressed. */

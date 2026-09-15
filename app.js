@@ -114,9 +114,10 @@
   $$('[data-field]').forEach(el => { if (config[el.dataset.field]) el.textContent = config[el.dataset.field]; });
   $('#year').textContent = new Date().getFullYear();
   $('#about-copy').innerHTML = C.paragraphs(config.about).map(p => `<p>${esc(p)}</p>`).join('');
-  const socials = (config.socials || []).map(s => ({ ...s, url: C.safeUrl(s.url) })).filter(s => s.url);
-  $('#elsewhere').hidden = !socials.length;
-  $('#social-links').innerHTML = socials.map(s => `<a href="${esc(s.url)}"${s.url.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${esc(s.label)}${icon('arrow')}</a>`).join('');
+  $('#social-links').innerHTML = C.socialLinks(config.socials);
+  $('#socials').hidden = !$('#social-links').children.length;
+  $('#about-quotes').innerHTML = C.quotes(config.quotes);
+  $('#about-quotes-section').hidden = !$('#about-quotes').children.length;
   if (C.safeUrl(config.siteUrl, ['https:'])) {
     canonical = $('link[rel="canonical"]') || document.createElement('link'); canonical.rel = 'canonical'; document.head.append(canonical);
   }

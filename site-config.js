@@ -7,11 +7,21 @@ window.SITE = {
   about: [
     'I am interested in how digital spaces feel, as much as how they work.'
   ],
-  /* SAMPLE links: replace each URL with your real profile before publishing.
-     Leave a URL empty ('') to hide that link. */
+  /* Shown as icons on the homepage. `icon` names a symbol in tools/template.html
+     (linkedin, instagram, github, steam, mail). Leave a URL empty ('') to hide it. */
   socials: [
-    { label: 'GitHub', url: 'https://github.com/rebuub' }, { label: 'Instagram', url: 'https://www.instagram.com/rebuub' },
-    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/rebuub' }, { label: 'Email', url: 'mailto:hello@example.com' }
+    { label: 'LinkedIn', icon: 'linkedin', url: 'https://in.linkedin.com/in/rebantamandal' },
+    { label: 'Instagram', icon: 'instagram', url: 'https://www.instagram.com/rebuub' },
+    { label: 'GitHub', icon: 'github', url: 'https://github.com/rebantamandal' },
+    { label: 'Steam', icon: 'steam', url: 'https://steamcommunity.com/id/rebuub/' },
+    { label: 'Email', icon: 'mail', url: 'mailto:mandalrebanta@gmail.com' }
+  ],
+  /* Quotes shown on the About page. */
+  quotes: [
+    { text: 'The unexamined life is not worth living.', author: 'Socrates', source: 'Plato, Apology' },
+    { text: 'We shape our buildings; thereafter they shape us.', author: 'Winston Churchill', source: 'House of Commons, 1943' },
+    { text: 'The medium is the message.', author: 'Marshall McLuhan', source: 'Understanding Media, 1964' },
+    { text: 'One must imagine Sisyphus happy.', author: 'Albert Camus', source: 'The Myth of Sisyphus, 1942' }
   ],
   /* The final public address. Canonical links, share previews, sitemap.xml and
      robots.txt are built from it. Change it if the site is served elsewhere. */

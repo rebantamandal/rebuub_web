@@ -33,9 +33,11 @@ fill('shelf-count', config.shelf.length + (config.shelf.length === 1 ? ' item' :
 fill('journal-count', config.journal.length + (config.journal.length === 1 ? ' entry' : ' entries'));
 fill('journal-list', config.journal.length ? C.journalRows(config.journal, config.journal) : C.emptyJournal());
 fill('about-copy', C.paragraphs(config.about).map(p => '<p>' + C.esc(p) + '</p>').join(''));
-const socials = (config.socials || []).map(s => ({ ...s, url: C.safeUrl(s.url) })).filter(s => s.url);
-fill('social-links', socials.map(s => `<a href="${C.esc(s.url)}"${s.url.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${C.esc(s.label)}${C.icon('arrow')}</a>`).join(''));
-if (socials.length) template = template.replace('<div id="elsewhere" hidden>', '<div id="elsewhere">');
+const socialHtml = C.socialLinks(config.socials), quoteHtml = C.quotes(config.quotes);
+fill('social-links', socialHtml);
+if (socialHtml) template = template.replace('<nav id="socials" class="hero-socials" aria-label="Social profiles" hidden>', '<nav id="socials" class="hero-socials" aria-label="Social profiles">');
+fill('about-quotes', quoteHtml);
+if (quoteHtml) template = template.replace('aria-labelledby="quotes-title" hidden>', 'aria-labelledby="quotes-title">');
 if (config.name) template = template.replace(/(<h2[^>]*data-field="name"[^>]*>)[^<]*(<\/h2>)/, '$1' + C.esc(config.name) + '$2');
 const siteUrl = C.safeUrl(config.siteUrl, ['https:']);
 if (!siteUrl) console.warn('siteUrl is not an https address: canonical links, share-image URLs, sitemap.xml and robots.txt are skipped.');

@@ -33,6 +33,16 @@
     const item = (config[section] || []).find(i => i.id === id);
     return item ? { view: 'entry', route: itemRoute(section, item), section, item } : { view: 'not-found', route: clean, section: '' };
   }
+  function socialLinks(socials) {
+    return (socials || []).map(s => ({ ...s, url: safeUrl(s.url) })).filter(s => s.url && s.label).map(s => {
+      const external = !s.url.startsWith('mailto:');
+      const label = s.label + (external ? ' (opens in a new tab)' : '');
+      return `<a class="social-link" href="${esc(s.url)}"${external ? ' target="_blank" rel="noopener noreferrer me"' : ''} aria-label="${esc(label)}" title="${esc(s.label)}">${icon(/^[a-z]+$/.test(s.icon || '') ? s.icon : 'arrow')}</a>`;
+    }).join('');
+  }
+  function quotes(items) {
+    return (items || []).filter(q => q.text && q.author).map(q => `<figure class="quote"><blockquote><p>${esc(q.text)}</p></blockquote><figcaption>${esc(q.author)}${q.source ? `, <cite>${esc(q.source)}</cite>` : ''}</figcaption></figure>`).join('');
+  }
   function artHtml(art) {
     if (art === 'city') return '<div class="cover-art city"><i class="mist"></i><div class="skyline">' + [53,77,46,93,69,100,54,75,37,89,67,82].map(h => `<i style="height:${h}%"></i>`).join('') + '</div><i class="foreground"></i></div>';
     return '<div class="cover-art landscape"><i class="ridge"></i><i class="mist"></i><i class="ridge two"></i><i class="monolith"></i><i class="ridge three"></i></div>';
@@ -88,5 +98,5 @@
     const facts = (item.facts || []).filter(f => f.label && f.value);
     return `${crumb}<article class="project-detail" data-project="${esc(item.id)}"><div class="project-detail-hero"><header class="project-detail-heading"><div class="entry-category">${esc(item.category || '')}</div>${title}${item.summary ? `<p class="detail-summary">${esc(item.summary)}</p>` : ''}<div class="detail-heading-line" aria-hidden="true"><i></i><span>${number}</span></div></header>${item.image ? `<figure class="project-figure glass-surface">${item.id === 'website' ? '<div class="browser-edge" aria-hidden="true"><span><i></i><i></i><i></i></span><span>rebuub</span><span>+</span></div>' : ''}<img src="${esc(asset(item.image))}" alt="${esc(item.imageAlt || '')}" width="900" height="680"><i class="figure-lens" aria-hidden="true"></i>${item.caption ? `<figcaption>${esc(item.caption)}</figcaption>` : ''}</figure>` : ''}</div><div class="project-reading">${facts.length ? `<aside class="project-facts glass-surface" aria-label="Project information"><p class="facts-label">At a glance</p><dl>${facts.map(f => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`).join('')}</dl></aside>` : ''}<div class="reading-copy"><p class="reading-label">About the project</p>${prose(item)}${safeUrl(item.url, ['https:', 'http:']) ? `<p><a class="external-link glass-button" href="${esc(safeUrl(item.url, ['https:', 'http:']))}" target="_blank" rel="noopener noreferrer">Visit project ${icon('arrow')}</a></p>` : ''}</div></div></article>`;
   }
-  return { esc, icon, labels, aliases, paragraphs, safeUrl, asset, href, itemRoute, resolve, artHtml, projectCards, shelfCards, journalRows, emptyJournal, entry, dateLabel, readingTime };
+  return { esc, icon, labels, aliases, paragraphs, safeUrl, asset, href, itemRoute, resolve, socialLinks, quotes, artHtml, projectCards, shelfCards, journalRows, emptyJournal, entry, dateLabel, readingTime };
 });

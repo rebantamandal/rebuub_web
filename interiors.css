@@ -256,9 +256,16 @@ html .footer::before { opacity: 1; }
 .glass-button .icon, .quiet-link .icon { width: 16px; height: 16px; }
 .quiet-link { display: inline-flex; align-items: center; gap: 12px; font-size: var(--type-control); color: #a3bac8; min-height: var(--control-min); }
 .quiet-link:hover { color: #edf9ff; }
-.inner #elsewhere { border-top-color: #b9d5e71f; }
-.inner .social-links { gap: 10px; }
-.inner .social-links a { border-radius: 100px; border: 1px solid #b9d5e72b; background: #c4e7ff07; padding: 10px 15px; font-size: 11px; }
+.about-quotes { margin-top: 40px; padding-top: 26px; border-top: 1px solid #b9d5e71f; }
+.quote-list { display: grid; gap: 14px; margin-top: 18px; }
+.quote { position: relative; margin: 0; padding: 18px 22px 18px 26px; border: 1px solid #b9d5e71c; border-radius: var(--radius-card); background: linear-gradient(140deg, #c4e7ff09, transparent 72%); }
+.quote::before { content: ""; position: absolute; left: 0; top: 20px; bottom: 20px; width: 2px; border-radius: 2px; background: linear-gradient(#92efe0, #aebcff); opacity: .7; }
+.quote blockquote { margin: 0; }
+.inner .quote p { font-size: clamp(16px, 1.35vw, 19px); line-height: 1.6; letter-spacing: -.02em; color: #d9e8ef; }
+.quote p::before { content: "\201C"; }
+.quote p::after { content: "\201D"; }
+.quote figcaption { margin-top: 10px; font-size: var(--type-meta); letter-spacing: .02em; color: #93aab6; }
+.quote cite { font-style: italic; }
 
 /* Quiet wayfinding between the main sections. */
 .page-end { min-height: 120px; display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-top: var(--section-gap); border-top: 1px solid var(--ui-line); }
@@ -897,3 +904,26 @@ html[data-motion="off"] .inner .project-link:hover, html[data-motion="off"] .inn
 
 /* Keep the original name position after removing the homepage shortcut. */
 .home .hero-meta { min-height: 44px; }
+
+/* Social profile icons, opposite the name. */
+.hero-socials .social-links { display: flex; align-items: center; gap: 2px; margin-right: -12px; }
+.social-link { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; color: var(--muted); pointer-events: auto; transition: color .2s, background .2s; }
+.social-link .icon { width: 18px; height: 18px; }
+.social-link:hover { color: var(--ink); background: #d3e1ed0d; }
+.social-link:focus-visible { outline: 1px solid #92efe0; outline-offset: -3px; color: var(--ink); }
+@media (max-width: 760px) {
+  .hero-socials .social-links { gap: 0; margin-right: -10px; }
+  .social-link { width: 40px; height: 44px; }
+  .social-link .icon { width: 17px; height: 17px; }
+}
+@media (max-width: 380px) {
+  .home .hero-meta { gap: 8px; }
+  .social-link { width: 34px; }
+  .social-link .icon { width: 16px; height: 16px; }
+}
+@media (forced-colors: active) {
+  .social-link { color: LinkText; }
+  .quote { border-color: CanvasText; }
+  .quote::before { background: CanvasText; }
+}
+@media print { .hero-socials { display: none; } }

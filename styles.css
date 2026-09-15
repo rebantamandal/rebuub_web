@@ -155,11 +155,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-vis
 .about-name { font-size: clamp(26px, 2.6vw, 37px); letter-spacing: -.04em; margin-bottom: 27px; line-height: 1.2; }
 .about-copy p { font-size: 20px; line-height: 1.8; letter-spacing: -.019em; color: #bed4df; }
 .about-copy p + p { margin-top: 20px; }
-#elsewhere { margin-top: 37px; border-top: 1px solid var(--line); padding-top: 25px; }
-.social-links { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 16px; }
-.social-links a { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-.social-links .icon { width: 13px; height: 13px; }
-.social-links a:hover { color: var(--accent); }
 .inline-link, .external-link { display: inline-flex; gap: 13px; align-items: center; font-size: 13px; padding: 10px 0; color: var(--muted); }
 .inline-link:hover, .external-link:hover { color: var(--ink); }
 .inline-link .icon, .external-link .icon { width: 16px; height: 16px; }

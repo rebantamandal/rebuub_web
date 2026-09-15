@@ -16,7 +16,6 @@
   <meta name="twitter:card" content="summary_large_image">
   <title>Personal website / rebuub</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307141f'/%3E%3Ctext x='17' y='47' font-family='Arial' font-weight='700' font-size='48' fill='%2392efe0'%3Er%3C/text%3E%3C/svg%3E">
-  <script>window.REBUUB_INITIAL_ROUTE="projects/website";if(location.protocol==='file:'&&!window.REBUUB_PREVIEW){var lb=document.createElement('base');lb.href='../../';document.head.appendChild(lb);}</script>
   <script>
     window.REBUUB_LOCAL=window.REBUUB_PREVIEW||location.protocol==='file:';
     if(!window.REBUUB_LOCAL){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}
@@ -38,6 +37,11 @@
     <symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
     <symbol id="search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
     <symbol id="play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
+    <symbol id="linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></symbol>
+    <symbol id="instagram" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></symbol>
+    <symbol id="github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></symbol>
+    <symbol id="steam" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="15.5" cy="9" r="3"/><circle cx="15.5" cy="9" r=".6"/><circle cx="8.5" cy="15" r="2"/><path d="M10.02 13.7 13.22 10.95M6.65 14.25 2.2 12.8"/></symbol>
+    <symbol id="mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
   </svg>
   <header class="header">
     <a class="brand" href="/" data-route="home" aria-label="Home">r<span aria-hidden="true">.</span></a>
@@ -59,7 +63,7 @@
         <div class="sculpture-interaction" id="sculpture-interaction" tabindex="0" role="group" aria-label="Interactive Orbit-material spheres" aria-describedby="sculpture-help"></div>
         <div class="hero-meta">
           <p class="hero-owner" data-field="name">Rebanta Mandal</p>
-
+          <nav id="socials" class="hero-socials" aria-label="Social profiles"><div id="social-links" class="social-links"><a class="social-link" href="https://in.linkedin.com/in/rebantamandal" target="_blank" rel="noopener noreferrer me" aria-label="LinkedIn (opens in a new tab)" title="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#linkedin"/></svg></a><a class="social-link" href="https://www.instagram.com/rebuub" target="_blank" rel="noopener noreferrer me" aria-label="Instagram (opens in a new tab)" title="Instagram"><svg class="icon" aria-hidden="true"><use href="#instagram"/></svg></a><a class="social-link" href="https://github.com/rebantamandal" target="_blank" rel="noopener noreferrer me" aria-label="GitHub (opens in a new tab)" title="GitHub"><svg class="icon" aria-hidden="true"><use href="#github"/></svg></a><a class="social-link" href="https://steamcommunity.com/id/rebuub/" target="_blank" rel="noopener noreferrer me" aria-label="Steam (opens in a new tab)" title="Steam"><svg class="icon" aria-hidden="true"><use href="#steam"/></svg></a><a class="social-link" href="mailto:mandalrebanta@gmail.com" aria-label="Email" title="Email"><svg class="icon" aria-hidden="true"><use href="#mail"/></svg></a></div></nav>
         </div>
         <p class="sr-only" id="sculpture-help">Spheres float in front of and behind the lettering. Move the pointer near a sphere to deform its surface. Click or tap a sphere to break it into smaller beads. With this region focused, use the arrow keys to select a sphere, Enter or Space to pop it, and Home to reset. Metallic droplets grow from the spheres and detach upward. Reduce motion in the footer pauses the spheres, droplets, gradient and occasional lightning.</p>
       </div>
@@ -96,7 +100,7 @@
       <div class="page-heading"><div class="heading-copy"><p class="page-index">04 <span>/</span> Behind the screen</p><h1 id="about-title">About</h1></div><span class="about-handle">@rebuub</span></div>
       <div class="about-layout">
         <div class="about-left"><div class="identity-stage"><i class="identity-orbit" aria-hidden="true"></i><div class="identity-backing" aria-hidden="true"></div><div class="identity-print glass-surface" aria-hidden="true"><div class="identity-top"><span>PERSONAL SPACE</span><i></i></div><span>r.</span><div class="identity-bottom"><span>rebuub</span><span>01 / 01</span></div></div><img class="identity-sphere" src="assets/sphere-reference.png" alt="" aria-hidden="true" width="130" height="130"><i class="identity-drop" aria-hidden="true"></i></div></div>
-        <div class="about-right"><p class="about-pretitle">Hello, I'm</p><h2 class="about-name" data-field="name">Rebanta Mandal</h2><div id="about-copy" class="about-copy"><p>I am interested in how digital spaces feel, as much as how they work.</p></div><div id="elsewhere"><h2 class="eyebrow">Elsewhere</h2><div id="social-links" class="social-links"><a href="https://github.com/rebuub" target="_blank" rel="noopener noreferrer">GitHub<svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></a><a href="https://www.instagram.com/rebuub" target="_blank" rel="noopener noreferrer">Instagram<svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></a><a href="https://www.linkedin.com/in/rebuub" target="_blank" rel="noopener noreferrer">LinkedIn<svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></a><a href="mailto:hello@example.com">Email<svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></a></div></div></div>
+        <div class="about-right"><p class="about-pretitle">Hello, I'm</p><h2 class="about-name" data-field="name">Rebanta Mandal</h2><div id="about-copy" class="about-copy"><p>I am interested in how digital spaces feel, as much as how they work.</p></div><section id="about-quotes-section" class="about-quotes" aria-labelledby="quotes-title"><h2 class="eyebrow" id="quotes-title">Words I return to</h2><div id="about-quotes" class="quote-list"><figure class="quote"><blockquote><p>The unexamined life is not worth living.</p></blockquote><figcaption>Socrates, <cite>Plato, Apology</cite></figcaption></figure><figure class="quote"><blockquote><p>We shape our buildings; thereafter they shape us.</p></blockquote><figcaption>Winston Churchill, <cite>House of Commons, 1943</cite></figcaption></figure><figure class="quote"><blockquote><p>The medium is the message.</p></blockquote><figcaption>Marshall McLuhan, <cite>Understanding Media, 1964</cite></figcaption></figure><figure class="quote"><blockquote><p>One must imagine Sisyphus happy.</p></blockquote><figcaption>Albert Camus, <cite>The Myth of Sisyphus, 1942</cite></figcaption></figure></div></section></div>
       </div>
 
     </section>

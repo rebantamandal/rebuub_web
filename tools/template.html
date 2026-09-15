@@ -8,6 +8,12 @@
   <meta property="og:title" content="rebuub">
   <meta property="og:description" content="Projects, journal and selected games by rebuub.">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="rebuub">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The rebuub wordmark with two metallic spheres on a dark background.">
+  <meta name="twitter:card" content="summary_large_image">
   <title>rebuub</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307141f'/%3E%3Ctext x='17' y='47' font-family='Arial' font-weight='700' font-size='48' fill='%2392efe0'%3Er%3C/text%3E%3C/svg%3E">
   <script>
@@ -15,6 +21,7 @@
     if(!window.REBUUB_LOCAL){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}
   </script>
   <link rel="preconnect" href="https://rsms.me">
+  <link rel="preconnect" href="https://rsms.me" crossorigin>
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="interiors.css">
@@ -96,17 +103,12 @@
   </main>
   <footer class="footer"><p>&copy; <span id="year">2026</span> <span class="footer-handle">rebuub</span></p><button class="motion-toggle" id="motion-toggle" aria-pressed="false"><span>Reduce motion</span></button></footer>
   <dialog id="search-dialog" class="search-dialog" aria-labelledby="search-title"><h2 class="sr-only" id="search-title">Search this site</h2><div class="search-dialog-bar"><svg class="icon" aria-hidden="true"><use href="#search"/></svg><input id="site-search" type="search" placeholder="Search the site" aria-label="Search pages and entries" autocomplete="off"><button class="icon-button" data-close="search-dialog" aria-label="Close search"><svg class="icon" aria-hidden="true"><use href="#close"/></svg></button></div><p id="search-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p><div id="search-results"></div><p class="search-footer"><span><kbd>Ctrl / Cmd + K</kbd> Search</span><span><kbd>Esc</kbd> Close</span></p></dialog>
+  <p id="route-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
   <noscript><style>.home .scene-target::after{content:"rebuub";position:absolute;inset:0;display:grid;place-items:center;font-size:22vw;font-weight:700;letter-spacing:-.055em}.sculpture-interaction,.motion-toggle,.header-tools,.journal-toolbar,.filter-row{display:none}</style></noscript>
   <script src="site-config.js"></script>
   <script src="content.js"></script>
   <script src="atmosphere.js"></script>
-  <script src="scene-assets.js"></script>
-  <script src="wordmark.js"></script>
-  <script src="sculpture.js"></script>
-  <script src="spheres.js"></script>
-  <script src="optics.js"></script>
-  <script src="scene.js"></script>
-  <script src="interaction.js"></script>
+  <!-- SCENE_SCRIPTS -->
   <script src="app.js"></script>
   <script src="interiors.js"></script>
 </body>

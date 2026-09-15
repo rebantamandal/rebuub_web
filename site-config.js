@@ -7,11 +7,15 @@ window.SITE = {
   about: [
     'I am interested in how digital spaces feel, as much as how they work.'
   ],
+  /* SAMPLE links: replace each URL with your real profile before publishing.
+     Leave a URL empty ('') to hide that link. */
   socials: [
-    { label: 'GitHub', url: '' }, { label: 'Instagram', url: '' },
-    { label: 'LinkedIn', url: '' }, { label: 'Email', url: '' }
+    { label: 'GitHub', url: 'https://github.com/rebuub' }, { label: 'Instagram', url: 'https://www.instagram.com/rebuub' },
+    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/rebuub' }, { label: 'Email', url: 'mailto:hello@example.com' }
   ],
-  siteUrl: '',
+  /* The final public address. Canonical links, share previews, sitemap.xml and
+     robots.txt are built from it. Change it if the site is served elsewhere. */
+  siteUrl: 'https://rebuub.vercel.app',
   spotifyUrl: '',
   projects: [
     {

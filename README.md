@@ -43,6 +43,12 @@ node tools/build_site.js
 python tools/build_preview.py
 ```
 
+Only the generated `index.html` includes the homepage scene scripts. Other pages
+load them on demand when a visitor goes Home. `siteUrl` in `site-config.js`
+drives canonical links, share-preview URLs, `sitemap.xml` and `robots.txt`; the
+build skips all four if it is empty. The share image is `assets/og-image.png`.
+The social links in `site-config.js` are samples until replaced.
+
 The preview is written one directory above the source folder. An optional first
 argument sets a different destination. Rebuild static pages and the preview after
 editing. Visitors and the build scripts need no package dependencies.

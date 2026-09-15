@@ -37,6 +37,19 @@ const socials = (config.socials || []).map(s => ({ ...s, url: C.safeUrl(s.url) }
 fill('social-links', socials.map(s => `<a href="${C.esc(s.url)}"${s.url.startsWith('mailto:') ? '' : ' target="_blank" rel="noopener noreferrer"'}>${C.esc(s.label)}${C.icon('arrow')}</a>`).join(''));
 if (socials.length) template = template.replace('<div id="elsewhere" hidden>', '<div id="elsewhere">');
 if (config.name) template = template.replace(/(<h2[^>]*data-field="name"[^>]*>)[^<]*(<\/h2>)/, '$1' + C.esc(config.name) + '$2');
+const siteUrl = C.safeUrl(config.siteUrl, ['https:']);
+if (!siteUrl) console.warn('siteUrl is not an https address: canonical links, share-image URLs, sitemap.xml and robots.txt are skipped.');
+const absolute = pathname => new URL(pathname, siteUrl).href;
+// Home renders the scene straight away; other pages fetch it only if a visitor goes Home.
+const sceneScripts = ['wordmark', 'sculpture', 'spheres', 'optics', 'scene', 'interaction'].map(name => `<script src="${name}.js"></script>`).join('\n  ');
+const sameAs = (config.socials || []).map(s => C.safeUrl(s.url, ['https:'])).filter(Boolean);
+const structuredData = siteUrl && JSON.stringify({
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebSite', '@id': absolute('/#website'), url: absolute('/'), name: config.handle || 'rebuub', author: { '@id': absolute('/#person') } },
+    { '@type': 'Person', '@id': absolute('/#person'), name: config.name, alternateName: config.handle, url: absolute('/about'), ...(sameAs.length ? { sameAs } : {}) }
+  ]
+}).replace(/</g, '\\u003c');
 const allRoutes = [...Object.keys(C.labels), ...['projects','journal','shelf'].flatMap(s => config[s].map(item => C.itemRoute(s, item)))];
 const pagesDir = path.join(root, 'pages');
 fs.rmSync(pagesDir, { recursive: true, force: true });
@@ -57,7 +70,15 @@ for (const route of [...allRoutes, 'not-found']) {
   const depth = destination.split('/').length - 1;
   const initial = '<script>window.REBUUB_INITIAL_ROUTE=' + JSON.stringify(route) + ';' + (depth ? `if(location.protocol==='file:'&&!window.REBUUB_PREVIEW){var lb=document.createElement('base');lb.href='${'../'.repeat(depth)}';document.head.appendChild(lb);}` : '') + '</script>';
   text = text.replace('  <script>\n    window.REBUUB_LOCAL', '  ' + initial + '\n  <script>\n    window.REBUUB_LOCAL');
-  if (C.safeUrl(config.siteUrl, ['https:']) && info.view !== 'not-found') text = text.replace('</head>', `<link rel="canonical" href="${C.esc(new URL(C.href(route), config.siteUrl).href)}">\n</head>`);
+  text = text.replace(/[ \t]*<!-- SCENE_SCRIPTS -->\r?\n/, route === 'home' ? '  ' + sceneScripts + '\n' : '');
+  if (siteUrl) {
+    text = text.replace('<meta property="og:image" content="assets/og-image.png">', `<meta property="og:image" content="${C.esc(absolute('/assets/og-image.png'))}">`);
+    if (info.view !== 'not-found') {
+      const url = C.esc(absolute(C.href(route)));
+      text = text.replace('</head>', `<link rel="canonical" href="${url}">\n<meta property="og:url" content="${url}">\n</head>`);
+    }
+    if (route === 'home') text = text.replace('</head>', `<script type="application/ld+json">${structuredData}</script>\n</head>`);
+  }
   fs.mkdirSync(path.dirname(path.join(root, destination)), { recursive: true });
   fs.writeFileSync(path.join(root, destination), text);
   if (!['home', 'not-found'].includes(route)) rewrites.push({ source: C.href(route), destination: '/' + destination });
@@ -67,6 +88,9 @@ const vercel = {
   buildCommand: 'node tools/build_site.js', installCommand: '', outputDirectory: '.',
   rewrites,
   redirects: [
+    // The generated files are rewrite targets; keep one public address per page.
+    { source: '/pages/:path(.*)\\.html', destination: '/:path', permanent: true },
+    { source: '/index.html', destination: '/', permanent: true },
     { source: '/library', destination: '/shelf', permanent: true },
     { source: '/work', destination: '/projects', permanent: true },
     { source: '/notes', destination: '/journal', permanent: true },
@@ -78,4 +102,10 @@ const vercel = {
   ] }]
 };
 fs.writeFileSync(path.join(root, 'vercel.json'), JSON.stringify(vercel, null, 2) + '\n');
+for (const file of ['sitemap.xml', 'robots.txt']) fs.rmSync(path.join(root, file), { force: true });
+if (siteUrl) {
+  const urls = allRoutes.map(route => `  <url><loc>${C.esc(absolute(C.href(route)))}</loc></url>`).join('\n');
+  fs.writeFileSync(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`);
+  fs.writeFileSync(path.join(root, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${absolute('/sitemap.xml')}\n`);
+}
 console.log('Generated ' + allRoutes.length + ' pages and 404.html. No dependencies installed.');

@@ -152,11 +152,27 @@
       return m ? `https://open.spotify.com/embed/${m[1]}/${m[2]}?theme=0` : '';
     } catch { return ''; }
   }
+  /* Song previews: `preview` is a short https audio clip (for example Apple Music's
+     30-second preview). Nothing loads until play is pressed; one shared player in
+     app.js drives every button with the same data-track id. */
+  const trackLabel = item => `${item.title}${item.artist ? ' by ' + item.artist : ''}`;
+  const trackButton = (item, cls) => `<button class="${cls}" type="button" data-track="${esc(item.id)}" aria-pressed="false" aria-label="${esc('Play preview: ' + trackLabel(item))}">${icon('play')}${icon('pause')}</button>`;
+  const hostName = url => { try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; } };
   function listenBlock(item) {
-    const url = safeUrl(item.listen, ['https:']);
-    if (!url) return '';
-    const embed = spotifyEmbed(url);
-    return `<div class="shelf-listen" data-embed-slot>${embed ? `<button class="glass-button" type="button" data-embed="${esc(embed)}">${icon('play')}Play here</button>` : ''}${external(url, embed ? 'Open in Spotify' : 'Listen', 'quiet-link')}${embed ? '<p class="privacy-note">The player loads from Spotify only after you press play.</p>' : ''}</div>`;
+    const url = safeUrl(item.listen, ['https:']), preview = safeUrl(item.preview, ['https:']);
+    if (!url && !preview) return '';
+    const embed = !preview && spotifyEmbed(url);
+    const service = /music\.apple\.com$/.test(hostName(url)) ? 'Apple Music' : /spotify\.com$/.test(hostName(url)) ? 'Spotify' : '';
+    const player = preview ? `<div class="track-player" data-track-host="${esc(item.id)}">${trackButton(item, 'track-toggle')}<div class="track-meta"><span class="track-caption">Preview</span><div class="track-bar" aria-hidden="true"><i></i></div></div><span class="track-time" data-track-time aria-hidden="true">0:30</span></div>` : '';
+    return `<div class="shelf-listen" data-embed-slot>${player}${embed ? `<button class="glass-button" type="button" data-embed="${esc(embed)}">${icon('play')}Play here</button>` : ''}${url ? external(url, service ? 'Listen on ' + service : 'Listen', 'quiet-link') : ''}${preview ? `<p class="privacy-note">The preview streams${service ? ' from ' + service : ''} only when you press play.</p>` : embed ? '<p class="privacy-note">The player loads from Spotify only after you press play.</p>' : ''}</div>`;
+  }
+  // Home "now playing" card for the shelf item named by config.nowPlaying.
+  function nowPlaying(config, local = false) {
+    const item = (config.shelf || []).find(s => s.id === config.nowPlaying);
+    if (!item) return '';
+    const cover = images(item)[0], preview = safeUrl(item.preview, ['https:']), url = safeUrl(item.listen, ['https:']);
+    const route = itemRoute('shelf', item), details = [item.album, item.year].filter(Boolean).join(' · ');
+    return `<aside class="now-playing" data-no-scene data-track-host="${esc(item.id)}" aria-label="Now playing"${accentStyle(item.accent)}><div class="np-bar">${cover ? `<button class="np-cover" type="button" aria-expanded="false" aria-controls="np-panel" aria-label="${esc('Show album details for ' + trackLabel(item))}"><img src="${esc(cover.src)}" alt="" width="44" height="44"></button>` : ''}<div class="np-text"><span class="np-label">${esc(item.status || 'Now playing')}</span><strong>${esc(item.title)}</strong>${item.artist ? `<span>${esc(item.artist)}</span>` : ''}</div><span class="np-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>${preview ? trackButton(item, 'np-toggle') : ''}<div class="track-bar np-progress" aria-hidden="true"><i></i></div></div>${cover ? `<div class="np-panel" id="np-panel" hidden><img class="np-art" src="${esc(cover.src)}" alt="${esc(cover.alt)}" loading="lazy" decoding="async"><div class="np-panel-text"><strong>${esc(item.title)}</strong><span>${esc([item.artist, details].filter(Boolean).join(' · '))}</span></div><div class="np-links"><a class="quiet-link" href="${href(route, local)}" data-route="${esc(route)}">On the shelf ${icon('arrow')}</a>${url ? external(url, /music\.apple\.com$/.test(hostName(url)) ? 'Apple Music' : 'Listen', 'quiet-link') : ''}</div></div>` : ''}</aside>`;
   }
 
   function dateLabel(value) {
@@ -207,5 +223,5 @@
     const toc = sections.length > 1 ? `<nav class="case-toc" aria-label="On this page"><p>On this page</p><ol>${sections.map(s => `<li><a href="${local ? '#' + route : href(route)}#${s.id}" data-toc="${s.id}">${esc(s.heading)}</a></li>`).join('')}</ol></nav>` : '';
     return `${crumb}<article class="case-study" data-project="${esc(item.id)}" data-gallery-scope><header class="case-header"><p class="case-kicker">${esc(item.category || '')}</p>${title}${item.summary ? `<p class="case-summary">${esc(item.summary)}</p>` : ''}${meta.length ? `<dl class="case-meta">${meta.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>` : ''}${tagList(item.stack, 'Built with')}${links.length ? `<div class="case-links">${links.map(([u, t], i) => external(u, t, i ? 'quiet-link' : 'glass-button')).join('')}</div>` : ''}</header>${lead ? openable(lead, 'case-figure', true) : ''}<div class="case-body${toc ? ' has-toc' : ''}">${toc}<div class="case-content reading-copy">${prose(item)}</div></div>${gallery(more)}</article>`;
   }
-  return { esc, icon, labels, aliases, paragraphs, list, safeUrl, asset, href, itemRoute, resolve, pageTitle, pageDescription, images, gallery, socialLinks, quotes, artHtml, projectCards, sortProjects, shelfTypes, shelfType, shelfTabs, shelfFacts, shelfCards, shelfTabLinks, spotifyEmbed, searchText, journalRows, emptyJournal, entry, dateLabel, readingTime };
+  return { esc, icon, labels, aliases, paragraphs, list, safeUrl, asset, href, itemRoute, resolve, pageTitle, pageDescription, images, gallery, socialLinks, quotes, artHtml, projectCards, sortProjects, shelfTypes, shelfType, shelfTabs, shelfFacts, shelfCards, shelfTabLinks, spotifyEmbed, nowPlaying, searchText, journalRows, emptyJournal, entry, dateLabel, readingTime };
 });

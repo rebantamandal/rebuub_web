@@ -43,6 +43,7 @@ for (const item of config.shelf) {
   if (item.status && Array.isArray(type.statuses) && !type.statuses.includes(item.status)) problems.push(`${where}: status "${item.status}" is not one of ${type.statuses.join(', ')}.`);
   if (item.rating !== undefined && !(Number(item.rating) >= 1 && Number(item.rating) <= 5)) problems.push(`${where}: rating must be between 1 and 5.`);
   if (item.listen && !C.safeUrl(item.listen, ['https:'])) problems.push(`${where}: listen must be an https link.`);
+  if (item.preview && !C.safeUrl(item.preview, ['https:'])) problems.push(`${where}: preview must be an https audio link.`);
 }
 for (const p of config.projects) {
   const where = 'projects/' + p.id;
@@ -50,6 +51,7 @@ for (const p of config.projects) {
   if (!p.year) warnings.push(`${where}: add the year.`);
   if (!(p.sections || []).length) warnings.push(`${where}: add at least one section to the write-up.`);
 }
+if (config.nowPlaying && !config.shelf.some(s => s.id === config.nowPlaying)) problems.push(`nowPlaying: no shelf item has the id "${config.nowPlaying}".`);
 warnings.forEach(w => console.warn('warning  ' + w));
 if (problems.length) throw new Error('Content problems:\n  ' + problems.join('\n  '));
 const sceneAssets = {};
@@ -68,6 +70,7 @@ const socialHtml = C.socialLinks(config.socials), quoteHtml = C.quotes(config.qu
 fill('social-links', socialHtml);
 if (socialHtml) template = template.replace('<nav id="socials" class="hero-socials" aria-label="Social profiles" hidden>', '<nav id="socials" class="hero-socials" aria-label="Social profiles">');
 fill('about-quotes', quoteHtml);
+fill('now-playing-slot', C.nowPlaying(config));
 if (quoteHtml) template = template.replace('aria-labelledby="quotes-title" hidden>', 'aria-labelledby="quotes-title">');
 if (config.name) template = template.replace(/(<h2[^>]*data-field="name"[^>]*>)[^<]*(<\/h2>)/, '$1' + C.esc(config.name) + '$2');
 const siteUrl = C.safeUrl(config.siteUrl, ['https:']);

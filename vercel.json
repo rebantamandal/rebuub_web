@@ -25,6 +25,10 @@
       "destination": "/pages/shelf/games.html"
     },
     {
+      "source": "/shelf/music",
+      "destination": "/pages/shelf/music.html"
+    },
+    {
       "source": "/projects/website",
       "destination": "/pages/projects/website.html"
     },
@@ -33,12 +37,20 @@
       "destination": "/pages/projects/glass.html"
     },
     {
+      "source": "/projects/emotion-detection",
+      "destination": "/pages/projects/emotion-detection.html"
+    },
+    {
       "source": "/shelf/death-stranding",
       "destination": "/pages/shelf/death-stranding.html"
     },
     {
       "source": "/shelf/cyberpunk",
       "destination": "/pages/shelf/cyberpunk.html"
+    },
+    {
+      "source": "/shelf/lvl",
+      "destination": "/pages/shelf/lvl.html"
     }
   ],
   "redirects": [

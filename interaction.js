@@ -8,7 +8,7 @@
     const locate=e=>{const p=point(e);scene.setPointer(p.x,p.y,true);return p;};
     const finish=()=>{touchId=null;press=null;scene.setPointer(0,0,false);hit.style.cursor='';};
     hero.addEventListener('pointermove',e=>{
-      if(e.target.closest('a,button,input')){finish();return;}
+      if(e.target.closest('a,button,input,[data-no-scene]')){finish();return;}
       if(e.pointerType==='mouse'||e.pointerType==='pen'||e.pointerId===touchId){
         const p=locate(e);
         if(press&&Math.hypot(e.clientX-press.x,e.clientY-press.y)>9)press.moved=true;
@@ -17,7 +17,7 @@
     },{passive:true});
     hero.addEventListener('pointerleave',finish,{passive:true});
     hero.addEventListener('pointerdown',e=>{
-      if(e.button!==0||e.target.closest('a,button,input'))return;
+      if(e.button!==0||e.target.closest('a,button,input,[data-no-scene]'))return;
       if(e.pointerType==='touch')touchId=e.pointerId;
       const p=locate(e),item=scene.pickSphere(p.x,p.y,e.pointerType==='touch'?9:2);
       press={id:e.pointerId,x:e.clientX,y:e.clientY,itemId:item?.id,moved:false,time:performance.now()};

@@ -59,10 +59,29 @@
   function linkify(root = document) {
     $$('a[data-route]', root).forEach(a => a.setAttribute('href', C.href(a.dataset.route, local)));
   }
-  function navigate(route, { push = false, focus = false, restore = false } = {}) {
+  /* Page transitions. Where the browser supports view transitions and motion is on,
+     the page fades and slides, and a shelf poster or project thumbnail morphs into the
+     large image on its detail page (and back). Elsewhere pages switch instantly. */
+  const visible = selector => $$(selector).find(el => el.getClientRects().length);
+  const cardMedia = route => visible(`#main a[data-route="${CSS.escape(route)}"] :is(.poster, .project-thumb)`);
+  const entryMedia = () => visible('#entry-content :is(.shelf-poster .gallery-open, .shelf-poster .poster, .case-figure .gallery-open)');
+  function navigate(route, options = {}) {
     const next = C.resolve(route, config), previous = current;
     if (current) scrollMemory.set(current.route, scrollY);
-    if (push && current?.route !== next.route) history.pushState({ route: next.route }, '', C.href(next.route, local));
+    if (options.push && current?.route !== next.route) history.pushState({ route: next.route }, '', C.href(next.route, local));
+    const animate = previous && options.focus && moving && !document.hidden && previous.route !== next.route && typeof document.startViewTransition === 'function';
+    if (!animate) return applyRoute(next, previous, options);
+    const from = next.view === 'entry' ? cardMedia(next.route) : previous.view === 'entry' ? entryMedia() : null;
+    if (from) from.style.viewTransitionName = 'hero-media';
+    const transition = document.startViewTransition(() => {
+      if (from) from.style.viewTransitionName = '';
+      applyRoute(next, previous, options);
+      const to = from && (next.view === 'entry' ? entryMedia() : cardMedia(previous.route));
+      if (to) to.style.viewTransitionName = 'hero-media';
+    });
+    transition.finished.finally(() => $$('#main [style*="view-transition-name"]').forEach(el => { el.style.viewTransitionName = ''; }));
+  }
+  function applyRoute(next, previous, { focus = false, restore = false } = {}) {
     navigating = true;
     if ($('dialog[open]')) lastFocus = null;
     $$('dialog[open]').forEach(d => d.close());
@@ -76,6 +95,7 @@
     if (next.view === 'entry') {
       $('#entry-content').innerHTML = C.entry(next, config, local);
       $('#entry-content').dataset.route = next.route;
+      syncTracks();
     }
     if (next.view === 'shelf') {
       if (previous?.route !== next.route) shelfStatus = 'All';
@@ -214,6 +234,60 @@
       section.scrollIntoView({ behavior: moving ? 'smooth' : 'auto', block: 'start' });
       section.setAttribute('tabindex', '-1'); section.focus({ preventScroll: true });
     }
+  });
+  /* Song previews: one shared audio element, created on first play so nothing loads
+     before then. Playback carries on across page changes; every button and progress
+     bar with the same track id reflects it. */
+  $('#now-playing-slot').innerHTML = C.nowPlaying(config, local);
+  let audio = null, trackId = '', progressFrame = 0;
+  const trackItem = id => shelf.find(s => s.id === id && C.safeUrl(s.preview, ['https:']));
+  const clock = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  function syncTracks() {
+    const playing = !!(audio && !audio.paused);
+    const share = audio && audio.duration ? audio.currentTime / audio.duration : 0;
+    $$('[data-track]').forEach(b => {
+      const on = playing && b.dataset.track === trackId, item = trackItem(b.dataset.track);
+      b.setAttribute('aria-pressed', String(on));
+      if (item) b.setAttribute('aria-label', `${on ? 'Pause' : 'Play'} preview: ${item.title}${item.artist ? ' by ' + item.artist : ''}`);
+    });
+    $$('[data-track-host]').forEach(host => {
+      const mine = host.dataset.trackHost === trackId;
+      host.classList.toggle('is-playing', playing && mine);
+      host.style.setProperty('--progress', mine ? share.toFixed(4) : '0');
+      const time = $('[data-track-time]', host);
+      if (time) time.textContent = mine && audio?.duration ? clock(Math.max(0, audio.duration - audio.currentTime)) : '0:30';
+    });
+  }
+  function tick() { syncTracks(); progressFrame = audio && !audio.paused ? requestAnimationFrame(tick) : 0; }
+  function toggleTrack(id) {
+    const item = trackItem(id);
+    if (!item) return;
+    if (!audio) {
+      audio = new Audio(); audio.preload = 'none';
+      audio.addEventListener('play', () => { cancelAnimationFrame(progressFrame); tick(); });
+      audio.addEventListener('pause', syncTracks);
+      audio.addEventListener('ended', () => { audio.currentTime = 0; syncTracks(); });
+      audio.addEventListener('error', () => { trackId = ''; syncTracks(); });
+    }
+    if (trackId !== id) {
+      audio.src = C.safeUrl(item.preview, ['https:']); trackId = id;
+      const cover = C.images(item)[0];
+      if ('mediaSession' in navigator && window.MediaMetadata) navigator.mediaSession.metadata = new MediaMetadata({ title: item.title, artist: item.artist || '', album: item.album || '', artwork: cover ? [{ src: new URL(cover.src, document.baseURI).href, sizes: '900x900' }] : [] });
+    }
+    if (audio.paused) audio.play().catch(() => syncTracks()); else audio.pause();
+  }
+  document.addEventListener('click', e => {
+    const button = e.target.closest('[data-track]');
+    if (button) { toggleTrack(button.dataset.track); return; }
+    // The album panel on the now-playing card: the cover toggles it; outside clicks close it.
+    const cover = e.target.closest('.np-cover'), panel = $('#np-panel');
+    if (!panel) return;
+    if (cover) { const open = panel.hidden; panel.hidden = !open; cover.setAttribute('aria-expanded', String(open)); return; }
+    if (!panel.hidden && !e.target.closest('.now-playing')) { panel.hidden = true; $('.np-cover')?.setAttribute('aria-expanded', 'false'); }
+  });
+  document.addEventListener('keydown', e => {
+    const panel = $('#np-panel');
+    if (e.key === 'Escape' && panel && !panel.hidden && !$('dialog[open]')) { panel.hidden = true; $('.np-cover')?.setAttribute('aria-expanded', 'false'); $('.np-cover')?.focus(); }
   });
   const destinations = [
     ...Object.entries(C.labels).map(([route, title]) => ({ title, type: 'Page', route })),

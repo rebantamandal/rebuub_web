@@ -212,7 +212,6 @@ html .footer::before { opacity: 1; }
 .inner .shelf-note { font-size: var(--type-caption); line-height: 1.75; color: var(--text-secondary); max-width: 350px; margin-top: 9px; }
 .shelf-plinth { height: 8px; margin: 19px 2px 0; border-radius: 100%; background: linear-gradient(180deg, #cfedff2e, #accbdb06); box-shadow: 0 12px 25px #0002; opacity: .8; }
 .inner .art-note { font-size: 10px; color: #91aaba; margin-top: 21px; }
-.inner .music-section { padding: 30px; border-radius: var(--radius-card); margin-top: 45px; }
 /* Added atmosphere stays inside these explicitly original illustrated covers. */
 .inner .landscape { background: radial-gradient(ellipse at 60% 36%, #c5dedc24, transparent 39%), linear-gradient(#0c1c2c, #5d939c 48%, #356a73 70%, #0a1826); }
 .inner .landscape .ridge { inset: 41% -8% -5%; background: linear-gradient(145deg, #648b90, #30515f 47%, #192e40); }
@@ -556,7 +555,6 @@ html .footer::before { opacity: 1; }
   .shelf-item[data-world="city"] .world-type { font-size: 41px; }
   .shelf-plinth { margin-top: 12px; height: 6px; }
   .inner .art-note { font-size: 9px; }
-  .inner .music-section { padding: 23px; border-radius: var(--radius-card); }
   .inner.about-page .page-heading { margin-bottom: 0; }
   .about-handle { font-size: 9px; padding: 7px 12px; margin-top: 48px; border-radius: var(--radius-pill); }
   .inner .about-layout { grid-template-columns: minmax(0,1fr); gap: 28px; }
@@ -668,7 +666,7 @@ html .footer::before { opacity: 1; }
 .inner .project-facts dl > div, .inner .reading-header, .inner .shelf-reading .reading-copy { border-color: var(--ui-line); }
 .inner .project-link, .inner .shelf-link, .inner .journal-row,
 .inner .journal-toolbar, .inner .project-facts, .inner .journal-detail,
-.inner .music-section, .inner .empty-state:not(.journal-empty) {
+.inner .empty-state:not(.journal-empty) {
   background: var(--glass-fill); border-color: var(--glass-edge);
   box-shadow: var(--glass-shadow); -webkit-backdrop-filter: var(--glass-backdrop); backdrop-filter: var(--glass-backdrop);
 }
@@ -1096,7 +1094,6 @@ html { scrollbar-color: #2a3d47 #05080b; }
 .shelf-highlights li { position: relative; padding-left: 20px; line-height: 1.7; color: var(--text-body); }
 .shelf-highlights li::before { content: ""; position: absolute; left: 0; top: .8em; width: 9px; height: 1px; background: var(--accent); }
 .shelf-listen { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin-top: 36px; }
-.shelf-listen iframe { width: 100%; height: 152px; border: 0; border-radius: 12px; }
 .shelf-listen .privacy-note { flex-basis: 100%; margin: 0; font-size: 12px; color: var(--text-meta); }
 .shelf-entry .entry-gallery { margin-top: 72px; }
 @media (max-width: 760px) {
@@ -1259,4 +1256,17 @@ html[data-motion="off"] .is-playing .np-eq i { animation: none; height: 70%; }
 .inner :is(.shelf-facts, .shelf-lead, .shelf-entry .reading-copy) { text-shadow: 0 1px 12px #0009; }
 @media (forced-colors: active) { .inner h1 { filter: none; } }
 @media print { .inner h1 { filter: none; } }
-.embed-service { margin-left: -6px; padding-left: 12px; border-left: 1px solid var(--ui-line); font: 400 var(--type-label)/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: #1ed760; }
+
+/* The now-playing card floats on every page, bottom right (bottom centre on phones). */
+.now-playing-slot { position: fixed; top: auto; left: auto; right: max(var(--pad), 16px); bottom: calc(18px + env(safe-area-inset-bottom, 0px)); z-index: 40; display: block; }
+.now-playing-slot:empty { display: none; }
+.np-panel { top: auto; bottom: calc(100% + 10px); transform-origin: bottom right; }
+@keyframes np-panel { from { opacity: 0; transform: translateY(6px) scale(.97); } }
+html.has-now-playing .footer { margin-bottom: 96px; }
+@media (max-width: 760px) {
+  .now-playing-slot { left: 16px; right: 16px; top: auto; display: flex; justify-content: center; }
+  .now-playing { width: min(100%, 360px); }
+  .np-panel { transform-origin: bottom center; }
+  .np-art { max-height: 46svh; object-fit: cover; }
+}
+@media print { .now-playing-slot { display: none; } }

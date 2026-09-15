@@ -208,25 +208,7 @@
     $('#reset-journal')?.addEventListener('click', () => { $('#journal-search').value = ''; journalFilter = 'All'; renderJournal(); $('#journal-search').focus(); });
   }
   $('#journal-search').addEventListener('input', renderJournal);
-  const spotifyFrame = src => {
-    const iframe = document.createElement('iframe'); iframe.src = src; iframe.title = 'Spotify player'; iframe.loading = 'lazy'; iframe.allow = 'encrypted-media; fullscreen; picture-in-picture'; iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-    return iframe;
-  };
-  const spotify = C.spotifyEmbed(config.spotifyUrl);
-  if (spotify) {
-    $('#music-section').hidden = false;
-    $('#load-spotify').addEventListener('click', () => $('#spotify-player').replaceChildren(spotifyFrame(spotify)));
-  }
   document.addEventListener('click', e => {
-    // Shelf music: the player loads only when asked.
-    const play = e.target.closest('[data-embed]');
-    if (play && play.dataset.embed.startsWith('https://open.spotify.com/embed/')) {
-      const slot = play.closest('[data-embed-slot]');
-      if (audio && !audio.paused) audio.pause();
-      play.replaceWith(spotifyFrame(play.dataset.embed));
-      $('.privacy-note', slot)?.remove();
-      return;
-    }
     // Case-study contents: scroll within the page. A plain #fragment would be read as a route.
     const toc = e.target.closest('[data-toc]');
     const section = toc && document.getElementById(toc.dataset.toc);
@@ -239,13 +221,26 @@
   /* Song previews: one shared audio element, created on first play so nothing loads
      before then. Playback carries on across page changes; every button and progress
      bar with the same track id reflects it. */
-  $('#now-playing-slot').innerHTML = C.nowPlaying(config, local);
-  let audio = null, trackId = '', progressFrame = 0;
+  /* The now-playing card floats on every page and follows whatever was last played:
+     the featured song until something else is chosen, remembered for this visitor. */
+  let audio = null, trackId = '', progressFrame = 0, cardId = '', cardMode = 'idle';
   const trackItem = id => shelf.find(s => s.id === id && C.safeUrl(s.preview, ['https:']));
   const clock = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  function showCard(id) {
+    if (!shelf.some(s => s.id === id) || id === cardId) return;
+    cardId = id; cardMode = 'idle';
+    $('#now-playing-slot').innerHTML = C.nowPlaying(config, local, id);
+    html.classList.toggle('has-now-playing', !!$('#now-playing-slot').children.length);
+    linkify($('#now-playing-slot'));
+    storage.set('rebuub-now-playing', id);
+  }
+  showCard(storage.get('rebuub-now-playing') || config.nowPlaying);
+  if (!cardId) showCard(config.nowPlaying);
   function syncTracks() {
     const playing = !!(audio && !audio.paused);
     const share = audio && audio.duration ? audio.currentTime / audio.duration : 0;
+    const label = $('[data-np-label]');
+    if (label) label.textContent = playing && trackId === cardId ? 'Now playing' : cardMode === 'preview' && trackId === cardId ? 'Paused' : (shelf.find(s => s.id === cardId)?.status || 'On repeat');
     $$('[data-track]').forEach(b => {
       const on = playing && b.dataset.track === trackId, item = trackItem(b.dataset.track);
       b.setAttribute('aria-pressed', String(on));
@@ -270,6 +265,7 @@
       audio.addEventListener('ended', () => { audio.currentTime = 0; syncTracks(); });
       audio.addEventListener('error', () => { trackId = ''; syncTracks(); });
     }
+    showCard(id); cardMode = 'preview';
     if (trackId !== id) {
       audio.src = C.safeUrl(item.preview, ['https:']); trackId = id;
       const cover = C.images(item)[0];

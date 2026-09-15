@@ -1280,3 +1280,24 @@ html[data-current-view="home"] .np-panel { animation-name: np-panel-down; }
   html[data-current-view="home"] .now-playing-slot { top: calc(144px + 14px); }
   html[data-current-view="home"] .np-panel { transform-origin: top center; }
 }
+
+/* Case-study building blocks: settings tables, numbered steps and code. */
+.spec-list { display: grid; margin: 22px 0 0; border-top: 1px solid var(--ui-line); }
+.spec-list > div { display: grid; grid-template-columns: minmax(130px, 34%) minmax(0, 1fr); gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--ui-line); }
+.inner .spec-list dt { font: 400 var(--type-label)/1.7 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--text-meta); }
+.inner .spec-list dd { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink); overflow-wrap: anywhere; }
+.step-list { display: grid; gap: 12px; margin: 22px 0 0; padding: 0; list-style: none; counter-reset: step; }
+.step-list li { position: relative; padding-left: 44px; font-size: 16px; line-height: 1.7; color: var(--text-body); counter-increment: step; }
+.step-list li::before { content: counter(step); position: absolute; left: 0; top: 1px; display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--glass-edge); border-radius: 50%; font: 400 12px/1 var(--mono); color: var(--accent); }
+.code-block { margin: 24px 0 0; overflow: hidden; border: 1px solid var(--glass-edge); border-radius: var(--radius-inset); background: #050c12e6; box-shadow: inset 0 1px 0 #eeffff14; }
+.inner .code-block figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0; padding: 6px 8px 6px 16px; border-bottom: 1px solid var(--ui-line); font: 400 var(--type-label)/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--text-meta); }
+.code-copy { min-height: 32px; padding: 4px 12px; border: 1px solid var(--ui-line); border-radius: var(--radius-pill); font: 400 11px/1 var(--mono); letter-spacing: .04em; color: var(--text-secondary); }
+.code-copy:hover { color: var(--ink); border-color: var(--glass-edge); }
+.code-block pre { margin: 0; padding: 16px 18px; overflow-x: auto; font: 400 13px/1.7 var(--mono); color: #d6e6ee; tab-size: 4; }
+.code-block pre:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.code-block + p, .spec-list + p, .step-list + p, .step-list + .code-block { margin-top: 22px; }
+@media (max-width: 520px) {
+  .spec-list > div { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .code-block pre { font-size: 12px; padding: 14px; }
+}
+@media (forced-colors: active) { .code-block, .step-list li::before { border-color: CanvasText; } }

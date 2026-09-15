@@ -66,7 +66,8 @@ window.SITE = {
       facts: [
         { label: 'Model', value: 'MobileNetV2 (ImageNet), frozen' },
         { label: 'Input', value: '224 × 224 RGB face crops' },
-        { label: 'Output', value: 'Emotion and confidence' }
+        { label: 'Output', value: 'Emotion and confidence' },
+        { label: 'Licence', value: 'MIT' }
       ],
       sections: [
         { heading: 'What it does', paragraphs: [
@@ -80,19 +81,102 @@ window.SITE = {
         { heading: 'The model', paragraphs: [
           'Rather than training a network from scratch, the model reuses MobileNetV2 pre-trained on ImageNet as a frozen feature extractor. MobileNetV2 is a compact architecture designed for mobile devices, which suits a model that has to run on every video frame.',
           'On top of it sits a small classifier: global average pooling, a 128-unit dense layer with ReLU, dropout of 0.5 against overfitting, and a softmax layer with one output per emotion. It is compiled with the Adam optimiser and categorical cross-entropy loss.'
+        ],
+        code: { label: 'Model definition, from the notebook', language: 'python', text: `base_model = tf.keras.applications.MobileNetV2(input_shape=(224,224,3), include_top=False, weights='imagenet')
+base_model.trainable = False
+
+model = tf.keras.Sequential([
+    base_model,
+    tf.keras.layers.GlobalAveragePooling2D(),
+    tf.keras.layers.Dense(128, activation='relu'),
+    tf.keras.layers.Dropout(0.5),
+    tf.keras.layers.Dense(train_data.num_classes, activation='softmax')
+])
+
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])` },
+        after: [
+          'Freezing the base keeps training light. MobileNetV2 without its top layer has 2,257,984 parameters, and all of them stay fixed; only the new head learns: 163,968 parameters in the 128-unit layer plus 129 for each emotion class (164,871 in total with seven classes).'
+        ] },
+        { heading: 'Settings at a glance', paragraphs: [
+          'Every setting the notebook uses, in one place.'
+        ],
+        specs: [
+          ['Input size', '224 × 224 pixels, 3 colour channels'],
+          ['Pixel scaling', 'Divided by 255 (0–1 range)'],
+          ['Batch size', '32'],
+          ['Augmentation', 'Training only: horizontal flip, zoom up to 20%'],
+          ['Base network', 'MobileNetV2, ImageNet weights, frozen'],
+          ['Classifier head', 'Global average pooling → Dense 128 (ReLU) → Dropout 0.5 → Dense softmax'],
+          ['Optimiser and loss', 'Adam (default settings), categorical cross-entropy'],
+          ['Epochs', 'Up to 20'],
+          ['Early stopping', 'Patience 3 on validation loss, best weights restored'],
+          ['Checkpoint', 'best_emotion_model.h5, best model only'],
+          ['Face detector', 'Haar frontal-face cascade, scale factor 1.3, minimum 5 neighbours'],
+          ['Parameters', '2,257,984 frozen; 163,968 + 129 per class trainable']
         ] },
         { heading: 'Training', paragraphs: [
           'Training runs for up to 20 epochs. Early stopping ends it once validation loss has not improved for three epochs and restores the best weights, while a checkpoint keeps the best model on disk. Training and validation accuracy and loss are plotted afterwards to check for under- or overfitting.'
         ] },
         { heading: 'Detecting emotions live', paragraphs: [
-          'Each webcam frame is converted to grayscale and passed to OpenCV’s frontal-face Haar cascade. Every detected face is cropped from the colour frame, resized and scaled like the training images, and classified. The frame is then drawn with a box around each face and its label, until q is pressed.',
+          'Each webcam frame is converted to grayscale and passed to OpenCV’s frontal-face Haar cascade. Every detected face is cropped from the colour frame, resized and scaled like the training images, and classified. The frame is then drawn with a box around each face and its label, until q is pressed.'
+        ],
+        code: { label: 'Per-face classification, from the notebook', language: 'python', text: `faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+for (x,y,w,h) in faces:
+    roi_color = frame[y:y+h, x:x+w]
+    roi_resized = cv2.resize(roi_color, (224,224))/255.0
+    roi_expanded = np.expand_dims(roi_resized, axis=0)
+    pred = model.predict(roi_expanded)
+    emotion = class_names[np.argmax(pred)]
+    confidence = np.max(pred)
+    label = f"{emotion} ({confidence*100:.1f}%)"` },
+        after: [
           'The loop is wrapped so that the camera is always released and the window closed, even if a frame cannot be read or an error occurs.'
+        ] },
+        { heading: 'Run it yourself', paragraphs: [
+          'The repository contains the notebook, a README and an MIT licence. No dataset or trained model is included, so the first run trains on your own labelled images.'
+        ],
+        steps: [
+          'Clone the repository and install TensorFlow, OpenCV and Matplotlib.',
+          'Put labelled face images in data/train and data/validation, with one folder per emotion. The folder names become the class labels.',
+          'Open Emotion_Detection_Complete.ipynb and run the cells in order to train, plot and save the model.',
+          'Run the real-time cell with a webcam connected. Press q to close the window.'
+        ],
+        code: [
+          { label: 'Setup', language: 'bash', text: `git clone https://github.com/rebantamandal/emotion-detection-tf-opencv.git
+cd emotion-detection-tf-opencv
+pip install tensorflow opencv-python matplotlib` },
+          { label: 'Dataset layout', language: 'text', text: `data/
+├── train/
+│   ├── angry/
+│   ├── happy/
+│   └── …one folder per emotion
+└── validation/
+    ├── angry/
+    ├── happy/
+    └── …` }
+        ],
+        after: [
+          'On TensorFlow 2.16 or newer, which ships with Keras 3, model.save needs a filename ending in .keras, so the notebook’s save and load lines should use "emotion_model_mobilenet.keras" (or pin an older TensorFlow).'
         ] },
         { heading: 'How it evolved', paragraphs: [
           'The first version, in June 2025, trained for a fixed ten epochs and showed only the predicted label. The September 2025 revision added early stopping and checkpointing, training curves, a confidence percentage on each label, error handling around the camera, and prediction from a single image.'
         ] },
         { heading: 'Limitations and next steps', paragraphs: [
-          'OpenCV delivers frames in BGR colour order while Keras loads training images as RGB, so converting frames to RGB before prediction would make live input match training. MobileNetV2 also expects its own preprocessing, which scales pixels to −1 to 1 rather than 0 to 1.',
+          'OpenCV delivers frames in BGR colour order while Keras loads training images as RGB, so converting frames to RGB before prediction would make live input match training. MobileNetV2 also expects its own preprocessing, which scales pixels to −1 to 1 rather than 0 to 1. Both can be fixed together; the change has to be made in training and detection at the same time, so the model sees identical input in both.'
+        ],
+        code: { label: 'Suggested fix (not yet in the repository)', language: 'python', text: `from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+
+# Training: MobileNetV2's own scaling instead of rescale=1./255
+train_gen = ImageDataGenerator(preprocessing_function=preprocess_input,
+                               horizontal_flip=True, zoom_range=0.2)
+val_gen = ImageDataGenerator(preprocessing_function=preprocess_input)
+
+# Detection: BGR -> RGB, same scaling, and a direct model call per face
+roi = cv2.cvtColor(frame[y:y+h, x:x+w], cv2.COLOR_BGR2RGB)
+roi = cv2.resize(roi, (224, 224)).astype('float32')
+pred = model(preprocess_input(roi)[None], training=False).numpy()` },
+        after: [
           'The base network is frozen; unfreezing and fine-tuning its top layers at a low learning rate should improve accuracy. Calling the model once per face per frame is slow, and the Haar cascade misses faces that are turned or poorly lit, so batching predictions and switching to a DNN face detector are natural upgrades. A per-class confusion matrix would show which emotions are most often confused.'
         ] }
       ]

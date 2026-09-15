@@ -210,6 +210,15 @@
   }
   $('#journal-search').addEventListener('input', renderJournal);
   document.addEventListener('click', e => {
+    // Code blocks: copy the snippet, then confirm briefly on the button.
+    const copy = e.target.closest('[data-copy-code]');
+    if (copy) {
+      const text = copy.closest('.code-block')?.querySelector('code')?.textContent || '';
+      const done = ok => { copy.textContent = ok ? 'Copied' : 'Copy failed'; setTimeout(() => { copy.textContent = 'Copy'; }, 1600); };
+      if (navigator.clipboard?.writeText) navigator.clipboard.writeText(text).then(() => done(true), () => done(false));
+      else done(false);
+      return;
+    }
     // Case-study contents: scroll within the page. A plain #fragment would be read as a route.
     const toc = e.target.closest('[data-toc]');
     const section = toc && document.getElementById(toc.dataset.toc);

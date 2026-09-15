@@ -183,10 +183,18 @@
     const words = [...paragraphs(item.body), ...(item.sections || []).flatMap(s => paragraphs(s.paragraphs))].join(' ').trim().split(/\s+/).filter(Boolean).length;
     return Math.max(1, Math.ceil(words / 220));
   }
+  /* A section can hold, in this order: paragraphs, `specs` (label/value rows),
+     `steps` (a numbered list), `code` (one or more { label, language, text } blocks),
+     `after` (closing paragraphs) and images. */
+  const specList = rows => (Array.isArray(rows) ? rows : []).filter(r => Array.isArray(r) && r[0] && r[1] !== undefined).length
+    ? `<dl class="spec-list">${rows.filter(r => Array.isArray(r) && r[0] && r[1] !== undefined).map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>` : '';
+  const stepList = steps => list(steps).length ? `<ol class="step-list">${list(steps).map(s => `<li>${esc(s)}</li>`).join('')}</ol>` : '';
+  const codeBlocks = code => (Array.isArray(code) ? code : code ? [code] : []).map(c => typeof c === 'string' ? { text: c } : c || {}).filter(c => c.text)
+    .map(c => `<figure class="code-block"><figcaption><span>${esc(c.label || c.language || 'Code')}</span><button class="code-copy" type="button" data-copy-code aria-label="${esc('Copy ' + (c.label || 'code'))}">Copy</button></figcaption><pre tabindex="0"><code${c.language ? ` data-language="${esc(c.language)}"` : ''}>${esc(String(c.text).replace(/^\n+|\s+$/g, ''))}</code></pre></figure>`).join('');
   function prose(item, fallback = '') {
-    return paragraphs(item.body || fallback).map(p => `<p>${esc(p)}</p>`).join('') + (item.sections || []).map((s, i) => `<section id="section-${i + 1}">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ''}${paragraphs(s.paragraphs).map(p => `<p>${esc(p)}</p>`).join('')}${images(s).map(img => openable(img, 'section-figure')).join('')}</section>`).join('');
+    return paragraphs(item.body || fallback).map(p => `<p>${esc(p)}</p>`).join('') + (item.sections || []).map((s, i) => `<section id="section-${i + 1}">${s.heading ? `<h2>${esc(s.heading)}</h2>` : ''}${paragraphs(s.paragraphs).map(p => `<p>${esc(p)}</p>`).join('')}${specList(s.specs)}${stepList(s.steps)}${codeBlocks(s.code)}${paragraphs(s.after).map(p => `<p>${esc(p)}</p>`).join('')}${images(s).map(img => openable(img, 'section-figure')).join('')}</section>`).join('');
   }
-  const searchText = (item, config) => [item.summary, item.note, item.category, item.status, item.role, item.kind, ...list(item.tags), ...list(item.stack), ...list(item.genre), ...list(item.highlights), item.favouriteLine, ...paragraphs(item.body), ...(item.sections || []).flatMap(s => [s.heading, ...paragraphs(s.paragraphs)]), ...shelfFacts(item, config)].filter(Boolean).join(' ');
+  const searchText = (item, config) => [item.summary, item.note, item.category, item.status, item.role, item.kind, ...list(item.tags), ...list(item.stack), ...list(item.genre), ...list(item.highlights), item.favouriteLine, ...paragraphs(item.body), ...(item.sections || []).flatMap(s => [s.heading, ...paragraphs(s.paragraphs), ...list(s.steps), ...paragraphs(s.after), ...(Array.isArray(s.specs) ? s.specs.flat() : [])]), ...shelfFacts(item, config)].filter(Boolean).join(' ');
 
   function entry(info, config, local = false) {
     const {section, item} = info;

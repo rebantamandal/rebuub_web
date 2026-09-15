@@ -29,14 +29,6 @@
       "destination": "/pages/shelf/music.html"
     },
     {
-      "source": "/projects/website",
-      "destination": "/pages/projects/website.html"
-    },
-    {
-      "source": "/projects/glass",
-      "destination": "/pages/projects/glass.html"
-    },
-    {
       "source": "/projects/emotion-detection",
       "destination": "/pages/projects/emotion-detection.html"
     },
@@ -51,6 +43,10 @@
     {
       "source": "/shelf/lvl",
       "destination": "/pages/shelf/lvl.html"
+    },
+    {
+      "source": "/shelf/waves",
+      "destination": "/pages/shelf/waves.html"
     }
   ],
   "redirects": [

@@ -1248,3 +1248,14 @@ html[data-motion="off"] .is-playing .np-eq i { animation: none; height: 70%; }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }
+.inner .shelf-entry .take-label { margin: 0 0 16px; font: 400 var(--type-label)/1.6 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--text-meta); }
+
+/* Titles stay legible on every background, including bright cover glows. */
+@supports (-webkit-background-clip: text) {
+  .inner h1 { background: linear-gradient(115deg, #e2fff8 3%, #eef7ff 46%, #cfd0ff 96%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+}
+.inner h1 { filter: drop-shadow(0 2px 16px #000000a6); }
+.shelf-ambient { opacity: .2; -webkit-mask-image: radial-gradient(55% 65% at 22% 42%, #000 25%, transparent 75%); mask-image: radial-gradient(55% 65% at 22% 42%, #000 25%, transparent 75%); }
+.inner :is(.shelf-facts, .shelf-lead, .shelf-entry .reading-copy) { text-shadow: 0 1px 12px #0009; }
+@media (forced-colors: active) { .inner h1 { filter: none; } }
+@media print { .inner h1 { filter: none; } }

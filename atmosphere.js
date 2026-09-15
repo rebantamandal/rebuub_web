@@ -9,7 +9,7 @@
   const TAU = Math.PI * 2;
   // Full hue wheel, but ONLY low-luminance pigment colours on a black base.
   // Neighbouring colours interpolate in RGB; the loop never crosses white.
-  // 12 x 18-second transitions = 216 seconds. No whole-site hue filters.
+  // 12 x 8-second transitions = 96 seconds. No whole-site hue filters.
   const pigments = [
     [7,54,59], [12,34,66], [29,20,64], [47,18,59],
     [62,15,46], [65,14,29], [66,18,17], [65,33,11],
@@ -25,7 +25,7 @@
       this.canvas = canvas;
       this.ctx = canvas.getContext('2d', { alpha: false });
       this.time = 0;
-      this.cycle = 216;
+      this.cycle = 96;
       this.moving = !matchMedia('(prefers-reduced-motion: reduce)').matches;
       this.visible = !document.hidden;
       this.last = 0;

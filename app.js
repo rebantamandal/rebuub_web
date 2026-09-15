@@ -285,12 +285,104 @@
       if (time) time.textContent = mine && audio?.duration ? clock(Math.max(0, audio.duration - audio.currentTime)) : '0:30';
     });
   }
-  /* Beat: while a preview plays, the Home lettering jumps on each kick drum and breathes
-     with the bass, and the player's equaliser bars follow the real frequencies. The clip is
-     requested with CORS so the browser may analyse it; if that fails it still plays, just
-     without the pulse. Nothing pulses when motion is reduced. */
+  /* Beat: the Home lettering pulses on the song's beats. On first play each preview is
+     analysed once (spectral-flux onsets, autocorrelation tempo, dynamic-programming beat
+     placement) in a worker, and the beat times are cached for this visitor. Pulses are then
+     timed from the song's playback position, corrected for audio output delay, so they stay
+     in step with what is heard. The player's equaliser bars follow the live frequencies.
+     Nothing pulses when motion is reduced, and playback never depends on the analysis. */
   let audioCtx = null, analyser = null, bins = null, corsFailed = false;
-  const beat = { avg: 0, pulse: 0, last: 0, t: 0, prev: null, flux: [] };
+  const beatMaps = new Map(), mediaClock = { ct: -1, at: 0 };
+  function beatWorker() {
+    self.onmessage = ({ data: { mono, sr } }) => {
+      const N = 2048, hop = Math.round(sr / 100), fps = sr / hop, frames = Math.max(0, Math.floor((mono.length - N) / hop));
+      const win = new Float32Array(N); for (let i = 0; i < N; i++) win[i] = .5 - .5 * Math.cos(2 * Math.PI * i / N);
+      const re = new Float32Array(N), im = new Float32Array(N), bits = Math.log2(N), rev = new Uint32Array(N);
+      for (let i = 0; i < N; i++) { let r = 0; for (let b = 0; b < bits; b++) r |= ((i >> b) & 1) << (bits - 1 - b); rev[i] = r; }
+      const fft = () => {
+        for (let i = 0; i < N; i++) if (i < rev[i]) { let t = re[i]; re[i] = re[rev[i]]; re[rev[i]] = t; t = im[i]; im[i] = im[rev[i]]; im[rev[i]] = t; }
+        for (let size = 2; size <= N; size <<= 1) {
+          const half = size >> 1, step = -2 * Math.PI / size;
+          for (let start = 0; start < N; start += size) for (let k = 0; k < half; k++) {
+            const c = Math.cos(step * k), s = Math.sin(step * k), a = start + k, b = a + half;
+            const tr = re[b] * c - im[b] * s, ti = re[b] * s + im[b] * c;
+            re[b] = re[a] - tr; im[b] = im[a] - ti; re[a] += tr; im[a] += ti;
+          }
+        }
+      };
+      const maxBin = Math.floor(8000 / (sr / N));
+      let prev = new Float32Array(maxBin), cur = new Float32Array(maxBin);
+      const onset = new Float32Array(frames);
+      for (let f = 0; f < frames; f++) {
+        const o = f * hop;
+        for (let i = 0; i < N; i++) { re[i] = mono[o + i] * win[i]; im[i] = 0; }
+        fft();
+        let flux = 0;
+        for (let k = 1; k < maxBin; k++) { cur[k] = Math.log1p(100 * Math.hypot(re[k], im[k])); if (f) flux += Math.max(0, cur[k] - prev[k]); }
+        onset[f] = flux; const t = prev; prev = cur; cur = t;
+      }
+      const w = Math.round(fps * .4), local = new Float32Array(frames);
+      let acc = 0; for (let f = 0; f < frames; f++) { acc += onset[f]; if (f >= w) acc -= onset[f - w]; local[f] = acc / Math.min(f + 1, w); }
+      for (let f = 0; f < frames; f++) onset[f] = Math.max(0, onset[f] - local[f]);
+      const acf = lag => { let s = 0; for (let f = lag; f < frames; f++) s += onset[f] * onset[f - lag]; return s / Math.max(1, frames - lag); };
+      let bestLag = 0, bestScore = -1;
+      for (let lag = Math.round(fps * 60 / 200); lag <= Math.round(fps); lag++) {
+        const bpm = 60 * fps / lag, score = acf(lag) * Math.exp(-.5 * Math.log2(bpm / 110) ** 2);
+        if (score > bestScore) { bestScore = score; bestLag = lag; }
+      }
+      const y0 = acf(bestLag - 1), y1 = acf(bestLag), y2 = acf(bestLag + 1), denom = y0 - 2 * y1 + y2;
+      const period = bestLag + (denom ? .5 * (y0 - y2) / denom : 0);
+      const score = new Float32Array(frames), back = new Int32Array(frames).fill(-1);
+      for (let f = 0; f < frames; f++) {
+        let bestPrev = -1, bestVal = 0;
+        for (let p = Math.max(0, Math.round(f - 2 * period)); p <= f - Math.round(period / 2); p++) {
+          const v = score[p] - 100 * Math.log((f - p) / period) ** 2;
+          if (bestPrev < 0 || v > bestVal) { bestVal = v; bestPrev = p; }
+        }
+        score[f] = onset[f] + (bestPrev >= 0 ? bestVal : 0); back[f] = bestPrev;
+      }
+      let end = Math.max(0, frames - Math.round(period * 1.5));
+      for (let f = end; f < frames; f++) if (score[f] > score[end]) end = f;
+      const beats = []; for (let f = end; f >= 0 && frames; f = back[f]) beats.push(+(f / fps + N / 2 / sr).toFixed(3));
+      beats.reverse();
+      self.postMessage({ bpm: +(60 * fps / period).toFixed(1), beats });
+    };
+  }
+  function beatMapFor(url) {
+    if (!url) return Promise.resolve(null);
+    if (beatMaps.has(url)) return beatMaps.get(url);
+    const key = 'rebuub-beats-v1:' + url;
+    let job;
+    try { const saved = JSON.parse(storage.get(key) || 'null'); if (saved?.beats?.length) job = Promise.resolve(saved); } catch {}
+    job ||= (async () => {
+      const Offline = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+      if (!Offline || !window.Worker) return null;
+      const decoded = await new Offline(1, 1, 44100).decodeAudioData(await (await fetch(url, { mode: 'cors' })).arrayBuffer());
+      const mono = new Float32Array(decoded.length);
+      for (let c = 0; c < decoded.numberOfChannels; c++) { const d = decoded.getChannelData(c); for (let i = 0; i < d.length; i++) mono[i] += d[i] / decoded.numberOfChannels; }
+      const blob = URL.createObjectURL(new Blob([`(${beatWorker})()`], { type: 'text/javascript' }));
+      const map = await new Promise((resolve, reject) => {
+        const worker = new Worker(blob);
+        worker.onmessage = e => { worker.terminate(); resolve(e.data); };
+        worker.onerror = e => { worker.terminate(); reject(e); };
+        worker.postMessage({ mono, sr: decoded.sampleRate }, [mono.buffer]);
+      });
+      URL.revokeObjectURL(blob);
+      if (map?.beats?.length) storage.set(key, JSON.stringify(map));
+      return map;
+    })().catch(() => null);
+    beatMaps.set(url, job);
+    job.then(map => { const item = trackItem(trackId); if (item && C.safeUrl(item.preview, ['https:']) === url) beat.map = map; });
+    return job;
+  }
+  const beat = { map: null, index: 0 };
+  // The media clock can update in coarse steps; interpolate between updates, then subtract output delay.
+  function heardTime(now) {
+    const ct = audio.currentTime;
+    if (ct !== mediaClock.ct) { mediaClock.ct = ct; mediaClock.at = now; }
+    const estimate = audio.paused ? ct : mediaClock.ct + Math.min(.3, (now - mediaClock.at) / 1000) * audio.playbackRate;
+    return estimate - (audioCtx ? (audioCtx.outputLatency || audioCtx.baseLatency || 0) : 0);
+  }
   function connectAnalyser() {
     if (analyser || corsFailed || !audio || audio.crossOrigin !== 'anonymous') return;
     const Context = window.AudioContext || window.webkitAudioContext;
@@ -304,36 +396,26 @@
     } catch { analyser = null; }
   }
   function updateBeat(now) {
-    const playing = !!(analyser && audio && !audio.paused), bars = $$('.np-eq i');
-    $('.now-playing')?.classList.toggle('has-levels', playing);
-    if (!playing) {
-      beat.pulse = 0; beat.t = 0; beat.prev = null; beat.flux.length = 0; scene?.setPulse(0);
-      bars.forEach(i => i.style.removeProperty('height'));
-      return;
+    const playing = !!(audio && !audio.paused), bars = $$('.np-eq i'), levels = playing && !!analyser;
+    $('.now-playing')?.classList.toggle('has-levels', levels);
+    if (!playing) { mediaClock.ct = -1; scene?.setPulse(0); bars.forEach(i => i.style.removeProperty('height')); return; }
+    // Pulse on the analysed beats: a sharp jump at each beat that eases off over ~0.3 s.
+    let pulse = 0;
+    const beats = beat.map?.beats;
+    if (beats?.length) {
+      const t = heardTime(now);
+      let i = beat.index;
+      if (i >= beats.length || beats[i] > t) i = 0;
+      while (i + 1 < beats.length && beats[i + 1] <= t) i++;
+      beat.index = i;
+      const since = t - beats[i];
+      if (since >= 0 && since < .45) pulse = Math.exp(-since * 9);
     }
+    scene?.setPulse(moving && current?.view === 'home' ? pulse : 0);
+    if (!levels) return;
     analyser.getByteFrequencyData(bins);
     const hz = audioCtx.sampleRate / analyser.fftSize;
     const band = (lo, hi) => { let sum = 0, n = 0; for (let i = Math.max(1, Math.floor(lo / hz)); i <= Math.ceil(hi / hz) && i < bins.length; i++) { sum += bins[i]; n++; } return n ? sum / n / 255 : 0; };
-    const bass = band(40, 160), dt = beat.t ? Math.min(.1, (now - beat.t) / 1000) : 1 / 60;
-    beat.t = now;
-    beat.avg += (bass - beat.avg) * Math.min(1, dt * 2);
-    // Onset detection: a kick is a sudden jump in low-frequency energy (spectral flux),
-    // measured against the song's own recent flux rather than its overall loudness, so
-    // heavy sustained bass does not hold the lettering enlarged. Repeats within 230 ms are ignored.
-    const lo = Math.max(1, Math.floor(40 / hz)), hi = Math.min(bins.length - 1, Math.ceil(160 / hz));
-    let flux = 0;
-    if (beat.prev) for (let i = lo; i <= hi; i++) flux += Math.max(0, bins[i] - beat.prev[i]);
-    flux /= (hi - lo + 1) * 255;
-    beat.prev = (beat.prev && beat.prev.length === bins.length) ? beat.prev : new Uint8Array(bins.length);
-    beat.prev.set(bins);
-    const recent = beat.flux, mean = recent.reduce((a, b) => a + b, 0) / (recent.length || 1);
-    const spread = Math.sqrt(recent.reduce((a, b) => a + (b - mean) ** 2, 0) / (recent.length || 1));
-    if (recent.length > 20 && flux > mean + spread * 1.4 && flux > .015 && now - beat.last > 230) { beat.pulse = 1; beat.last = now; }
-    recent.push(flux); if (recent.length > 45) recent.shift();
-    beat.pulse *= Math.exp(-dt * 8);
-    // Between kicks the lettering only breathes with bass that rises above its recent level.
-    const breath = Math.min(.35, Math.max(0, bass - beat.avg) * 1.2);
-    scene?.setPulse(moving && current?.view === 'home' ? Math.max(beat.pulse, breath) : 0);
     [band(40, 160), band(160, 600), band(600, 2400), band(2400, 8000)].forEach((v, i) => { if (bars[i]) bars[i].style.height = Math.round(18 + v * 82) + '%'; });
   }
   function tick(now) { syncTracks(); updateBeat(now || performance.now()); progressFrame = audio && !audio.paused ? requestAnimationFrame(tick) : 0; }
@@ -359,6 +441,8 @@
     showCard(id); cardMode = 'preview';
     if (trackId !== id) {
       audio.src = C.safeUrl(item.preview, ['https:']); trackId = id;
+      beat.map = null; beat.index = 0; mediaClock.ct = -1;
+      beatMapFor(audio.src).then(map => { if (trackId === id) beat.map = map; });
       const cover = C.images(item)[0];
       if ('mediaSession' in navigator && window.MediaMetadata) navigator.mediaSession.metadata = new MediaMetadata({ title: item.title, artist: item.artist || '', album: item.album || '', artwork: cover ? [{ src: new URL(cover.src, document.baseURI).href, sizes: '900x900' }] : [] });
     }

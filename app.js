@@ -73,13 +73,17 @@
     if (!animate) return applyRoute(next, previous, options);
     const from = next.view === 'entry' ? cardMedia(next.route) : previous.view === 'entry' ? entryMedia() : null;
     if (from) from.style.viewTransitionName = 'hero-media';
+    html.dataset.transitioning = '';
     const transition = document.startViewTransition(() => {
       if (from) from.style.viewTransitionName = '';
       applyRoute(next, previous, options);
       const to = from && (next.view === 'entry' ? entryMedia() : cardMedia(previous.route));
       if (to) to.style.viewTransitionName = 'hero-media';
     });
-    transition.finished.finally(() => $$('#main [style*="view-transition-name"]').forEach(el => { el.style.viewTransitionName = ''; }));
+    transition.finished.finally(() => {
+      $$('#main [style*="view-transition-name"]').forEach(el => { el.style.viewTransitionName = ''; });
+      delete html.dataset.transitioning;
+    });
   }
   function applyRoute(next, previous, { focus = false, restore = false } = {}) {
     navigating = true;

@@ -1301,3 +1301,10 @@ html[data-current-view="home"] .np-panel { animation-name: np-panel-down; }
   .code-block pre { font-size: 12px; padding: 14px; }
 }
 @media (forced-colors: active) { .code-block, .step-list li::before { border-color: CanvasText; } }
+
+/* One fade at a time, never from fully invisible, so titles stay readable while pages change.
+   During a view transition the page is already animated as a whole. */
+html[data-transitioning] .inner { animation: none; }
+@keyframes interior-enter { from { opacity: .4; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes page-in { from { opacity: .35; transform: translateY(10px); } }
+@keyframes page-out { to { opacity: .2; transform: translateY(-6px); } }

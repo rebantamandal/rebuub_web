@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "all_local_assets_present": true,
+  "preview_scripts_and_images_embedded": true,
+  "journal_still_empty": true,
+  "local_http_routes": {
+    "/": 200,
+    "/projects": 200,
+    "/projects/glass": 200,
+    "/shelf/cyberpunk": 200,
+    "/does-not-exist": 404
+  }
+}

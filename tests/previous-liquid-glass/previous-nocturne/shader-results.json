@@ -1,0 +1,7 @@
+{
+  "compile": true,
+  "renderStages": 6,
+  "backend": "llvmpipe (LLVM 19.1.7, 256 bits)",
+  "browserWebGL": false,
+  "sculptureSha256": "c47bd65a6df3e31c54c190d440caae0ae81dfa00495dc2b84205b124768c16e2"
+}

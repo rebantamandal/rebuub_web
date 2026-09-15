@@ -1,0 +1,4 @@
+{
+  "tested": false,
+  "limitation": "Page.goto: net::ERR_BLOCKED_BY_ADMINISTRATOR at http://127.0.0.1:8123/\nCall log:\n  - navigating to \"http://127.0.0.1:8123/\", waiting until \"load\"\n"
+}

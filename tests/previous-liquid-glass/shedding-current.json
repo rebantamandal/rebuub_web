@@ -1,0 +1,25 @@
+{
+  "pass": true,
+  "comparisonSeconds": 60,
+  "simulatedFrameRates": [
+    60,
+    144,
+    240
+  ],
+  "maxPositionDifference": 0,
+  "upwardOnly": true,
+  "desktop": {
+    "shed": 34,
+    "maxDrops": 7,
+    "maxAttached": 2
+  },
+  "mobile": {
+    "shed": 22,
+    "maxDrops": 3,
+    "maxAttached": 1
+  },
+  "releasePositionError": 0,
+  "daughterKeepsDepth": true,
+  "pauseFreezesDrops": true,
+  "resizeAndResetClearTransientGeometry": true
+}

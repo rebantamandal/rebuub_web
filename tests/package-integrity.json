@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "preview_sha256": "954c219c39fdbb774535f0169cf51119c294a6655f245310b793dbe0818c6ff3",
+  "checks": [
+    {
+      "check": "All JavaScript files parse",
+      "pass": true
+    },
+    {
+      "check": "Single-file preview embeds CSS and JavaScript",
+      "pass": true
+    },
+    {
+      "check": "Home shares glass panel and button classes",
+      "pass": true
+    },
+    {
+      "check": "No Home-exclusion selector in shared material rules",
+      "pass": true
+    },
+    {
+      "check": "Shared navigation script no longer gates Home",
+      "pass": true
+    },
+    {
+      "check": "No packaged font files",
+      "pass": true
+    },
+    {
+      "check": "All 10 static documents contain the updated Home interface",
+      "pass": true
+    }
+  ]
+}

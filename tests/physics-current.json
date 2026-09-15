@@ -1,0 +1,10 @@
+{
+  "fixedStepAcross60_144_240Hz": {
+    "pass": true,
+    "maxDifference": 0
+  },
+  "burstKeepsDepth": true,
+  "reduceMotionStopsSolver": true,
+  "originalSpringContactPressure": 0.9933853224183908,
+  "originalSpringSettledPressure": -0.0000018914677629280215
+}

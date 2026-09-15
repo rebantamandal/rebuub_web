@@ -1,0 +1,565 @@
+{
+  "checks": 80,
+  "passed": true,
+  "results": [
+    {
+      "check": "Navigation labels stay inside the capsule: projects at 320px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: journal at 320px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: shelf at 320px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: about at 320px",
+      "pass": true
+    },
+    {
+      "check": "Section heading and label alignment at 320px",
+      "pass": true,
+      "details": [
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "52px",
+          "line": "55.12px",
+          "weight": "500",
+          "tracking": "-3.38px",
+          "y": 208
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "52px",
+          "line": "55.12px",
+          "weight": "500",
+          "tracking": "-3.38px",
+          "y": 208
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "52px",
+          "line": "55.12px",
+          "weight": "500",
+          "tracking": "-3.38px",
+          "y": 208
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "52px",
+          "line": "55.12px",
+          "weight": "500",
+          "tracking": "-3.38px",
+          "y": 208
+        }
+      ]
+    },
+    {
+      "check": "Header and 44px control contract at 320px",
+      "pass": true
+    },
+    {
+      "check": "Gallery and shelf title parity at 320px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: projects at 390px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: journal at 390px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: shelf at 390px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: about at 390px",
+      "pass": true
+    },
+    {
+      "check": "Section heading and label alignment at 390px",
+      "pass": true,
+      "details": [
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "58.5px",
+          "line": "62.01px",
+          "weight": "500",
+          "tracking": "-3.8025px",
+          "y": 208
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "58.5px",
+          "line": "62.01px",
+          "weight": "500",
+          "tracking": "-3.8025px",
+          "y": 208
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "58.5px",
+          "line": "62.01px",
+          "weight": "500",
+          "tracking": "-3.8025px",
+          "y": 208
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "58.5px",
+          "line": "62.01px",
+          "weight": "500",
+          "tracking": "-3.8025px",
+          "y": 208
+        }
+      ]
+    },
+    {
+      "check": "Header and 44px control contract at 390px",
+      "pass": true
+    },
+    {
+      "check": "Gallery and shelf title parity at 390px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: projects at 600px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: journal at 600px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: shelf at 600px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: about at 600px",
+      "pass": true
+    },
+    {
+      "check": "Section heading and label alignment at 600px",
+      "pass": true,
+      "details": [
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "60px",
+          "line": "63.6px",
+          "weight": "500",
+          "tracking": "-3.9px",
+          "y": 216
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "60px",
+          "line": "63.6px",
+          "weight": "500",
+          "tracking": "-3.9px",
+          "y": 216
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "60px",
+          "line": "63.6px",
+          "weight": "500",
+          "tracking": "-3.9px",
+          "y": 216
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "60px",
+          "line": "63.6px",
+          "weight": "500",
+          "tracking": "-3.9px",
+          "y": 216
+        }
+      ]
+    },
+    {
+      "check": "Header and 44px control contract at 600px",
+      "pass": true
+    },
+    {
+      "check": "Gallery and shelf title parity at 600px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: projects at 768px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: journal at 768px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: shelf at 768px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: about at 768px",
+      "pass": true
+    },
+    {
+      "check": "Section heading and label alignment at 768px",
+      "pass": true,
+      "details": [
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "72px",
+          "line": "76.32px",
+          "weight": "500",
+          "tracking": "-4.68px",
+          "y": 172
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "72px",
+          "line": "76.32px",
+          "weight": "500",
+          "tracking": "-4.68px",
+          "y": 172
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "72px",
+          "line": "76.32px",
+          "weight": "500",
+          "tracking": "-4.68px",
+          "y": 172
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "72px",
+          "line": "76.32px",
+          "weight": "500",
+          "tracking": "-4.68px",
+          "y": 172
+        }
+      ]
+    },
+    {
+      "check": "Header and 44px control contract at 768px",
+      "pass": true
+    },
+    {
+      "check": "Gallery and shelf title parity at 768px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: projects at 1024px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: journal at 1024px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: shelf at 1024px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: about at 1024px",
+      "pass": true
+    },
+    {
+      "check": "Section heading and label alignment at 1024px",
+      "pass": true,
+      "details": [
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "81.92px",
+          "line": "86.8352px",
+          "weight": "500",
+          "tracking": "-5.3248px",
+          "y": 172
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "81.92px",
+          "line": "86.8352px",
+          "weight": "500",
+          "tracking": "-5.3248px",
+          "y": 172
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "81.92px",
+          "line": "86.8352px",
+          "weight": "500",
+          "tracking": "-5.3248px",
+          "y": 172
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "81.92px",
+          "line": "86.8352px",
+          "weight": "500",
+          "tracking": "-5.3248px",
+          "y": 172
+        }
+      ]
+    },
+    {
+      "check": "Header and 44px control contract at 1024px",
+      "pass": true
+    },
+    {
+      "check": "Gallery and shelf title parity at 1024px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: projects at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: journal at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: shelf at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: about at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Section heading and label alignment at 1440px",
+      "pass": true,
+      "details": [
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "112px",
+          "line": "118.72px",
+          "weight": "500",
+          "tracking": "-7.28px",
+          "y": 188
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "112px",
+          "line": "118.72px",
+          "weight": "500",
+          "tracking": "-7.28px",
+          "y": 188
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "112px",
+          "line": "118.72px",
+          "weight": "500",
+          "tracking": "-7.28px",
+          "y": 188
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "112px",
+          "line": "118.72px",
+          "weight": "500",
+          "tracking": "-7.28px",
+          "y": 188
+        }
+      ]
+    },
+    {
+      "check": "Header and 44px control contract at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Gallery and shelf title parity at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: projects at 1920px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: journal at 1920px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: shelf at 1920px",
+      "pass": true
+    },
+    {
+      "check": "Navigation labels stay inside the capsule: about at 1920px",
+      "pass": true
+    },
+    {
+      "check": "Section heading and label alignment at 1920px",
+      "pass": true,
+      "details": [
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "112px",
+          "line": "118.72px",
+          "weight": "500",
+          "tracking": "-7.28px",
+          "y": 196
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "112px",
+          "line": "118.72px",
+          "weight": "500",
+          "tracking": "-7.28px",
+          "y": 196
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "112px",
+          "line": "118.72px",
+          "weight": "500",
+          "tracking": "-7.28px",
+          "y": 196
+        },
+        {
+          "font": "InterVariable, Inter, \"Helvetica Neue\", Arial, sans-serif",
+          "size": "112px",
+          "line": "118.72px",
+          "weight": "500",
+          "tracking": "-7.28px",
+          "y": 196
+        }
+      ]
+    },
+    {
+      "check": "Header and 44px control contract at 1920px",
+      "pass": true
+    },
+    {
+      "check": "Gallery and shelf title parity at 1920px",
+      "pass": true
+    },
+    {
+      "check": "Search expanded state: home",
+      "pass": true
+    },
+    {
+      "check": "Search status: home",
+      "pass": true
+    },
+    {
+      "check": "One-Escape close and focus: home",
+      "pass": true
+    },
+    {
+      "check": "Search expanded state: projects",
+      "pass": true
+    },
+    {
+      "check": "Search status: projects",
+      "pass": true
+    },
+    {
+      "check": "One-Escape close and focus: projects",
+      "pass": true
+    },
+    {
+      "check": "Search expanded state: journal",
+      "pass": true
+    },
+    {
+      "check": "Search status: journal",
+      "pass": true
+    },
+    {
+      "check": "One-Escape close and focus: journal",
+      "pass": true
+    },
+    {
+      "check": "Search expanded state: shelf",
+      "pass": true
+    },
+    {
+      "check": "Search status: shelf",
+      "pass": true
+    },
+    {
+      "check": "One-Escape close and focus: shelf",
+      "pass": true
+    },
+    {
+      "check": "Search expanded state: about",
+      "pass": true
+    },
+    {
+      "check": "Search status: about",
+      "pass": true
+    },
+    {
+      "check": "One-Escape close and focus: about",
+      "pass": true
+    },
+    {
+      "check": "Search expanded state: projects/glass",
+      "pass": true
+    },
+    {
+      "check": "Search status: projects/glass",
+      "pass": true
+    },
+    {
+      "check": "One-Escape close and focus: projects/glass",
+      "pass": true
+    },
+    {
+      "check": "Search expanded state: shelf/cyberpunk",
+      "pass": true
+    },
+    {
+      "check": "Search status: shelf/cyberpunk",
+      "pass": true
+    },
+    {
+      "check": "One-Escape close and focus: shelf/cyberpunk",
+      "pass": true
+    },
+    {
+      "check": "Search expanded state: not-found",
+      "pass": true
+    },
+    {
+      "check": "Search status: not-found",
+      "pass": true
+    },
+    {
+      "check": "One-Escape close and focus: not-found",
+      "pass": true
+    },
+    {
+      "check": "Search palette is visually identical across sections",
+      "pass": true
+    },
+    {
+      "check": "High-contrast headings have visible fill",
+      "pass": true
+    },
+    {
+      "check": "No uncaught JavaScript errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "check": "Homepage unchanged after return at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Homepage pixel preservation at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Homepage unchanged after return at 390px",
+      "pass": true
+    },
+    {
+      "check": "Homepage pixel preservation at 390px",
+      "pass": true
+    }
+  ]
+}

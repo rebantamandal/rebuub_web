@@ -1,0 +1,19 @@
+{
+  "environment": {
+    "unchanged": true,
+    "sha256": "17349cce05f3110517da33f441100820283734ac74f2e87e13d0dadc2f01bf8b"
+  },
+  "surfaceNormals": {
+    "unchanged": true,
+    "sha256": "4f8901e272d15f51af35e707ae7022acad8daf7c561486ab0fc4ef9006a1a796"
+  },
+  "referenceSpring": {
+    "unchanged": true,
+    "sha256": "1f256b800efc32e2210d8d2d60fdd61682c855384936a7bdc4768beaa4bcef24"
+  },
+  "surfaceShading": {
+    "unchanged": true,
+    "sha256": "89dfcaeae3707e14e33d9d4d77d7343a06be91000cdabcc8e64edb7d064c7034"
+  },
+  "opticsUnchanged": true
+}

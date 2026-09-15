@@ -1,0 +1,277 @@
+{
+  "checks": [
+    {
+      "name": "Initial page",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Two sphere depth layers",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Gradient clock advances",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Every palette remains dark",
+      "pass": true,
+      "detail": [
+        {
+          "t": 0,
+          "max": 38,
+          "min": 2,
+          "mean": 16.50905903749552,
+          "sample": [
+            6,
+            33,
+            36,
+            255
+          ]
+        },
+        {
+          "t": 18,
+          "max": 45,
+          "min": 3,
+          "mean": 13.80302079950207,
+          "sample": [
+            9,
+            21,
+            41,
+            255
+          ]
+        },
+        {
+          "t": 36,
+          "max": 46,
+          "min": 3,
+          "mean": 12.23703632349825,
+          "sample": [
+            19,
+            13,
+            40,
+            255
+          ]
+        },
+        {
+          "t": 54,
+          "max": 42,
+          "min": 1,
+          "mean": 12.539489519500012,
+          "sample": [
+            30,
+            11,
+            36,
+            255
+          ]
+        },
+        {
+          "t": 72,
+          "max": 45,
+          "min": 1,
+          "mean": 12.429658029499905,
+          "sample": [
+            39,
+            10,
+            29,
+            255
+          ]
+        },
+        {
+          "t": 90,
+          "max": 45,
+          "min": 1,
+          "mean": 12.13547258199726,
+          "sample": [
+            42,
+            10,
+            19,
+            255
+          ]
+        },
+        {
+          "t": 108,
+          "max": 43,
+          "min": 2,
+          "mean": 13.332584865996358,
+          "sample": [
+            42,
+            14,
+            12,
+            255
+          ]
+        },
+        {
+          "t": 126,
+          "max": 40,
+          "min": 2,
+          "mean": 15.421554153996142,
+          "sample": [
+            37,
+            20,
+            8,
+            255
+          ]
+        },
+        {
+          "t": 144,
+          "max": 33,
+          "min": 2,
+          "mean": 15.69890147299936,
+          "sample": [
+            29,
+            26,
+            7,
+            255
+          ]
+        },
+        {
+          "t": 162,
+          "max": 29,
+          "min": 2,
+          "mean": 14.33982474748607,
+          "sample": [
+            19,
+            25,
+            7,
+            255
+          ]
+        },
+        {
+          "t": 180,
+          "max": 30,
+          "min": 1,
+          "mean": 14.115088458489613,
+          "sample": [
+            7,
+            27,
+            16,
+            255
+          ]
+        },
+        {
+          "t": 198,
+          "max": 33,
+          "min": 1,
+          "mean": 15.79920505448925,
+          "sample": [
+            6,
+            31,
+            23,
+            255
+          ]
+        },
+        {
+          "t": 216,
+          "max": 38,
+          "min": 2,
+          "mean": 16.50905903749552,
+          "sample": [
+            6,
+            33,
+            36,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "name": "All 12 sampled hues are distinct",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Colour loop is seamless",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "No palette-boundary jumps",
+      "pass": true,
+      "detail": 3.796287728619063e-09
+    },
+    {
+      "name": "Rare low-intensity lightning",
+      "pass": true,
+      "detail": {
+        "fired": true,
+        "peak": 0.14814814814814814,
+        "second": false,
+        "gap": 45402.005046606064
+      }
+    },
+    {
+      "name": "Emitting and rendering daughter beads",
+      "pass": true,
+      "detail": {
+        "shed": 7,
+        "count": 3,
+        "up": true,
+        "tiles": true
+      }
+    },
+    {
+      "name": "Mouse click pops a sphere",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Keyboard selects a sphere",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Keyboard pops selection",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Reduced motion freezes all motion",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Reduced motion suppresses lightning",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Navigation preserves gradient phase",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Project detail works",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Search works",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "No horizontal overflow in 25 layouts",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "No JavaScript page errors",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "OS reduced-motion respected",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Emulated touch tap pops a sphere",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "passed": 21
+}

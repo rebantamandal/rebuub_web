@@ -1,0 +1,880 @@
+{
+  "passed": true,
+  "checks": 204,
+  "method": "Chromium; self-contained HTML injected with set_content; static markup parsed; remote requests blocked; reduced motion except toggle check",
+  "results": [
+    {
+      "check": "320px home: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "320px home: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "320px home: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "320px projects: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "320px projects: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "320px projects: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "320px projects: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "320px journal: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "320px journal: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "320px journal: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "320px journal: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "320px shelf: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "320px shelf: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "320px shelf: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "320px shelf: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "320px about: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "320px about: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "320px about: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "320px about: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "320px projects/website: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "320px projects/website: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "320px projects/website: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "320px projects/website: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "320px projects/website: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "320px projects/glass: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "320px projects/glass: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "320px projects/glass: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "320px projects/glass: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "320px projects/glass: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "320px shelf/death-stranding: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "320px shelf/death-stranding: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "320px shelf/death-stranding: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "320px shelf/death-stranding: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "320px shelf/death-stranding: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "320px shelf/cyberpunk: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "320px shelf/cyberpunk: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "320px shelf/cyberpunk: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "320px shelf/cyberpunk: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "320px shelf/cyberpunk: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "320px not-found: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "320px not-found: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "320px not-found: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "320px not-found: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "390px home: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "390px home: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "390px home: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "390px projects: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "390px projects: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "390px projects: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "390px projects: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "390px journal: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "390px journal: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "390px journal: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "390px journal: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "390px shelf: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "390px shelf: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "390px shelf: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "390px shelf: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "390px about: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "390px about: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "390px about: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "390px about: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "390px projects/website: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "390px projects/website: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "390px projects/website: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "390px projects/website: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "390px projects/website: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "390px projects/glass: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "390px projects/glass: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "390px projects/glass: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "390px projects/glass: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "390px projects/glass: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "390px shelf/death-stranding: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "390px shelf/death-stranding: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "390px shelf/death-stranding: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "390px shelf/death-stranding: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "390px shelf/death-stranding: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "390px shelf/cyberpunk: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "390px shelf/cyberpunk: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "390px shelf/cyberpunk: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "390px shelf/cyberpunk: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "390px shelf/cyberpunk: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "390px not-found: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "390px not-found: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "390px not-found: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "390px not-found: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "768px home: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "768px home: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "768px home: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "768px projects: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "768px projects: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "768px projects: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "768px projects: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "768px journal: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "768px journal: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "768px journal: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "768px journal: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "768px shelf: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "768px shelf: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "768px shelf: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "768px shelf: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "768px about: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "768px about: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "768px about: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "768px about: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "768px projects/website: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "768px projects/website: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "768px projects/website: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "768px projects/website: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "768px projects/website: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "768px projects/glass: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "768px projects/glass: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "768px projects/glass: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "768px projects/glass: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "768px projects/glass: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "768px shelf/death-stranding: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "768px shelf/death-stranding: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "768px shelf/death-stranding: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "768px shelf/death-stranding: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "768px shelf/death-stranding: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "768px shelf/cyberpunk: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "768px shelf/cyberpunk: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "768px shelf/cyberpunk: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "768px shelf/cyberpunk: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "768px shelf/cyberpunk: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "768px not-found: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "768px not-found: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "768px not-found: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "768px not-found: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "1440px home: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "1440px home: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "1440px home: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "1440px projects: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "1440px projects: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "1440px projects: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "1440px projects: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "1440px journal: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "1440px journal: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "1440px journal: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "1440px journal: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "1440px about: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "1440px about: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "1440px about: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "1440px about: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "1440px projects/website: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "1440px projects/website: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "1440px projects/website: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "1440px projects/website: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "1440px projects/website: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "1440px projects/glass: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "1440px projects/glass: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "1440px projects/glass: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "1440px projects/glass: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "1440px projects/glass: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf/death-stranding: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf/death-stranding: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf/death-stranding: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf/death-stranding: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf/death-stranding: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf/cyberpunk: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf/cyberpunk: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf/cyberpunk: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf/cyberpunk: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "1440px shelf/cyberpunk: top back link retained",
+      "passed": true
+    },
+    {
+      "check": "1440px not-found: no bottom shortcuts",
+      "passed": true
+    },
+    {
+      "check": "1440px not-found: no horizontal overflow",
+      "passed": true
+    },
+    {
+      "check": "1440px not-found: main navigation intact",
+      "passed": true
+    },
+    {
+      "check": "1440px not-found: footer breathing room",
+      "passed": true
+    },
+    {
+      "check": "Header click opens home",
+      "passed": true
+    },
+    {
+      "check": "Header click opens projects",
+      "passed": true
+    },
+    {
+      "check": "Header click opens journal",
+      "passed": true
+    },
+    {
+      "check": "Header click opens shelf",
+      "passed": true
+    },
+    {
+      "check": "Header click opens about",
+      "passed": true
+    },
+    {
+      "check": "Project cards still open detail",
+      "passed": true
+    },
+    {
+      "check": "Top breadcrumb returns to collection",
+      "passed": true
+    },
+    {
+      "check": "Shelf cards still open detail",
+      "passed": true
+    },
+    {
+      "check": "Search still opens project",
+      "passed": true
+    },
+    {
+      "check": "404 recovery retained",
+      "passed": true
+    },
+    {
+      "check": "Name remains plain text",
+      "passed": true
+    },
+    {
+      "check": "Glass header and footer controls remain",
+      "passed": true
+    },
+    {
+      "check": "Motion can still be enabled",
+      "passed": true
+    },
+    {
+      "check": "Motion can still be reduced",
+      "passed": true
+    },
+    {
+      "check": "Keyboard sphere interaction retained",
+      "passed": true
+    },
+    {
+      "check": "320px original name position retained",
+      "passed": true,
+      "details": {
+        "before": {
+          "x": 19,
+          "y": 727,
+          "width": 78.4375,
+          "height": 16
+        },
+        "after": {
+          "x": 19,
+          "y": 727,
+          "width": 78.4375,
+          "height": 16
+        }
+      }
+    },
+    {
+      "check": "390px original name position retained",
+      "passed": true,
+      "details": {
+        "before": {
+          "x": 22,
+          "y": 727,
+          "width": 78.4375,
+          "height": 16
+        },
+        "after": {
+          "x": 22,
+          "y": 727,
+          "width": 78.4375,
+          "height": 16
+        }
+      }
+    },
+    {
+      "check": "768px original name position retained",
+      "passed": true,
+      "details": {
+        "before": {
+          "x": 38.40625,
+          "y": 719.203125,
+          "width": 86.28125,
+          "height": 17.59375
+        },
+        "after": {
+          "x": 38.40625,
+          "y": 719.203125,
+          "width": 86.28125,
+          "height": 17.59375
+        }
+      }
+    },
+    {
+      "check": "1440px original name position retained",
+      "passed": true,
+      "details": {
+        "before": {
+          "x": 72.5,
+          "y": 719.203125,
+          "width": 86.28125,
+          "height": 17.59375
+        },
+        "after": {
+          "x": 72.5,
+          "y": 719.203125,
+          "width": 86.28125,
+          "height": 17.59375
+        }
+      }
+    },
+    {
+      "check": "Future journal articles have no bottom navigation",
+      "passed": true
+    },
+    {
+      "check": "Static markup index.html: no bottom links",
+      "passed": true
+    },
+    {
+      "check": "Static markup 404.html: no bottom links",
+      "passed": true
+    },
+    {
+      "check": "Static markup pages/about.html: no bottom links",
+      "passed": true
+    },
+    {
+      "check": "Static markup pages/journal.html: no bottom links",
+      "passed": true
+    },
+    {
+      "check": "Static markup pages/projects/glass.html: no bottom links",
+      "passed": true
+    },
+    {
+      "check": "Static markup pages/projects/website.html: no bottom links",
+      "passed": true
+    },
+    {
+      "check": "Static markup pages/projects.html: no bottom links",
+      "passed": true
+    },
+    {
+      "check": "Static markup pages/shelf/cyberpunk.html: no bottom links",
+      "passed": true
+    },
+    {
+      "check": "Static markup pages/shelf/death-stranding.html: no bottom links",
+      "passed": true
+    },
+    {
+      "check": "Static markup pages/shelf.html: no bottom links",
+      "passed": true
+    },
+    {
+      "check": "Mobile header navigation works",
+      "passed": true
+    },
+    {
+      "check": "No uncaught script errors",
+      "passed": true,
+      "details": []
+    }
+  ]
+}

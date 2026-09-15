@@ -1,0 +1,209 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "check": "Navigation changes the actual route and active link",
+      "pass": true
+    },
+    {
+      "check": "Only the selected view is visible",
+      "pass": true
+    },
+    {
+      "check": "Project card count",
+      "pass": true
+    },
+    {
+      "check": "Navigation lens tracks selected item",
+      "pass": true
+    },
+    {
+      "check": "Project card opens full detail page",
+      "pass": true
+    },
+    {
+      "check": "Breadcrumb restores focus to the originating card",
+      "pass": true
+    },
+    {
+      "check": "Second project detail",
+      "pass": true
+    },
+    {
+      "check": "Next project link",
+      "pass": true
+    },
+    {
+      "check": "Search filters to the matching game",
+      "pass": true
+    },
+    {
+      "check": "Search navigates and closes the dialog",
+      "pass": true
+    },
+    {
+      "check": "Next shelf item link",
+      "pass": true
+    },
+    {
+      "check": "Shelf filtering and pressed state",
+      "pass": true
+    },
+    {
+      "check": "All filter restores focus",
+      "pass": true
+    },
+    {
+      "check": "Escape closes search and returns focus",
+      "pass": true
+    },
+    {
+      "check": "Keyboard search shortcut",
+      "pass": true
+    },
+    {
+      "check": "No-result search state",
+      "pass": true
+    },
+    {
+      "check": "Journal is honestly empty",
+      "pass": true
+    },
+    {
+      "check": "Empty journal remains readable during search",
+      "pass": true
+    },
+    {
+      "check": "Biography remains original",
+      "pass": true
+    },
+    {
+      "check": "Unconfigured social links remain hidden",
+      "pass": true
+    },
+    {
+      "check": "Motion can be enabled",
+      "pass": true
+    },
+    {
+      "check": "Motion reduction pauses decorative animations",
+      "pass": true
+    },
+    {
+      "check": "About call to action",
+      "pass": true
+    },
+    {
+      "check": "Browser back restores route",
+      "pass": true
+    },
+    {
+      "check": "Browser forward restores route",
+      "pass": true
+    },
+    {
+      "check": "Unknown route uses redesigned 404",
+      "pass": true
+    },
+    {
+      "check": "404 home link returns to Home with the shared glass navigation",
+      "pass": true
+    },
+    {
+      "check": "No uncaught JavaScript errors during user interactions",
+      "pass": true
+    },
+    {
+      "check": "Future entries render in the redesigned journal",
+      "pass": true
+    },
+    {
+      "check": "Journal tag filter",
+      "pass": true
+    },
+    {
+      "check": "Journal no-match reset control",
+      "pass": true
+    },
+    {
+      "check": "Clear search and filter",
+      "pass": true
+    },
+    {
+      "check": "Text is escaped, not interpreted as HTML",
+      "pass": true
+    },
+    {
+      "check": "Future journal detail is glass-framed",
+      "pass": true
+    },
+    {
+      "check": "Article reading progress follows scroll",
+      "pass": true
+    },
+    {
+      "check": "Static no-JavaScript content: projects",
+      "pass": true
+    },
+    {
+      "check": "Correct static route: projects",
+      "pass": true
+    },
+    {
+      "check": "Static no-JavaScript content: journal",
+      "pass": true
+    },
+    {
+      "check": "Correct static route: journal",
+      "pass": true
+    },
+    {
+      "check": "Static no-JavaScript content: shelf",
+      "pass": true
+    },
+    {
+      "check": "Correct static route: shelf",
+      "pass": true
+    },
+    {
+      "check": "Static no-JavaScript content: about",
+      "pass": true
+    },
+    {
+      "check": "Correct static route: about",
+      "pass": true
+    },
+    {
+      "check": "Static no-JavaScript content: projects/website",
+      "pass": true
+    },
+    {
+      "check": "Correct static route: projects/website",
+      "pass": true
+    },
+    {
+      "check": "Static no-JavaScript content: projects/glass",
+      "pass": true
+    },
+    {
+      "check": "Correct static route: projects/glass",
+      "pass": true
+    },
+    {
+      "check": "Static no-JavaScript content: shelf/death-stranding",
+      "pass": true
+    },
+    {
+      "check": "Correct static route: shelf/death-stranding",
+      "pass": true
+    },
+    {
+      "check": "Static no-JavaScript content: shelf/cyberpunk",
+      "pass": true
+    },
+    {
+      "check": "Correct static route: shelf/cyberpunk",
+      "pass": true
+    }
+  ]
+}

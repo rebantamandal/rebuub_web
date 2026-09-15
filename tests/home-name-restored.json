@@ -1,0 +1,157 @@
+{
+  "checks": 37,
+  "passed": true,
+  "method": "Chromium embedded HTML; system fonts; viewport, touch and reduced-motion emulation",
+  "original_style_comparison": true,
+  "results": [
+    {
+      "check": "Original unboxed name and link fit at 320px",
+      "pass": true
+    },
+    {
+      "check": "Glass navigation and controls retained at 320px",
+      "pass": true
+    },
+    {
+      "check": "Name and link styles match the original at 320px",
+      "pass": true
+    },
+    {
+      "check": "Original unboxed name and link fit at 390px",
+      "pass": true
+    },
+    {
+      "check": "Glass navigation and controls retained at 390px",
+      "pass": true
+    },
+    {
+      "check": "Name and link styles match the original at 390px",
+      "pass": true
+    },
+    {
+      "check": "Original unboxed name and link fit at 520px",
+      "pass": true
+    },
+    {
+      "check": "Glass navigation and controls retained at 520px",
+      "pass": true
+    },
+    {
+      "check": "Name and link styles match the original at 520px",
+      "pass": true
+    },
+    {
+      "check": "Original unboxed name and link fit at 760px",
+      "pass": true
+    },
+    {
+      "check": "Glass navigation and controls retained at 760px",
+      "pass": true
+    },
+    {
+      "check": "Name and link styles match the original at 760px",
+      "pass": true
+    },
+    {
+      "check": "Original unboxed name and link fit at 768px",
+      "pass": true
+    },
+    {
+      "check": "Glass navigation and controls retained at 768px",
+      "pass": true
+    },
+    {
+      "check": "Name and link styles match the original at 768px",
+      "pass": true
+    },
+    {
+      "check": "Original unboxed name and link fit at 1024px",
+      "pass": true
+    },
+    {
+      "check": "Glass navigation and controls retained at 1024px",
+      "pass": true
+    },
+    {
+      "check": "Name and link styles match the original at 1024px",
+      "pass": true
+    },
+    {
+      "check": "Original unboxed name and link fit at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Glass navigation and controls retained at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Name and link styles match the original at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Original unboxed name and link fit at 1920px",
+      "pass": true
+    },
+    {
+      "check": "Glass navigation and controls retained at 1920px",
+      "pass": true
+    },
+    {
+      "check": "Name and link styles match the original at 1920px",
+      "pass": true
+    },
+    {
+      "check": "Plain project link opens Projects",
+      "pass": true
+    },
+    {
+      "check": "Navigation opens journal",
+      "pass": true
+    },
+    {
+      "check": "Navigation opens shelf",
+      "pass": true
+    },
+    {
+      "check": "Navigation opens about",
+      "pass": true
+    },
+    {
+      "check": "Navigation opens home",
+      "pass": true
+    },
+    {
+      "check": "Search still opens",
+      "pass": true
+    },
+    {
+      "check": "Search dismisses with Escape",
+      "pass": true
+    },
+    {
+      "check": "Reduced motion remains paused",
+      "pass": true
+    },
+    {
+      "check": "Keyboard sphere interaction still works",
+      "pass": true
+    },
+    {
+      "check": "Sphere reset still works",
+      "pass": true
+    },
+    {
+      "check": "Plain project link works on touch",
+      "pass": true
+    },
+    {
+      "check": "Touch navigation returns Home",
+      "pass": true
+    },
+    {
+      "check": "No uncaught script errors",
+      "pass": true,
+      "details": []
+    }
+  ]
+}

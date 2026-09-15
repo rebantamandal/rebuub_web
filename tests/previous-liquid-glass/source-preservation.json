@@ -1,0 +1,52 @@
+[
+  {
+    "file": "styles.css",
+    "byte_identical": true,
+    "sha256": "8e5b3602258dd6b3eea186bdb5d7b7421d999bfd7d811c2b084d4f5637da8519"
+  },
+  {
+    "file": "site-config.js",
+    "byte_identical": true,
+    "sha256": "41f1ef4f06516bb3151812cfbfbdd01bff35ab190ae4f4b49af22069b7248e15"
+  },
+  {
+    "file": "app.js",
+    "byte_identical": true,
+    "sha256": "06ce24fe0d70f66a1ef8328e3dda8e769bd22e6295f08daf25fd472518613bbc"
+  },
+  {
+    "file": "scene.js",
+    "byte_identical": true,
+    "sha256": "72f3294b3f8825a5670a66aebb39afee1be01f155650fc045a251c46e6bae36f"
+  },
+  {
+    "file": "sculpture.js",
+    "byte_identical": true,
+    "sha256": "c47bd65a6df3e31c54c190d440caae0ae81dfa00495dc2b84205b124768c16e2"
+  },
+  {
+    "file": "spheres.js",
+    "byte_identical": true,
+    "sha256": "d2a69dcad216224a3f1e16a4465302b18e73fd7a28808cf2e8761f136139e482"
+  },
+  {
+    "file": "optics.js",
+    "byte_identical": true,
+    "sha256": "b68addadd5905e139dd5f2f7d7f899ff6dda8b399d81218414cf799c42a0831b"
+  },
+  {
+    "file": "interaction.js",
+    "byte_identical": true,
+    "sha256": "cdca614131c54487c4fdf5bc3ad864382fb6eead9d62914c3d4f09cb8d498e08"
+  },
+  {
+    "file": "atmosphere.js",
+    "byte_identical": true,
+    "sha256": "786e3242ee991736757eead508613ad9e50a5a6f99d73001a0f285d323e74fbc"
+  },
+  {
+    "file": "wordmark.js",
+    "byte_identical": true,
+    "sha256": "f4eade6999e3ce91d788a09c616ed41a841493e0120e99c6ccbbd70d672497e0"
+  }
+]

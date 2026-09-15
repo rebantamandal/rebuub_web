@@ -1,0 +1,238 @@
+{
+  "checks": 35,
+  "passed": true,
+  "method": "Chromium embedded preview; remote font blocked; viewport/touch/media emulation",
+  "results": [
+    {
+      "check": "Home navigation/search/motion style matches all sections at 320px",
+      "pass": true
+    },
+    {
+      "check": "Home glass, content, touch targets and active lens fit at 320px",
+      "pass": true,
+      "details": {
+        "noOverflow": true,
+        "dockContained": true,
+        "copyContained": true,
+        "targets": true,
+        "navContained": true,
+        "lensAligned": true,
+        "glass": true
+      }
+    },
+    {
+      "check": "Home navigation/search/motion style matches all sections at 360px",
+      "pass": true
+    },
+    {
+      "check": "Home glass, content, touch targets and active lens fit at 360px",
+      "pass": true,
+      "details": {
+        "noOverflow": true,
+        "dockContained": true,
+        "copyContained": true,
+        "targets": true,
+        "navContained": true,
+        "lensAligned": true,
+        "glass": true
+      }
+    },
+    {
+      "check": "Home navigation/search/motion style matches all sections at 390px",
+      "pass": true
+    },
+    {
+      "check": "Home glass, content, touch targets and active lens fit at 390px",
+      "pass": true,
+      "details": {
+        "noOverflow": true,
+        "dockContained": true,
+        "copyContained": true,
+        "targets": true,
+        "navContained": true,
+        "lensAligned": true,
+        "glass": true
+      }
+    },
+    {
+      "check": "Home navigation/search/motion style matches all sections at 520px",
+      "pass": true
+    },
+    {
+      "check": "Home glass, content, touch targets and active lens fit at 520px",
+      "pass": true,
+      "details": {
+        "noOverflow": true,
+        "dockContained": true,
+        "copyContained": true,
+        "targets": true,
+        "navContained": true,
+        "lensAligned": true,
+        "glass": true
+      }
+    },
+    {
+      "check": "Home navigation/search/motion style matches all sections at 600px",
+      "pass": true
+    },
+    {
+      "check": "Home glass, content, touch targets and active lens fit at 600px",
+      "pass": true,
+      "details": {
+        "noOverflow": true,
+        "dockContained": true,
+        "copyContained": true,
+        "targets": true,
+        "navContained": true,
+        "lensAligned": true,
+        "glass": true
+      }
+    },
+    {
+      "check": "Home navigation/search/motion style matches all sections at 760px",
+      "pass": true
+    },
+    {
+      "check": "Home glass, content, touch targets and active lens fit at 760px",
+      "pass": true,
+      "details": {
+        "noOverflow": true,
+        "dockContained": true,
+        "copyContained": true,
+        "targets": true,
+        "navContained": true,
+        "lensAligned": true,
+        "glass": true
+      }
+    },
+    {
+      "check": "Home navigation/search/motion style matches all sections at 768px",
+      "pass": true
+    },
+    {
+      "check": "Home glass, content, touch targets and active lens fit at 768px",
+      "pass": true,
+      "details": {
+        "noOverflow": true,
+        "dockContained": true,
+        "copyContained": true,
+        "targets": true,
+        "navContained": true,
+        "lensAligned": true,
+        "glass": true
+      }
+    },
+    {
+      "check": "Home navigation/search/motion style matches all sections at 1024px",
+      "pass": true
+    },
+    {
+      "check": "Home glass, content, touch targets and active lens fit at 1024px",
+      "pass": true,
+      "details": {
+        "noOverflow": true,
+        "dockContained": true,
+        "copyContained": true,
+        "targets": true,
+        "navContained": true,
+        "lensAligned": true,
+        "glass": true
+      }
+    },
+    {
+      "check": "Home navigation/search/motion style matches all sections at 1440px",
+      "pass": true
+    },
+    {
+      "check": "Home glass, content, touch targets and active lens fit at 1440px",
+      "pass": true,
+      "details": {
+        "noOverflow": true,
+        "dockContained": true,
+        "copyContained": true,
+        "targets": true,
+        "navContained": true,
+        "lensAligned": true,
+        "glass": true
+      }
+    },
+    {
+      "check": "Home navigation/search/motion style matches all sections at 1920px",
+      "pass": true
+    },
+    {
+      "check": "Home glass, content, touch targets and active lens fit at 1920px",
+      "pass": true,
+      "details": {
+        "noOverflow": true,
+        "dockContained": true,
+        "copyContained": true,
+        "targets": true,
+        "navContained": true,
+        "lensAligned": true,
+        "glass": true
+      }
+    },
+    {
+      "check": "Glass project button opens Projects",
+      "pass": true
+    },
+    {
+      "check": "Returning Home keeps the glass lens visible",
+      "pass": true
+    },
+    {
+      "check": "Original scene initializes with spheres",
+      "pass": true
+    },
+    {
+      "check": "Keyboard sphere interaction works through the new interface",
+      "pass": true
+    },
+    {
+      "check": "Sphere reset remains available",
+      "pass": true
+    },
+    {
+      "check": "Reduced-motion preference initializes all motion paused",
+      "pass": true
+    },
+    {
+      "check": "Home controls do not animate in reduced-motion mode",
+      "pass": true
+    },
+    {
+      "check": "Shared motion toggle can enable scene",
+      "pass": true
+    },
+    {
+      "check": "Home glass responds to the pointer",
+      "pass": true
+    },
+    {
+      "check": "Shared motion toggle pauses scene and updates its state",
+      "pass": true
+    },
+    {
+      "check": "Home glass stays readable in high contrast",
+      "pass": true
+    },
+    {
+      "check": "Reduced transparency makes Home glass solid",
+      "pass": true
+    },
+    {
+      "check": "No uncaught JavaScript errors",
+      "pass": true,
+      "details": []
+    },
+    {
+      "check": "Home glass CTA works with touch",
+      "pass": true
+    },
+    {
+      "check": "Touch navigation returns Home",
+      "pass": true
+    }
+  ]
+}

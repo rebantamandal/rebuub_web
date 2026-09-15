@@ -1,0 +1,17 @@
+{
+  "pass": true,
+  "widths": [
+    320,
+    360,
+    390,
+    520,
+    600,
+    768,
+    1024,
+    1280,
+    1920
+  ],
+  "non_home_routes": 9,
+  "route_width_checks": 81,
+  "issues": []
+}

@@ -1,0 +1,41 @@
+{
+  "protected_files_unchanged": [
+    "styles.css",
+    "app.js",
+    "interiors.js",
+    "content.js",
+    "site-config.js",
+    "scene.js",
+    "scene-assets.js",
+    "spheres.js",
+    "sculpture.js",
+    "optics.js",
+    "interaction.js",
+    "atmosphere.js",
+    "wordmark.js",
+    "assets/sphere-reference.png",
+    "assets/wordmark.svg",
+    "assets/glass-study.webp",
+    "assets/orbit.webp",
+    "assets/website-study.webp"
+  ],
+  "changed_files": [
+    "404.html",
+    "DESIGN-SYSTEM.md",
+    "README.md",
+    "index.html",
+    "interiors.css",
+    "pages/about.html",
+    "pages/journal.html",
+    "pages/projects/glass.html",
+    "pages/projects/website.html",
+    "pages/projects.html",
+    "pages/shelf/cyberpunk.html",
+    "pages/shelf/death-stranding.html",
+    "pages/shelf.html",
+    "tools/build_preview.py",
+    "tools/template.html",
+    "tools/test_home_glass.py"
+  ],
+  "html_changes": "Only the homepage metadata and project-link glass classes were removed from the template and generated pages."
+}

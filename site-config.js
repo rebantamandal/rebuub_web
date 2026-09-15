@@ -27,6 +27,15 @@ window.SITE = {
      robots.txt are built from it. Change it if the site is served elsewhere. */
   siteUrl: 'https://rebuub.vercel.app',
   spotifyUrl: '',
+  /* Images for projects, journal entries and shelf items. `image` is the cover
+     (card thumbnail and main figure); `images` adds more, shown as a gallery below
+     the entry that opens larger on click. Either field alone works. Put files in
+     assets/ and describe each one in `alt`:
+       image: 'assets/cover.webp', imageAlt: 'What the cover shows',
+       images: [
+         { src: 'assets/detail-1.webp', alt: 'What it shows', caption: 'Optional caption' },
+         'assets/detail-2.webp'
+       ] */
   projects: [
     {
       id: 'website', title: 'Personal website', category: 'Web / Personal',

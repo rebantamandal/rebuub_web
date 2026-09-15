@@ -153,7 +153,7 @@
     $('#shelf-filters').innerHTML = categories.map(c => `<button data-shelf-filter="${esc(c)}" aria-pressed="${shelfFilter === c}">${esc(c)}</button>`).join('');
     $('#shelf-count').textContent = items.length + ' ' + (items.length === 1 ? 'item' : 'items');
     $('#shelf-grid').innerHTML = items.length ? C.shelfCards(items, shelf, local) : '<div class="empty-state glass-surface"><h2>No items here.</h2></div>';
-    $('.art-note').hidden = !items.some(i => !i.image);
+    $('.art-note').hidden = !items.some(i => !C.images(i).length);
     $$('[data-shelf-filter]').forEach(b => b.addEventListener('click', () => {
       shelfFilter = b.dataset.shelfFilter; renderShelf(); $(`[data-shelf-filter="${CSS.escape(shelfFilter)}"]`)?.focus();
     }));
@@ -199,6 +199,37 @@
     const list = $$('.search-result'), i = list.indexOf(document.activeElement);
     if (e.key === 'ArrowDown') { e.preventDefault(); list[(i + 1) % list.length]?.focus(); }
     if (e.key === 'ArrowUp') { e.preventDefault(); if (i === 0) $('#site-search').focus(); else list[Math.max(0, i - 1)]?.focus(); }
+  });
+  // Image viewer for entry galleries: arrow keys or buttons step through, Esc or the backdrop closes.
+  const viewer = $('#image-viewer');
+  let viewerItems = [], viewerIndex = 0, viewerReturn = null;
+  function showImage(index) {
+    viewerIndex = (index + viewerItems.length) % viewerItems.length;
+    const button = viewerItems[viewerIndex], img = $('img', button), caption = $('figcaption', button.closest('figure'));
+    $('#viewer-image').src = img.currentSrc || img.src;
+    $('#viewer-image').alt = img.alt;
+    $('#viewer-caption').textContent = caption?.textContent || '';
+    $('#viewer-caption').hidden = !caption;
+    $('#viewer-count').textContent = `${viewerIndex + 1} / ${viewerItems.length}`;
+    $$('[data-viewer-step], #viewer-count').forEach(el => el.hidden = viewerItems.length < 2);
+  }
+  document.addEventListener('click', e => {
+    const button = e.target.closest('[data-gallery-index]');
+    if (!button) return;
+    viewerItems = $$('[data-gallery-index]', button.closest('.entry-gallery'));
+    viewerReturn = button;
+    showImage(viewerItems.indexOf(button));
+    viewer.showModal(); document.body.classList.add('modal-open');
+  });
+  $$('[data-viewer-step]').forEach(b => b.addEventListener('click', () => showImage(viewerIndex + Number(b.dataset.viewerStep))));
+  viewer.addEventListener('keydown', e => {
+    if (viewerItems.length < 2 || !['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+    e.preventDefault(); showImage(viewerIndex + (e.key === 'ArrowRight' ? 1 : -1));
+  });
+  viewer.addEventListener('click', e => { if (e.target === viewer || e.target.classList.contains('viewer-stage')) viewer.close(); });
+  viewer.addEventListener('close', () => {
+    document.body.classList.remove('modal-open');
+    if (!navigating && viewerReturn?.isConnected) viewerReturn.focus({ preventScroll: true });
   });
   document.addEventListener('keydown', e => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); if ($('#search-dialog').open) $('#search-dialog').close(); else openSearch(); }

@@ -17,6 +17,13 @@
     if (typeof window !== 'undefined' && window.REBUUB_ASSETS?.[value]) return window.REBUUB_ASSETS[value];
     return /^assets\/[a-zA-Z0-9._/-]+$/.test(value || '') && !value.includes('..') ? value : safeUrl(value, ['https:']);
   };
+  // Every image an item has, in order: the single `image` field first, then `images`.
+  const images = item => [
+    ...(item?.image ? [{ src: item.image, alt: item.imageAlt, caption: item.caption }] : []),
+    ...(Array.isArray(item?.images) ? item.images : [])
+  ].map(i => typeof i === 'string' ? { src: i } : i || {})
+    .map(i => ({ src: asset(i.src), alt: i.alt || '', caption: i.caption || '' }))
+    .filter(i => i.src);
   const href = (route, local = false) => local ? '#' + route : route === 'home' ? '/' : '/' + route;
   const itemRoute = (section, item) => `${section}/${encodeURIComponent(item.id)}`;
   function resolve(route, config) {
@@ -43,6 +50,11 @@
   function quotes(items) {
     return (items || []).filter(q => q.text && q.author).map(q => `<figure class="quote"><blockquote><p>${esc(q.text)}</p></blockquote><figcaption><span class="quote-author">${esc(q.author)}</span>${q.source ? `<cite>${esc(q.source)}</cite>` : ''}</figcaption></figure>`).join('');
   }
+  // Images after the first, shown below an entry and opened larger in the image viewer.
+  function gallery(list) {
+    if (!list.length) return '';
+    return `<section class="entry-gallery" aria-label="More images"><p class="gallery-label"><span>More images</span><span>${String(list.length).padStart(2, '0')}</span></p><div class="gallery-grid">${list.map((img, i) => `<figure class="gallery-item"><button class="gallery-open" type="button" data-gallery-index="${i}" aria-label="${esc('View larger: ' + (img.alt || img.caption || 'image ' + (i + 1)))}"><img src="${esc(img.src)}" alt="${esc(img.alt)}" loading="lazy" decoding="async"></button>${img.caption ? `<figcaption>${esc(img.caption)}</figcaption>` : ''}</figure>`).join('')}</div></section>`;
+  }
   function artHtml(art) {
     if (art === 'city') return '<div class="cover-art city"><i class="mist"></i><div class="skyline">' + [53,77,46,93,69,100,54,75,37,89,67,82].map(h => `<i style="height:${h}%"></i>`).join('') + '</div><i class="foreground"></i></div>';
     return '<div class="cover-art landscape"><i class="ridge"></i><i class="mist"></i><i class="ridge two"></i><i class="monolith"></i><i class="ridge three"></i></div>';
@@ -52,15 +64,15 @@
   }
   function projectCards(items, local = false) {
     return items.map((p, i) => {
-      const route = itemRoute('projects', p), number = String(i + 1).padStart(2, '0');
-      return `<article class="project-card" data-project="${esc(p.id)}"><a class="project-link glass-surface" href="${href(route, local)}" data-route="${esc(route)}"><div class="project-card-top"><span class="project-kicker">${esc(p.category)}</span><span class="card-index">${number}</span></div><div class="project-art">${p.id === 'website' ? '<div class="browser-edge" aria-hidden="true"><span><i></i><i></i><i></i></span><span>rebuub</span><span>+</span></div>' : ''}<img src="${esc(asset(p.image))}" alt="" loading="lazy" width="900" height="680"><i class="art-lens" aria-hidden="true"></i>${p.id === 'glass' ? '<i class="small-art-lens" aria-hidden="true"></i>' : ''}</div><div class="project-info"><div><h2>${esc(p.title)}</h2>${p.summary ? `<p>${esc(p.summary)}</p>` : ''}</div><span class="art-arrow">${icon('arrow')}</span></div></a></article>`;
+      const route = itemRoute('projects', p), number = String(i + 1).padStart(2, '0'), cover = images(p)[0];
+      return `<article class="project-card" data-project="${esc(p.id)}"><a class="project-link glass-surface" href="${href(route, local)}" data-route="${esc(route)}"><div class="project-card-top"><span class="project-kicker">${esc(p.category)}</span><span class="card-index">${number}</span></div><div class="project-art">${p.id === 'website' ? '<div class="browser-edge" aria-hidden="true"><span><i></i><i></i><i></i></span><span>rebuub</span><span>+</span></div>' : ''}${cover ? `<img src="${esc(cover.src)}" alt="" loading="lazy" width="900" height="680">` : ''}<i class="art-lens" aria-hidden="true"></i>${p.id === 'glass' ? '<i class="small-art-lens" aria-hidden="true"></i>' : ''}</div><div class="project-info"><div><h2>${esc(p.title)}</h2>${p.summary ? `<p>${esc(p.summary)}</p>` : ''}</div><span class="art-arrow">${icon('arrow')}</span></div></a></article>`;
     }).join('');
   }
   function shelfCards(items, allItems, local = false) {
     return items.map(item => {
-      const route = itemRoute('shelf', item), number = String(allItems.indexOf(item) + 1).padStart(2, '0');
-      const wordArt = item.image ? '' : `<div class="world-type" aria-hidden="true">${esc(item.title)}</div>`;
-      return `<article class="shelf-item" data-world="${esc(item.art || item.id)}"><a class="shelf-link glass-surface" href="${href(route, local)}" data-route="${esc(route)}"><div class="cover" aria-hidden="true">${item.image ? `<img src="${esc(asset(item.image))}" alt="" loading="lazy">` : artHtml(item.art)}${wordArt}<span class="cover-number">${number}</span><span class="cover-category">${esc(item.category)}</span></div><div class="shelf-caption"><div><span class="shelf-card-label">${esc(item.category)}</span><h2>${esc(item.title)}</h2>${item.note ? `<p class="shelf-note">${esc(item.note)}</p>` : ''}</div><span class="art-arrow">${icon('arrow')}</span></div></a><div class="shelf-plinth" aria-hidden="true"></div></article>`;
+      const route = itemRoute('shelf', item), number = String(allItems.indexOf(item) + 1).padStart(2, '0'), cover = images(item)[0];
+      const wordArt = cover ? '' : `<div class="world-type" aria-hidden="true">${esc(item.title)}</div>`;
+      return `<article class="shelf-item" data-world="${esc(item.art || item.id)}"><a class="shelf-link glass-surface" href="${href(route, local)}" data-route="${esc(route)}"><div class="cover" aria-hidden="true">${cover ? `<img src="${esc(cover.src)}" alt="" loading="lazy">` : artHtml(item.art)}${wordArt}<span class="cover-number">${number}</span><span class="cover-category">${esc(item.category)}</span></div><div class="shelf-caption"><div><span class="shelf-card-label">${esc(item.category)}</span><h2>${esc(item.title)}</h2>${item.note ? `<p class="shelf-note">${esc(item.note)}</p>` : ''}</div><span class="art-arrow">${icon('arrow')}</span></div></a><div class="shelf-plinth" aria-hidden="true"></div></article>`;
     }).join('');
   }
   function dateLabel(value) {
@@ -88,15 +100,16 @@
     const number = String(index + 1).padStart(2, '0');
     const crumb = `<nav class="entry-breadcrumb" aria-label="Breadcrumb"><a href="${href(section, local)}" data-route="${section}" data-return="true">${icon('back')}${labels[section]}</a><span class="breadcrumb-index">${section === 'projects' ? 'PROJECT' : section === 'shelf' ? 'COLLECTION' : 'ENTRY'} / ${number}</span></nav>`;
     const title = `<h1 id="entry-title" tabindex="-1">${esc(item.title)}</h1>`;
+    const [lead, ...more] = images(item);
     if (section === 'shelf') {
-      return `${crumb}<article class="shelf-detail" data-world="${esc(item.art || item.id)}"><figure class="shelf-figure">${item.image ? `<img src="${esc(asset(item.image))}" alt="${esc(item.imageAlt || '')}">` : `<div class="detail-cover" role="img" aria-label="Original ${item.art === 'city' ? 'cityscape' : 'landscape'} cover study">${artHtml(item.art)}</div><figcaption>Original cover study</figcaption>`}<span class="detail-world-number" aria-hidden="true">${number}</span></figure><div class="shelf-reading glass-surface"><div class="entry-category"><i aria-hidden="true"></i>${esc(item.category || '')}</div>${title}<div class="reading-copy">${prose(item, item.note)}</div></div></article>`;
+      return `${crumb}<article class="shelf-detail" data-world="${esc(item.art || item.id)}"><figure class="shelf-figure">${lead ? `<img src="${esc(lead.src)}" alt="${esc(lead.alt)}">` : `<div class="detail-cover" role="img" aria-label="Original ${item.art === 'city' ? 'cityscape' : 'landscape'} cover study">${artHtml(item.art)}</div><figcaption>Original cover study</figcaption>`}<span class="detail-world-number" aria-hidden="true">${number}</span></figure><div class="shelf-reading glass-surface"><div class="entry-category"><i aria-hidden="true"></i>${esc(item.category || '')}</div>${title}<div class="reading-copy">${prose(item, item.note)}</div></div></article>${gallery(more)}`;
     }
     if (section === 'journal') {
       const date = dateLabel(item.date), mins = readingTime(item);
-      return `${crumb}<article class="journal-detail glass-surface"><div class="reading-progress" aria-hidden="true"><i></i></div><header class="reading-header"><div class="entry-meta">${date ? `<time datetime="${esc(item.date)}">${date}</time><span aria-hidden="true">/</span>` : ''}<span>${mins} min read</span></div>${title}${item.tags?.length ? `<div class="entry-tags">${item.tags.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}</header>${item.image ? `<figure class="journal-figure"><img src="${esc(asset(item.image))}" alt="${esc(item.imageAlt || '')}">${item.caption ? `<figcaption>${esc(item.caption)}</figcaption>` : ''}</figure>` : ''}<div class="reading-copy">${prose(item)}</div><div class="article-signoff" aria-hidden="true">r.</div></article>`;
+      return `${crumb}<article class="journal-detail glass-surface"><div class="reading-progress" aria-hidden="true"><i></i></div><header class="reading-header"><div class="entry-meta">${date ? `<time datetime="${esc(item.date)}">${date}</time><span aria-hidden="true">/</span>` : ''}<span>${mins} min read</span></div>${title}${item.tags?.length ? `<div class="entry-tags">${item.tags.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}</header>${lead ? `<figure class="journal-figure"><img src="${esc(lead.src)}" alt="${esc(lead.alt)}">${lead.caption ? `<figcaption>${esc(lead.caption)}</figcaption>` : ''}</figure>` : ''}<div class="reading-copy">${prose(item)}</div>${gallery(more)}<div class="article-signoff" aria-hidden="true">r.</div></article>`;
     }
     const facts = (item.facts || []).filter(f => f.label && f.value);
-    return `${crumb}<article class="project-detail" data-project="${esc(item.id)}"><div class="project-detail-hero"><header class="project-detail-heading"><div class="entry-category">${esc(item.category || '')}</div>${title}${item.summary ? `<p class="detail-summary">${esc(item.summary)}</p>` : ''}<div class="detail-heading-line" aria-hidden="true"><i></i><span>${number}</span></div></header>${item.image ? `<figure class="project-figure glass-surface">${item.id === 'website' ? '<div class="browser-edge" aria-hidden="true"><span><i></i><i></i><i></i></span><span>rebuub</span><span>+</span></div>' : ''}<img src="${esc(asset(item.image))}" alt="${esc(item.imageAlt || '')}" width="900" height="680"><i class="figure-lens" aria-hidden="true"></i>${item.caption ? `<figcaption>${esc(item.caption)}</figcaption>` : ''}</figure>` : ''}</div><div class="project-reading">${facts.length ? `<aside class="project-facts glass-surface" aria-label="Project information"><p class="facts-label">At a glance</p><dl>${facts.map(f => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`).join('')}</dl></aside>` : ''}<div class="reading-copy"><p class="reading-label">About the project</p>${prose(item)}${safeUrl(item.url, ['https:', 'http:']) ? `<p><a class="external-link glass-button" href="${esc(safeUrl(item.url, ['https:', 'http:']))}" target="_blank" rel="noopener noreferrer">Visit project ${icon('arrow')}</a></p>` : ''}</div></div></article>`;
+    return `${crumb}<article class="project-detail" data-project="${esc(item.id)}"><div class="project-detail-hero"><header class="project-detail-heading"><div class="entry-category">${esc(item.category || '')}</div>${title}${item.summary ? `<p class="detail-summary">${esc(item.summary)}</p>` : ''}<div class="detail-heading-line" aria-hidden="true"><i></i><span>${number}</span></div></header>${lead ? `<figure class="project-figure glass-surface">${item.id === 'website' ? '<div class="browser-edge" aria-hidden="true"><span><i></i><i></i><i></i></span><span>rebuub</span><span>+</span></div>' : ''}<img src="${esc(lead.src)}" alt="${esc(lead.alt)}" width="900" height="680"><i class="figure-lens" aria-hidden="true"></i>${lead.caption ? `<figcaption>${esc(lead.caption)}</figcaption>` : ''}</figure>` : ''}</div><div class="project-reading">${facts.length ? `<aside class="project-facts glass-surface" aria-label="Project information"><p class="facts-label">At a glance</p><dl>${facts.map(f => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`).join('')}</dl></aside>` : ''}<div class="reading-copy"><p class="reading-label">About the project</p>${prose(item)}${safeUrl(item.url, ['https:', 'http:']) ? `<p><a class="external-link glass-button" href="${esc(safeUrl(item.url, ['https:', 'http:']))}" target="_blank" rel="noopener noreferrer">Visit project ${icon('arrow')}</a></p>` : ''}</div></div>${gallery(more)}</article>`;
   }
-  return { esc, icon, labels, aliases, paragraphs, safeUrl, asset, href, itemRoute, resolve, socialLinks, quotes, artHtml, projectCards, shelfCards, journalRows, emptyJournal, entry, dateLabel, readingTime };
+  return { esc, icon, labels, aliases, paragraphs, safeUrl, asset, href, itemRoute, resolve, images, gallery, socialLinks, quotes, artHtml, projectCards, shelfCards, journalRows, emptyJournal, entry, dateLabel, readingTime };
 });

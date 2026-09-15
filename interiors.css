@@ -960,3 +960,61 @@ html { scrollbar-color: #2a3d47 #05080b; }
   .about-quotes { margin-top: 40px; }
   .quote-list { gap: 26px; }
 }
+
+/* Projects: two equal, aligned cards. The offset read as misalignment rather than rhythm. */
+.inner .projects-grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items: stretch; }
+.inner .project-card:nth-child(even) { margin-top: 0; }
+.inner .project-link { display: flex; flex-direction: column; }
+.inner .project-art, .project-card[data-project="glass"] .project-art { aspect-ratio: 1.3; }
+.inner .project-info { margin-top: auto; }
+@media (max-width: 760px) {
+  .inner .project-art, .project-card[data-project="glass"] .project-art { aspect-ratio: 1.05; }
+}
+@media (max-width: 600px) {
+  .inner .projects-grid { grid-template-columns: minmax(0,1fr); }
+  .inner .project-art, .project-card[data-project="glass"] .project-art { aspect-ratio: 1.3; }
+}
+
+/* Entry galleries: images after the first, below the entry. */
+.entry-gallery { margin-top: var(--section-gap); }
+.inner .gallery-label { display: flex; justify-content: space-between; gap: 16px; margin: 0 0 20px; padding-top: 22px; border-top: 1px solid var(--ui-line); font: 400 var(--type-label)/1.6 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--text-meta); }
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: var(--layout-gap); }
+.gallery-item { margin: 0; min-width: 0; }
+.gallery-open { display: block; width: 100%; aspect-ratio: 4 / 3; padding: 0; overflow: hidden; cursor: zoom-in; border: 1px solid var(--glass-edge); border-radius: var(--radius-card); background: #081119; box-shadow: var(--glass-shadow); }
+.gallery-open img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease-ui), filter .4s; filter: saturate(.9); }
+@media (hover: hover) and (pointer: fine) { .gallery-open:hover img { transform: scale(1.035); filter: none; } }
+.inner .gallery-item figcaption { margin-top: 10px; padding-inline: 4px; }
+.journal-detail .entry-gallery { margin-top: 40px; }
+.journal-detail .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 16px; }
+
+/* Image viewer. */
+.image-viewer { width: 100vw; height: 100svh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; color: var(--ink); overflow: hidden; }
+.image-viewer[open] { display: flex; flex-direction: column; }
+.image-viewer::backdrop { background: #02060bf2; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.viewer-stage { flex: 1; min-height: 0; display: grid; place-items: center; padding: clamp(16px, 4vw, 48px) clamp(16px, 4vw, 48px) 12px; }
+.viewer-figure { margin: 0; display: grid; justify-items: center; gap: 14px; max-width: 100%; max-height: 100%; min-height: 0; }
+.viewer-figure img { display: block; max-width: 100%; max-height: calc(100svh - 150px); width: auto; height: auto; object-fit: contain; border-radius: var(--radius-inset); box-shadow: 0 30px 90px #000c; }
+.viewer-figure figcaption { max-width: 60ch; text-align: center; font: var(--type-meta)/1.6 var(--mono); color: var(--text-meta); }
+.viewer-controls { align-self: center; display: flex; align-items: center; gap: 4px; margin: 0 16px calc(20px + env(safe-area-inset-bottom, 0px)); padding: 4px; border: 1px solid var(--glass-edge); border-radius: var(--radius-pill); background: var(--glass-fill), var(--glass-solid); box-shadow: var(--glass-shadow); }
+.viewer-count { min-width: 56px; text-align: center; font: var(--type-meta) var(--mono); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+.image-viewer .icon-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+@media (forced-colors: active) { .gallery-open, .viewer-controls { border-color: CanvasText; } }
+
+/* Cyberpunk cover: a lit night skyline — window grids, neon edges, horizon haze and fine rain. */
+.inner .city { background: radial-gradient(ellipse 85% 38% at 55% 80%, #ff4fa640, transparent 70%), radial-gradient(ellipse 60% 45% at 72% 28%, #6d5cff2e, transparent 60%), linear-gradient(#0b0a1c, #211a3d 42%, #3b2452 72%, #10172b); }
+.inner .city .skyline { gap: 1.6%; transform: skewY(-3deg); }
+.inner .city .skyline i, .inner .city .skyline i:nth-child(3n), .inner .city .skyline i:nth-child(4n) {
+  width: 7%; border: 0; border-top: 1px solid #e8ecff38;
+  background: repeating-linear-gradient(0deg, transparent 0 8px, #0b0f1e 8px 11px), repeating-linear-gradient(90deg, #9fdcff2e 0 3px, transparent 3px 7px), linear-gradient(90deg, #0f1728, #1a2740 68%, #2c3b57);
+  box-shadow: 6px 0 16px #04081380;
+}
+.inner .city .skyline i:nth-child(3n+1) { width: 8.5%; }
+.inner .city .skyline i:nth-child(4n+2) { width: 5%; }
+.inner .city .skyline i:nth-child(3n) { background: repeating-linear-gradient(0deg, transparent 0 9px, #0d0c1f 9px 12px), repeating-linear-gradient(90deg, #ff9fd83a 0 3px, transparent 3px 8px), linear-gradient(90deg, #171530, #28234a 70%, #3d3464); }
+.inner .city .skyline i:nth-child(5n) { background: repeating-linear-gradient(0deg, transparent 0 7px, #0e1020 7px 10px), repeating-linear-gradient(90deg, #ffd68a30 0 2px, transparent 2px 6px), linear-gradient(90deg, #15182b, #232a42 70%, #36405a); }
+.inner .city .skyline i:nth-child(4) { box-shadow: inset 2px 0 0 #ff6cc4, -8px 0 22px #ff4fa670, 6px 0 16px #04081380; }
+.inner .city .skyline i:nth-child(10) { box-shadow: inset -2px 0 0 #6ef3e6, 8px 0 22px #3fe0d466; }
+.inner .city .mist { inset: 40% -5% 8%; background: radial-gradient(ellipse at 50% 70%, #ff7cc233, transparent 62%); }
+.inner .city .foreground { inset: 68% 0 0; background: linear-gradient(transparent, #080b1af2 80%); }
+.inner .city::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: repeating-linear-gradient(104deg, transparent 0 26px, #dfe8ff14 26px 27px); -webkit-mask-image: linear-gradient(transparent, #000 25%, #000 75%, transparent); mask-image: linear-gradient(transparent, #000 25%, #000 75%, transparent); }
+.shelf-item[data-world="city"] .world-type { color: #f3eaffd9; text-shadow: 0 0 2px #ffe3f6b0, 0 0 18px #ff5fb87a, 0 0 42px #8a6bff55; }

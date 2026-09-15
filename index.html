@@ -39,6 +39,7 @@
   <svg class="symbols" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
     <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></symbol>
     <symbol id="back" viewBox="0 0 24 24"><path d="M20 12H4m7-7-7 7 7 7"/></symbol>
+    <symbol id="next" viewBox="0 0 24 24"><path d="M4 12h16m-7-7 7 7-7 7"/></symbol>
     <symbol id="close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
     <symbol id="search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></symbol>
     <symbol id="play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7z"/></symbol>
@@ -115,6 +116,7 @@
   </main>
   <footer class="footer"><p>&copy; <span id="year">2026</span> <span class="footer-handle">rebuub</span></p><button class="motion-toggle" id="motion-toggle" aria-pressed="false"><span>Reduce motion</span></button></footer>
   <dialog id="search-dialog" class="search-dialog" aria-labelledby="search-title"><h2 class="sr-only" id="search-title">Search this site</h2><div class="search-dialog-bar"><svg class="icon" aria-hidden="true"><use href="#search"/></svg><input id="site-search" type="search" placeholder="Search the site" aria-label="Search pages and entries" autocomplete="off"><button class="icon-button" data-close="search-dialog" aria-label="Close search"><svg class="icon" aria-hidden="true"><use href="#close"/></svg></button></div><p id="search-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p><div id="search-results"></div><p class="search-footer"><span><kbd>Ctrl / Cmd + K</kbd> Search</span><span><kbd>Esc</kbd> Close</span></p></dialog>
+  <dialog id="image-viewer" class="image-viewer" aria-label="Image viewer"><div class="viewer-stage"><figure class="viewer-figure"><img id="viewer-image" src="data:," alt=""><figcaption id="viewer-caption" hidden></figcaption></figure></div><div class="viewer-controls"><button class="icon-button" type="button" data-viewer-step="-1" aria-label="Previous image"><svg class="icon" aria-hidden="true"><use href="#back"/></svg></button><span id="viewer-count" class="viewer-count" aria-live="polite"></span><button class="icon-button" type="button" data-viewer-step="1" aria-label="Next image"><svg class="icon" aria-hidden="true"><use href="#next"/></svg></button><button class="icon-button" type="button" data-close="image-viewer" aria-label="Close image viewer"><svg class="icon" aria-hidden="true"><use href="#close"/></svg></button></div></dialog>
   <p id="route-status" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
   <noscript><style>.home .scene-target::after{content:"rebuub";position:absolute;inset:0;display:grid;place-items:center;font-size:22vw;font-weight:700;letter-spacing:-.055em}.sculpture-interaction,.motion-toggle,.header-tools,.journal-toolbar,.filter-row{display:none}</style></noscript>
   <script src="site-config.js"></script>

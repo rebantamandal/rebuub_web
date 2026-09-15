@@ -49,6 +49,14 @@ permanent URL. After editing, rebuild the static pages:
 node tools/build_site.js
 ```
 
+Projects are written as case studies (year, status, stack, links and headed
+sections). The shelf is organised by `shelfTypes` (Games, Books, Music…), and each
+type with items gets its own tab at `/shelf/<type>`. The comments in
+`site-config.js` show every supported field. The build checks the content and
+stops on problems such as a missing image file, an unknown shelf type or an
+invalid status. It warns about gaps such as missing alt text or a project
+without a summary.
+
 The build regenerates `index.html`, `404.html`, everything in `pages/`,
 `vercel.json`, `sitemap.xml` and `robots.txt`. **Don't edit those files by
 hand.** Change [`tools/template.html`](tools/template.html) or the config and

@@ -21,6 +21,10 @@
       "destination": "/pages/about.html"
     },
     {
+      "source": "/shelf/games",
+      "destination": "/pages/shelf/games.html"
+    },
+    {
       "source": "/projects/website",
       "destination": "/pages/projects/website.html"
     },

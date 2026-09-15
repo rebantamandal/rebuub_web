@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" data-page="journal" data-current-view="journal" data-interior-kind="journal">
+<html lang="en" data-page="shelf" data-current-view="shelf" data-interior-kind="shelf">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Projects, journal and selected games by rebuub.">
+  <meta name="description" content="Games on Rebanta Mandal&#39;s shelf.">
   <meta name="theme-color" content="#030406">
-  <meta property="og:title" content="Journal / rebuub">
-  <meta property="og:description" content="Projects, journal and selected games by rebuub.">
+  <meta property="og:title" content="Games on the shelf / rebuub">
+  <meta property="og:description" content="Games on Rebanta Mandal&#39;s shelf.">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="rebuub">
   <meta property="og:image" content="https://rebuub.vercel.app/assets/og-image.png">
@@ -14,10 +14,10 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="The rebuub wordmark with two metallic spheres on a dark background.">
   <meta name="twitter:card" content="summary_large_image">
-  <title>Journal / rebuub</title>
+  <title>Games on the shelf / rebuub</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307141f'/%3E%3Ctext x='17' y='47' font-family='Arial' font-weight='700' font-size='48' fill='%2392efe0'%3Er%3C/text%3E%3C/svg%3E">
   <base href="/">
-  <script>window.REBUUB_INITIAL_ROUTE="journal";if(location.protocol==='file:'&&!window.REBUUB_PREVIEW){var lb=document.createElement('base');lb.href='../';document.head.appendChild(lb);}</script>
+  <script>window.REBUUB_INITIAL_ROUTE="shelf/games";if(location.protocol==='file:'&&!window.REBUUB_PREVIEW){var lb=document.createElement('base');lb.href='../../';document.head.appendChild(lb);}</script>
   <script>
     window.REBUUB_LOCAL=window.REBUUB_PREVIEW||location.protocol==='file:';
     // A static base lets the browser fetch styles and scripts from the right place on nested
@@ -29,8 +29,8 @@
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css" media="print" onload="this.media='all'">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="interiors.css">
-<link rel="canonical" href="https://rebuub.vercel.app/journal">
-<meta property="og:url" content="https://rebuub.vercel.app/journal">
+<link rel="canonical" href="https://rebuub.vercel.app/shelf/games">
+<meta property="og:url" content="https://rebuub.vercel.app/shelf/games">
 </head>
 <body>
   <canvas id="site-atmosphere" class="site-atmosphere" aria-hidden="true"></canvas>
@@ -53,8 +53,8 @@
     <nav class="navigation" aria-label="Main navigation">
       <a href="/" data-route="home">Home</a>
       <a href="/projects" data-route="projects">Projects</a>
-      <a href="/journal" data-route="journal" aria-current="page">Journal</a>
-      <a href="/shelf" data-route="shelf">The shelf</a>
+      <a href="/journal" data-route="journal">Journal</a>
+      <a href="/shelf" data-route="shelf" aria-current="page">The shelf</a>
       <a href="/about" data-route="about">About</a>
     </nav>
     <div class="header-tools"><button id="search-toggle" class="icon-button" aria-haspopup="dialog" aria-controls="search-dialog" aria-expanded="false" aria-label="Search this site (Control or Command K)"><svg class="icon" aria-hidden="true"><use href="#search"/></svg></button></div>
@@ -84,7 +84,7 @@
 
     </section>
 
-    <section data-view="journal" class="inner journal-page" aria-labelledby="journal-title">
+    <section data-view="journal" class="inner journal-page" aria-labelledby="journal-title" hidden>
       <div class="journal-layout">
         <div class="journal-intro"><div class="page-heading"><div class="heading-copy"><p class="page-index">02 <span>/</span> Field notes</p><h1 id="journal-title">Journal</h1><p class="page-intro">Thoughts, observations.<br>A little room to think.</p></div></div><div class="journal-tally"><span class="tally-dot" aria-hidden="true"></span><span id="journal-count" class="small-label" aria-live="polite">0 entries</span></div><div class="journal-rule" aria-hidden="true"><i></i><i></i><i></i></div></div>
         <div class="journal-feed"><div class="journal-toolbar glass-surface"><label class="search-field"><svg class="icon" aria-hidden="true"><use href="#search"/></svg><span class="sr-only">Search journal entries</span><input id="journal-search" type="search" placeholder="Find a thought&#8230;" autocomplete="off"></label><span class="search-hint" aria-hidden="true">JOURNAL</span></div><div id="journal-filters" class="filter-row" role="group" aria-label="Filter journal entries"></div><div id="journal-list" class="journal-list" aria-live="polite"><div class="empty-state journal-empty glass-surface"><div class="paper-registration" aria-hidden="true"><span>UNWRITTEN</span><span>00</span></div><div class="empty-mark" aria-hidden="true"><i></i><i></i><i><b></b></i><span class="paper-glint"></span></div><div class="empty-copy"><h2>No entries yet.</h2><p>The next thought starts here.</p></div><div class="paper-bottom" aria-hidden="true"><span>rebuub / journal</span><span>+</span></div></div></div></div>
@@ -92,9 +92,9 @@
 
     </section>
 
-    <section data-view="shelf" class="inner shelf-page" aria-labelledby="shelf-title" hidden>
+    <section data-view="shelf" class="inner shelf-page" aria-labelledby="shelf-title">
       <div class="page-heading collection-heading"><div class="heading-copy"><p class="page-index">03 <span>/</span> Personal collection</p><h1 id="shelf-title">The shelf</h1><p class="page-intro">A few worlds worth staying in.</p></div><div class="heading-object shelf-object" aria-hidden="true"><i></i><i></i><i></i></div></div>
-      <div class="shelf-toolbar"><nav id="shelf-tabs-nav" class="shelf-tabs-nav" aria-label="Shelf sections"><div id="shelf-tabs" class="filter-row shelf-tabs"><a href="/shelf" data-route="shelf" aria-current="page">All<span class="tab-count">2</span></a><a href="/shelf/games" data-route="shelf/games">Games<span class="tab-count">2</span></a></div></nav><span id="shelf-count" class="small-label" aria-live="polite">2 items</span></div>
+      <div class="shelf-toolbar"><nav id="shelf-tabs-nav" class="shelf-tabs-nav" aria-label="Shelf sections"><div id="shelf-tabs" class="filter-row shelf-tabs"><a href="/shelf" data-route="shelf">All<span class="tab-count">2</span></a><a href="/shelf/games" data-route="shelf/games" aria-current="page">Games<span class="tab-count">2</span></a></div></nav><span id="shelf-count" class="small-label" aria-live="polite">2 items</span></div>
       <div id="shelf-status" class="status-row" role="group" aria-label="Filter by status" hidden></div>
       <div id="shelf-grid" class="shelf-grid"><article class="shelf-item" data-type="games" style="--accent:#d9a74a"><a class="shelf-link" href="/shelf/death-stranding" data-route="shelf/death-stranding"><div class="poster" style="--ratio:2 / 3"><img src="assets/shelf/death-stranding.webp" alt="" loading="lazy" decoding="async"></div><div class="shelf-card-text"><h2>Death Stranding</h2><p class="shelf-meta">Kojima Productions · 2019</p><p class="shelf-note">The quiet between deliveries. Weather, terrain, and the distant outline of somewhere to reach.</p></div></a></article><article class="shelf-item" data-type="games" style="--accent:#f0e14a"><a class="shelf-link" href="/shelf/cyberpunk" data-route="shelf/cyberpunk"><div class="poster" style="--ratio:2 / 3"><img src="assets/shelf/cyberpunk.webp" alt="" loading="lazy" decoding="async"></div><div class="shelf-card-text"><h2>Cyberpunk 2077</h2><p class="shelf-meta">CD Projekt Red · 2020</p><p class="shelf-note">Night City after the main objective is over. Side streets, small scenes, and another reason to stay out.</p></div></a></article></div>
       <p class="art-note">Original cover studies, not official game artwork.</p>

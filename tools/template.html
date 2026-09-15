@@ -91,7 +91,8 @@
 
     <section data-view="shelf" class="inner shelf-page" aria-labelledby="shelf-title" hidden>
       <div class="page-heading collection-heading"><div class="heading-copy"><p class="page-index">03 <span>/</span> Personal collection</p><h1 id="shelf-title">The shelf</h1><p class="page-intro">A few worlds worth staying in.</p></div><div class="heading-object shelf-object" aria-hidden="true"><i></i><i></i><i></i></div></div>
-      <div class="shelf-toolbar"><div id="shelf-filters" class="filter-row" role="group" aria-label="Filter the shelf"></div><span id="shelf-count" class="small-label" aria-live="polite"></span></div>
+      <div class="shelf-toolbar"><nav id="shelf-tabs-nav" class="shelf-tabs-nav" aria-label="Shelf sections"><div id="shelf-tabs" class="filter-row shelf-tabs"></div></nav><span id="shelf-count" class="small-label" aria-live="polite"></span></div>
+      <div id="shelf-status" class="status-row" role="group" aria-label="Filter by status" hidden></div>
       <div id="shelf-grid" class="shelf-grid"></div>
       <p class="art-note">Original cover studies, not official game artwork.</p>
       <section id="music-section" class="music-section glass-surface" aria-labelledby="music-title" hidden><div><p class="page-index">On rotation</p><h2 id="music-title">Music</h2></div><div id="spotify-player"><button id="load-spotify" class="outlined-button">Load Spotify player <svg class="icon" aria-hidden="true"><use href="#play"/></svg></button><p class="privacy-note">Loads content from Spotify only after you click.</p></div></section>

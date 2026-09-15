@@ -46,9 +46,8 @@
     });
   }
   function metadata(info) {
-    const title = info.item?.title || (info.view === 'not-found' ? 'Page not found' : C.labels[info.section]);
-    document.title = info.view === 'home' ? 'rebuub' : title + ' / rebuub';
-    const description = info.item?.summary || info.item?.note || C.paragraphs(info.item?.body)[0] || baseDescription;
+    document.title = C.pageTitle(info);
+    const description = C.pageDescription(info, baseDescription);
     $('meta[name="description"]').content = description;
     $('meta[property="og:title"]').content = document.title;
     $('meta[property="og:description"]').content = description;
@@ -72,9 +71,16 @@
     html.dataset.page = next.section || 'not-found';
     html.dataset.currentView = next.view;
     $$('[data-view]').forEach(el => el.hidden = el.dataset.view !== next.view);
+    // Switching shelf tabs keeps the reader's place instead of jumping to the top.
+    const sameShelf = previous?.view === 'shelf' && next.view === 'shelf';
     if (next.view === 'entry') {
       $('#entry-content').innerHTML = C.entry(next, config, local);
       $('#entry-content').dataset.route = next.route;
+    }
+    if (next.view === 'shelf') {
+      if (previous?.route !== next.route) shelfStatus = 'All';
+      shelfTab = next.tab?.id || '';
+      renderShelf();
     }
     $$('.navigation a').forEach(a => a.dataset.route === next.section ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
     metadata(next);
@@ -86,12 +92,12 @@
       }, error => console.error(error));
     }
     else scene?.setActive(false);
-    const top = restore ? scrollMemory.get(next.route) || 0 : 0;
+    const top = sameShelf ? scrollY : restore ? scrollMemory.get(next.route) || 0 : 0;
     window.scrollTo({ top, behavior: 'instant' });
     if (focus) {
       $('#route-status').textContent = document.title;
       const returning = restore && previous?.view === 'entry' && next.view !== 'entry';
-      const target = returning ? $(`a[data-route="${CSS.escape(previous.route)}"]`, $('#main')) : next.view === 'entry' ? $('#entry-title') : $('#main');
+      const target = sameShelf ? $(`#shelf-tabs a[data-route="${CSS.escape(next.route)}"]`) : returning ? $(`a[data-route="${CSS.escape(previous.route)}"]`, $('#main')) : next.view === 'entry' ? $('#entry-title') : $('#main');
       (target || $('#main')).focus({ preventScroll: true });
     }
     navigating = false;
@@ -146,16 +152,25 @@
   });
   $('#project-count').textContent = projects.length + ' ' + (projects.length === 1 ? 'project' : 'projects');
   $('#projects-grid').innerHTML = projects.length ? C.projectCards(projects, local) : '<div class="empty-state glass-surface"><h2>No projects published.</h2></div>';
-  let shelfFilter = 'All';
+  // Shelf: type tabs are links (/shelf/games); the status filter is a local toggle within a tab.
+  let shelfTab = '', shelfStatus = 'All';
   function renderShelf() {
-    const categories = ['All', ...new Set(shelf.map(s => s.category).filter(Boolean))];
-    const items = shelf.filter(s => shelfFilter === 'All' || s.category === shelfFilter);
-    $('#shelf-filters').innerHTML = categories.map(c => `<button data-shelf-filter="${esc(c)}" aria-pressed="${shelfFilter === c}">${esc(c)}</button>`).join('');
+    const inTab = shelf.filter(s => !shelfTab || C.shelfType(s, config).id === shelfTab);
+    const statuses = [...new Set(inTab.map(s => s.status).filter(Boolean))];
+    if (!statuses.includes(shelfStatus)) shelfStatus = 'All';
+    const items = inTab.filter(s => shelfStatus === 'All' || s.status === shelfStatus);
+    const counts = { all: shelf.length };
+    shelf.forEach(s => { const id = C.shelfType(s, config).id; counts[id] = (counts[id] || 0) + 1; });
+    $('#shelf-tabs').innerHTML = C.shelfTabLinks(config, shelfTab, counts, local);
+    $('#shelf-tabs-nav').hidden = !C.shelfTabs(config).length;
+    const useful = statuses.length > 1 || (statuses.length === 1 && inTab.some(s => !s.status));
+    $('#shelf-status').hidden = !useful;
+    $('#shelf-status').innerHTML = useful ? ['All', ...statuses].map(s => `<button type="button" data-shelf-status="${esc(s)}" aria-pressed="${shelfStatus === s}">${esc(s)}</button>`).join('') : '';
     $('#shelf-count').textContent = items.length + ' ' + (items.length === 1 ? 'item' : 'items');
-    $('#shelf-grid').innerHTML = items.length ? C.shelfCards(items, shelf, local) : '<div class="empty-state glass-surface"><h2>No items here.</h2></div>';
-    $('.art-note').hidden = !items.some(i => !C.images(i).length);
-    $$('[data-shelf-filter]').forEach(b => b.addEventListener('click', () => {
-      shelfFilter = b.dataset.shelfFilter; renderShelf(); $(`[data-shelf-filter="${CSS.escape(shelfFilter)}"]`)?.focus();
+    $('#shelf-grid').innerHTML = items.length ? C.shelfCards(items, shelf, local, config) : '<div class="empty-state glass-surface"><h2>Nothing here yet.</h2></div>';
+    $('.art-note').hidden = !items.some(i => !C.images(i).length && i.art);
+    $$('[data-shelf-status]').forEach(b => b.addEventListener('click', () => {
+      shelfStatus = b.dataset.shelfStatus; renderShelf(); $(`[data-shelf-status="${CSS.escape(shelfStatus)}"]`)?.focus();
     }));
   }
   let journalFilter = 'All';
@@ -173,17 +188,41 @@
     $('#reset-journal')?.addEventListener('click', () => { $('#journal-search').value = ''; journalFilter = 'All'; renderJournal(); $('#journal-search').focus(); });
   }
   $('#journal-search').addEventListener('input', renderJournal);
-  function spotifyUrl(value) {
-    try { const u = new URL(value); if (u.protocol !== 'https:' || u.hostname !== 'open.spotify.com') return ''; const m = u.pathname.match(/^\/(?:embed\/)?(playlist|album|track)\/([A-Za-z0-9]+)\/?$/); return m ? `https://open.spotify.com/embed/${m[1]}/${m[2]}?theme=0` : ''; } catch { return ''; }
-  }
-  const spotify = spotifyUrl(config.spotifyUrl);
+  const spotifyFrame = src => {
+    const iframe = document.createElement('iframe'); iframe.src = src; iframe.title = 'Spotify player'; iframe.loading = 'lazy'; iframe.allow = 'encrypted-media; fullscreen; picture-in-picture'; iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+    return iframe;
+  };
+  const spotify = C.spotifyEmbed(config.spotifyUrl);
   if (spotify) {
     $('#music-section').hidden = false;
-    $('#load-spotify').addEventListener('click', () => {
-      const iframe = document.createElement('iframe'); iframe.src = spotify; iframe.title = 'Spotify player'; iframe.loading = 'lazy'; iframe.allow = 'encrypted-media; fullscreen; picture-in-picture'; iframe.referrerPolicy = 'strict-origin-when-cross-origin'; $('#spotify-player').replaceChildren(iframe);
-    });
+    $('#load-spotify').addEventListener('click', () => $('#spotify-player').replaceChildren(spotifyFrame(spotify)));
   }
-  const destinations = [...Object.entries(C.labels).map(([route, title]) => ({ title, type: 'Page', route })), ...['projects', 'journal', 'shelf'].flatMap(section => (config[section] || []).map(item => ({ title: item.title, type: section === 'projects' ? 'Project' : section === 'journal' ? 'Journal' : item.category || 'The shelf', route: C.itemRoute(section, item), terms: [item.summary, item.note, ...(item.tags || []), ...C.paragraphs(item.body)].join(' ') })))];
+  document.addEventListener('click', e => {
+    // Shelf music: the player loads only when asked.
+    const play = e.target.closest('[data-embed]');
+    if (play && play.dataset.embed.startsWith('https://open.spotify.com/embed/')) {
+      const slot = play.closest('[data-embed-slot]');
+      play.replaceWith(spotifyFrame(play.dataset.embed));
+      $('.privacy-note', slot)?.remove();
+      return;
+    }
+    // Case-study contents: scroll within the page. A plain #fragment would be read as a route.
+    const toc = e.target.closest('[data-toc]');
+    const section = toc && document.getElementById(toc.dataset.toc);
+    if (section) {
+      e.preventDefault();
+      section.scrollIntoView({ behavior: moving ? 'smooth' : 'auto', block: 'start' });
+      section.setAttribute('tabindex', '-1'); section.focus({ preventScroll: true });
+    }
+  });
+  const destinations = [
+    ...Object.entries(C.labels).map(([route, title]) => ({ title, type: 'Page', route })),
+    ...C.shelfTabs(config).map(t => ({ title: t.label, type: 'The shelf', route: 'shelf/' + t.id })),
+    ...['projects', 'journal', 'shelf'].flatMap(section => (config[section] || []).map(item => ({
+      title: item.title, route: C.itemRoute(section, item), terms: C.searchText(item, config),
+      type: section === 'projects' ? 'Project' : section === 'journal' ? 'Journal' : C.shelfType(item, config).singular || 'The shelf'
+    })))
+  ];
   function renderSearch() {
     const q = $('#site-search').value.trim().toLowerCase();
     const items = destinations.filter(d => [d.title, d.type, d.terms].join(' ').toLowerCase().includes(q));
@@ -214,9 +253,9 @@
     $$('[data-viewer-step], #viewer-count').forEach(el => el.hidden = viewerItems.length < 2);
   }
   document.addEventListener('click', e => {
-    const button = e.target.closest('[data-gallery-index]');
+    const button = e.target.closest('[data-gallery-open]');
     if (!button) return;
-    viewerItems = $$('[data-gallery-index]', button.closest('.entry-gallery'));
+    viewerItems = $$('[data-gallery-open]', button.closest('[data-gallery-scope]') || button.parentElement);
     viewerReturn = button;
     showImage(viewerItems.indexOf(button));
     viewer.showModal(); document.body.classList.add('modal-open');

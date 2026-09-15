@@ -19,6 +19,39 @@ for (const section of ['projects', 'journal', 'shelf']) {
     ids.add(item.id);
   }
 }
+// Content checks. Problems that would break a page stop the build; gaps in content only warn.
+const problems = [], warnings = [];
+const typeIds = C.shelfTypes(config).map(t => t.id);
+if (new Set(typeIds).size !== typeIds.length) problems.push('shelfTypes: each type needs a unique id.');
+const rawImages = item => [...(item.image ? [{ src: item.image, alt: item.imageAlt }] : []), ...(item.images || []), ...(item.sections || []).flatMap(s => s.images || [])].map(i => typeof i === 'string' ? { src: i } : i || {});
+for (const section of ['projects', 'journal', 'shelf']) {
+  for (const item of config[section]) {
+    const where = `${section}/${item.id}`;
+    for (const img of rawImages(item)) {
+      if (!C.asset(img.src)) problems.push(`${where}: image "${img.src}" must be a file in assets/ or an https URL.`);
+      else if (/^assets\//.test(img.src) && !fs.existsSync(path.join(root, img.src))) problems.push(`${where}: image file not found: ${img.src}`);
+      if (!img.alt) warnings.push(`${where}: add alt text for ${img.src}`);
+    }
+    if (item.accent && !/^#[0-9a-f]{3,8}$/i.test(item.accent)) warnings.push(`${where}: accent should be a hex colour such as #c9a24a.`);
+  }
+}
+for (const item of config.shelf) {
+  const where = 'shelf/' + item.id;
+  if (typeIds.includes(item.id)) problems.push(`${where}: an item id cannot match a shelf type id (it is used for the tab address).`);
+  if (typeIds.length && !typeIds.includes(item.type)) problems.push(`${where}: type must be one of ${typeIds.join(', ')}.`);
+  const type = C.shelfType(item, config);
+  if (item.status && Array.isArray(type.statuses) && !type.statuses.includes(item.status)) problems.push(`${where}: status "${item.status}" is not one of ${type.statuses.join(', ')}.`);
+  if (item.rating !== undefined && !(Number(item.rating) >= 1 && Number(item.rating) <= 5)) problems.push(`${where}: rating must be between 1 and 5.`);
+  if (item.listen && !C.safeUrl(item.listen, ['https:'])) problems.push(`${where}: listen must be an https link.`);
+}
+for (const p of config.projects) {
+  const where = 'projects/' + p.id;
+  if (!p.summary) warnings.push(`${where}: add a one-sentence summary.`);
+  if (!p.year) warnings.push(`${where}: add the year.`);
+  if (!(p.sections || []).length) warnings.push(`${where}: add at least one section to the write-up.`);
+}
+warnings.forEach(w => console.warn('warning  ' + w));
+if (problems.length) throw new Error('Content problems:\n  ' + problems.join('\n  '));
 const sceneAssets = {};
 for (const [name, mime] of [['wordmark.svg', 'image/svg+xml'], ['sphere-reference.png', 'image/png']]) {
   sceneAssets['assets/' + name] = 'data:' + mime + ';base64,' + fs.readFileSync(path.join(root, 'assets', name)).toString('base64');
@@ -28,8 +61,6 @@ let template = fs.readFileSync(path.join(__dirname, 'template.html'), 'utf8');
 const fill = (id, text) => { template = template.replace(new RegExp('(<(?:div|span)[^>]*id="' + id + '"[^>]*>)([\\s\\S]*?)(</(?:div|span)>)'), (_, a, b, c) => a + text + c); };
 fill('project-count', config.projects.length + (config.projects.length === 1 ? ' project' : ' projects'));
 fill('projects-grid', C.projectCards(config.projects));
-fill('shelf-grid', C.shelfCards(config.shelf, config.shelf));
-fill('shelf-count', config.shelf.length + (config.shelf.length === 1 ? ' item' : ' items'));
 fill('journal-count', config.journal.length + (config.journal.length === 1 ? ' entry' : ' entries'));
 fill('journal-list', config.journal.length ? C.journalRows(config.journal, config.journal) : C.emptyJournal());
 fill('about-copy', C.paragraphs(config.about).map(p => '<p>' + C.esc(p) + '</p>').join(''));
@@ -52,14 +83,18 @@ const structuredData = siteUrl && JSON.stringify({
     { '@type': 'Person', '@id': absolute('/#person'), name: config.name, alternateName: config.handle, url: absolute('/about'), ...(sameAs.length ? { sameAs } : {}) }
   ]
 }).replace(/</g, '\\u003c');
-const allRoutes = [...Object.keys(C.labels), ...['projects','journal','shelf'].flatMap(s => config[s].map(item => C.itemRoute(s, item)))];
+const shelfTabs = C.shelfTabs(config);
+const allRoutes = [...Object.keys(C.labels), ...shelfTabs.map(t => 'shelf/' + t.id), ...['projects','journal','shelf'].flatMap(s => config[s].map(item => C.itemRoute(s, item)))];
+const shelfCounts = { all: config.shelf.length };
+config.shelf.forEach(s => { const id = C.shelfType(s, config).id; shelfCounts[id] = (shelfCounts[id] || 0) + 1; });
+const fillIn = (text, id, html) => text.replace(new RegExp('(<(?:div|span)[^>]*id="' + id + '"[^>]*>)([\\s\\S]*?)(</(?:div|span)>)'), (_, a, b, c) => a + html + c);
 const pagesDir = path.join(root, 'pages');
 fs.rmSync(pagesDir, { recursive: true, force: true });
 const rewrites = [];
 for (const route of [...allRoutes, 'not-found']) {
   const info = C.resolve(route, config);
-  const title = info.view === 'home' ? 'rebuub' : (info.item?.title || C.labels[info.section] || 'Page not found') + ' / rebuub';
-  const description = info.item?.summary || info.item?.note || C.paragraphs(info.item?.body)[0] || 'Projects, journal and selected games by rebuub.';
+  const title = C.pageTitle(info);
+  const description = C.pageDescription(info, 'Projects, journal and selected games by rebuub.');
   let text = template.replace('<html lang="en" data-page="home">', `<html lang="en" data-page="${info.section || 'not-found'}" data-current-view="${info.view}" data-interior-kind="${info.item?.id || info.view}">`);
   text = text.replace(/<section data-view="([^"]+)"([^>]*)>/g, (_, view, rest) => `<section data-view="${view}"${rest.replace(/\s+hidden(?:="[^"]*")?/g, '')}${view === info.view ? '' : ' hidden'}>`);
   text = text.replace('<div id="entry-content"></div>', '<div id="entry-content">' + (info.item ? C.entry(info, config) : '') + '</div>');
@@ -68,6 +103,12 @@ for (const route of [...allRoutes, 'not-found']) {
   text = text.replace(/(<meta property="og:title" content=")[^"]*(">)/, '$1' + C.esc(title) + '$2');
   text = text.replace(/(<meta property="og:description" content=")[^"]*(">)/, '$1' + C.esc(description) + '$2');
   text = text.replace(/<a href="([^"]*)" data-route="([^"]+)"(?: aria-current="page")?>/g, (_, href, name) => `<a href="${href}" data-route="${name}"${info.section === name ? ' aria-current="page"' : ''}>`);
+  // Shelf tabs are filled after the main navigation pass so only the active tab is marked current.
+  const tab = info.tab?.id || '';
+  const shelfItems = config.shelf.filter(s => !tab || C.shelfType(s, config).id === tab);
+  text = fillIn(text, 'shelf-tabs', C.shelfTabLinks(config, tab, shelfCounts));
+  text = fillIn(text, 'shelf-count', shelfItems.length + (shelfItems.length === 1 ? ' item' : ' items'));
+  text = fillIn(text, 'shelf-grid', C.shelfCards(shelfItems, config.shelf, false, config));
   const destination = route === 'home' ? 'index.html' : route === 'not-found' ? '404.html' : 'pages/' + route + '.html';
   const depth = destination.split('/').length - 1;
   const initial = '<script>window.REBUUB_INITIAL_ROUTE=' + JSON.stringify(route) + ';' + (depth ? `if(location.protocol==='file:'&&!window.REBUUB_PREVIEW){var lb=document.createElement('base');lb.href='${'../'.repeat(depth)}';document.head.appendChild(lb);}` : '') + '</script>';
